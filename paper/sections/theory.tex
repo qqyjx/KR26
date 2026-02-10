@@ -1,0 +1,59 @@
+% ===== §4  Theoretical Analysis =====
+\section{Theoretical Properties}\label{sec:theory}
+
+We establish three groups of results for the \textsc{Argus} repair operator: compliance with adapted AGM postulates, computational complexity under the principal argumentation semantics, and soundness of the ASP encoding.
+
+\subsection{AGM Compliance}
+
+The AGM theory of belief revision~\cite{alchourron1985agm} prescribes rationality postulates that any principled revision operator should satisfy.  We adapt three core postulates---success, inclusion, and vacuity---to the argumentation repair setting.  Intuitively, success requires that the repair achieves the desired outcome; inclusion requires that the repaired framework retains as much of the original as possible; and vacuity requires that no edits are made when the current state already satisfies the goal.
+
+\begin{theorem}[AGM Compliance]\label{thm:agm}
+Let $\mathit{AF}=(\mathcal{A},\mathcal{R})$ be an argumentation framework, $\sigma$ an argumentation semantics, $a_t$ a target argument, $s\in\{\textsc{in},\textsc{out}\}$ a desired status, and $\Delta$ an evidence update.  If a valid repair exists, then every optimal repair $\mathit{Ops}^*$ returned by Definition~\ref{def:repair-problem} satisfies:
+\begin{enumerate}
+    \item \textbf{Success.} The target $a_t$ has status $s$ in $\mathit{AF}'=\mathsf{apply}(\mathit{AF},\Delta,\mathit{Ops}^*)$ under $\sigma$.
+    \item \textbf{Inclusion.} $\mathcal{A}\cap\mathcal{A}' \supseteq \mathcal{A}\setminus\{a\mid \mathsf{del\_arg}(a)\in\mathit{Ops}^*\}$ and $\mathcal{R}\cap\mathcal{R}' \supseteq \mathcal{R}\setminus\{(a,b)\mid \mathsf{del\_att}(a,b)\in\mathit{Ops}^*\}$.
+    \item \textbf{Vacuity.} If $a_t$ already has status $s$ in $\mathsf{apply}(\mathit{AF},\Delta,\emptyset)$ under $\sigma$, then $\mathit{Ops}^*=\emptyset$ and $\mathit{cost}(\mathit{Ops}^*)=0$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+Success follows directly from the validity constraint in Definition~\ref{def:repair-problem}: any repair returned by the solver satisfies the prescribed status.  Inclusion holds because every deletion incurs a positive cost, so the optimizer never removes an element unless forced.  Vacuity is immediate: when no edits are needed, the empty sequence is valid and has cost zero, so no non-empty sequence can be cheaper.  A formal proof is provided in the supplementary material.
+\end{proof}
+
+\begin{example}[Continuing Example~\ref{ex:running}]\label{ex:agm}
+Vacuity: in~$F_0$, the target~$a_4$ is already accepted under grounded semantics, so $\mathit{Ops}^* = \emptyset$ and the repair cost is zero.
+Success: after incorporating $\Delta = (\{a_5\}, \{(a_5, a_3)\}, \emptyset, \emptyset)$, the repair $\langle \mathsf{add\_arg}(a_6), \mathsf{add\_att}(a_6, a_5) \rangle$ restores~$a_4$ to accepted status.
+Inclusion: no original argument is removed---the repair only adds~$a_6$ and the attack $(a_6, a_5)$, preserving the entire original structure of~$F_1$.
+\end{example}
+
+The connection to classical belief revision is instructive: inclusion mirrors the AGM postulate that revised beliefs should be a subset of the expansion, while vacuity mirrors the requirement that revision has no effect when the new information is already entailed~\cite{katsuno1992update}.
+
+\subsection{Computational Complexity}
+
+The complexity of the repair problem depends critically on the choice of argumentation semantics, inheriting the known complexity landscape of credulous and skeptical acceptance~\cite{dunne2009complexity,dvorak2012computational}.
+
+\begin{theorem}[Repair Complexity]\label{thm:complexity}
+The decision version of the minimal-change repair problem---``does there exist a valid repair of cost at most $C$?''---has the following complexity:
+\begin{enumerate}
+    \item Under grounded semantics, the problem is in \textbf{P}.
+    \item Under preferred semantics, the problem is \textbf{NP}-complete.
+    \item Under stable semantics, the problem is $\mathbf{\Sigma_2^P}$-complete.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+For grounded semantics, the unique grounded extension is computable in polynomial time via the characteristic function, so repair verification is polynomial and optimization over polynomially many local edits remains in~P.
+For preferred semantics, hardness reduces from NP-hard extension enforcement~\cite{baumann2010complexity}; membership in NP follows since a valid repair can be guessed and verified via preferred extension computation.
+The stable case inherits $\Sigma_2^P$-completeness from skeptical acceptance.
+Full reductions appear in the supplementary material.
+\end{proof}
+
+These results motivate the $k$-neighborhood approximation introduced in \S\ref{sec:repair}: by restricting the search space, we reduce the effective problem size and ensure tractability even under preferred semantics for the framework sizes encountered in practice.
+
+\subsection{Soundness of the ASP Encoding}
+
+\begin{proposition}[Encoding Correctness]\label{prop:encoding}
+The ASP encoding described in \S\ref{sec:repair} is sound and complete with respect to optimal repairs under grounded and preferred semantics.  That is, every optimal answer set of the program corresponds to a valid minimum-cost repair, and every valid minimum-cost repair has a corresponding optimal answer set.
+\end{proposition}
+
+The proof follows from the established correctness of the argumentation encodings of Egly et al.~\cite{egly2010asparg} composed with the standard semantics of weak constraints in ASP solvers such as \emph{clingo}~\cite{niskanen2020asp}.  The composition is sound because the generate rules enumerate exactly the feasible edit operations and the integrity constraints enforce the semantics of the repaired framework, while the optimization directive selects minimum-cost solutions.

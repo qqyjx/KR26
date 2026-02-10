@@ -1,0 +1,100 @@
+\section{Preliminaries}\label{sec:preliminaries}
+
+\subsection{Abstract Argumentation Frameworks}
+
+We adopt the foundational model of \cite{dung1995acceptability} as the backbone of our verification and repair pipeline.
+
+\begin{definition}[Abstract Argumentation Framework]\label{def:af}
+An \emph{abstract argumentation framework} (AF) is a pair $F = (\mathcal{A}, \mathcal{R})$ where $\mathcal{A}$ is a finite set of arguments and $\mathcal{R} \subseteq \mathcal{A} \times \mathcal{A}$ is a binary attack relation. We write $a \rightsquigarrow b$ whenever $(a,b) \in \mathcal{R}$, meaning $a$ attacks $b$.
+\end{definition}
+
+\begin{example}[Continuing Example~\ref{ex:running}]\label{ex:af}
+The initial AF is $F_0 = (\{a_1, a_2, a_3, a_4\}, \emptyset)$ with no attacks; after the negative ANA result, $F_1 = (\{a_1, \ldots, a_5\}, \{(a_5, a_3)\})$, as shown in Figure~\ref{fig:af-evolution}(a--b).
+\end{example}
+
+\begin{figure*}[t]
+\centering
+\subcaptionbox{$F_0$: Initial framework (all accepted)\label{fig:af-f0}}[0.30\textwidth]{%
+\begin{tikzpicture}[node distance=0.8cm and 0.9cm]
+  \node[acc node, tgt node] (a4) {$a_4$};
+  \node[acc node, left=of a4] (a3) {$a_3$};
+  \node[acc node, above=of a3] (a1) {$a_1$};
+  \node[acc node, above=of a4] (a2) {$a_2$};
+\end{tikzpicture}%
+}\hfill
+\subcaptionbox{$F_1$: After evidence update ($a_4$ rejected)\label{fig:af-f1}}[0.30\textwidth]{%
+\begin{tikzpicture}[node distance=0.8cm and 0.9cm]
+  \node[rej node, tgt node] (a4) {$a_4$};
+  \node[rej node, left=of a4] (a3) {$a_3$};
+  \node[acc node, above=of a3] (a1) {$a_1$};
+  \node[acc node, above=of a4] (a2) {$a_2$};
+  \node[new node, above right=0.4cm and 0.5cm of a2] (a5) {$a_5$};
+  \draw[att edge] (a5) -- (a3);
+\end{tikzpicture}%
+}\hfill
+\subcaptionbox{$F_2$: After repair ($a_4$ restored)\label{fig:af-f2}}[0.30\textwidth]{%
+\begin{tikzpicture}[node distance=0.8cm and 0.9cm]
+  \node[acc node, tgt node] (a4) {$a_4$};
+  \node[acc node, left=of a4] (a3) {$a_3$};
+  \node[acc node, above=of a3] (a1) {$a_1$};
+  \node[acc node, above=of a4] (a2) {$a_2$};
+  \node[rej node, above right=0.4cm and 0.5cm of a2] (a5) {$a_5$};
+  \node[new node, right=0.5cm of a5] (a6) {$a_6$};
+  \draw[att edge] (a5) -- (a3);
+  \draw[att edge, blue] (a6) -- (a5);
+\end{tikzpicture}%
+}
+\caption{Evolution of the argumentation framework from Example~\ref{ex:running}. Green fill = accepted, red fill = rejected, blue dashed border = newly introduced, double border = target argument~$a_4$. The repair in~(c) adds $a_6$ and the attack $(a_6, a_5)$ to restore~$a_4$.}
+\label{fig:af-evolution}
+\end{figure*}
+
+Given an AF $F = (\mathcal{A}, \mathcal{R})$, a set $S \subseteq \mathcal{A}$ is \emph{conflict-free} if no two arguments in $S$ attack each other. An argument $a$ is \emph{defended} by $S$ if every attacker of $a$ is attacked by some member of $S$. A conflict-free set $S$ is \emph{admissible} if it defends all its elements. The principal semantics we employ are the \emph{grounded} extension, which is the unique minimal complete extension obtained as the least fixed point of the characteristic function; the \emph{preferred} extensions, which are maximal admissible sets; and \emph{stable} extensions, which are conflict-free sets that attack every argument outside themselves~\cite{baroni2018handbook}. Throughout this paper we write $\sigma(F)$ to denote the set of extensions of $F$ under semantics $\sigma \in \{\mathit{gr}, \mathit{pr}, \mathit{st}\}$.
+
+\subsection{Argumentation Semantics for Explanation}
+
+We now define the key notion linking argumentation semantics to explanation.
+An argument $a \in \mathcal{A}$ is \emph{credulously accepted} under $\sigma$ if $a$ belongs to at least one extension in $\sigma(F)$, and \emph{skeptically accepted} if it belongs to every extension.
+
+\begin{definition}[Defense Set]\label{def:defense-set}
+Given an AF $F = (\mathcal{A}, \mathcal{R})$, semantics $\sigma$, and a skeptically accepted argument $t \in \mathcal{A}$, a \emph{defense set} for $t$ is a minimal admissible set $D \subseteq \mathcal{A}$ such that $t \in D$. We write $\mathit{Def}_\sigma(t)$ for the collection of all defense sets of $t$ under $\sigma$.
+\end{definition}
+
+\begin{example}[Continuing Example~\ref{ex:running}]\label{ex:defense}
+In~$F_0$ (Figure~\ref{fig:af-evolution}a), $D = \{a_1, a_2, a_3, a_4\}$ is a defense set for~$a_4$: it is admissible and $a_4 \in D$.
+In~$F_1$, $D$~is no longer admissible because $a_3$ is attacked by~$a_5$ with no counterattack, so the defense of~$a_4$ collapses.
+\end{example}
+
+Defense sets serve as formal explanations: each $D \in \mathit{Def}_\sigma(t)$ identifies the smallest self-defending coalition that sustains $t$. In our framework, an accepted argument corresponds to a verified claim, and its defense set constitutes a structured, verifiable explanation of why that claim holds. This connection between acceptability and justification is central to \textsc{Argus}, as it transforms opaque LLM rationales into objects whose validity can be checked against argumentation semantics~\cite{dunne2009complexity}.
+
+\subsection{Task Setting}
+
+With these foundations in place, we formalize the task addressed by \textsc{Argus}.
+We consider a setting in which a large language model receives a question $q$ and produces an answer $a$ together with a free-form explanation $e$. The \textsc{Argus} pipeline transforms these into a formal argumentation structure amenable to verification and repair.
+
+\begin{definition}[Explanation Verification Task]\label{def:task}
+Given a question $q$, an LLM-generated answer $a$, and an explanation $e$, the \emph{explanation verification task} produces a tuple $(G, v, \rho)$ where $G = (\mathcal{A}, \mathcal{R})$ is an argument graph constructed from $e$, $v \in \{\mathit{accepted}, \mathit{rejected}, \mathit{undecided}\}$ is the verification verdict for the target argument $t_a$ representing $a$ under semantics $\sigma$, and $\rho$ is an optional repair operator applied when $v \neq \mathit{accepted}$. An \emph{evidence update} $\Delta = (\mathcal{A}^+, \mathcal{R}^+, \mathcal{A}^-, \mathcal{R}^-)$ specifies new arguments and attacks to be added or removed, reflecting newly available facts or counterarguments.
+\end{definition}
+
+\begin{example}[Continuing Example~\ref{ex:running}]\label{ex:verify}
+In~$F_0$, the verification task produces $v = \mathit{accepted}$ for~$a_4$ under grounded semantics, since $a_4$ belongs to the unique grounded extension $\{a_1, a_2, a_3, a_4\}$.
+After incorporating the evidence update $\Delta = (\{a_5\}, \{(a_5, a_3)\}, \emptyset, \emptyset)$, the verdict becomes $v = \mathit{rejected}$, triggering the repair operator~$\rho$.
+\end{example}
+
+The target argument $t_a$ is accepted if it belongs to every $\sigma$-extension of $G$, rejected if it belongs to none, and undecided otherwise.
+
+\subsection{Explanation Repair Problem}
+
+The following definition captures the central computational problem of this paper.
+When an evidence update $\Delta$ renders the current explanation inconsistent---for instance, a previously accepted claim is now attacked by a credible counterargument---the system must revise the argument graph. Following the principle of minimal change from belief revision~\cite{alchourron1985agm}, we seek repairs that preserve as much of the original explanation structure as possible.
+
+\begin{definition}[Minimal-Change Explanation Repair]\label{def:repair}
+Let $F = (\mathcal{A}, \mathcal{R})$ be an AF, $\sigma$ a semantics, $t \in \mathcal{A}$ a target argument, and $s^* \in \{\mathit{accepted}, \mathit{rejected}\}$ the desired status of $t$ after incorporating evidence update $\Delta$. A \emph{repair} is a sequence of edit operations $\pi = \langle o_1, \ldots, o_k \rangle$ where each $o_i$ is one of $\mathit{add}(a)$, $\mathit{del}(a)$, $\mathit{add}(a,b)$, or $\mathit{del}(a,b)$ for arguments $a, b$. Let $F' = \pi(F \oplus \Delta)$ denote the framework obtained by first applying $\Delta$ and then executing $\pi$. A repair $\pi$ is \emph{valid} if $t$ has status $s^*$ under $\sigma$ in $F'$, and \emph{minimal} if no proper prefix of $\pi$ is valid. The \emph{repair cost} is $\mathit{cost}(\pi) = \sum_{i=1}^{k} w(o_i)$, where $w$ assigns a non-negative weight to each operation type, and we seek a valid repair of minimum cost.
+\end{definition}
+
+\begin{example}[Continuing Example~\ref{ex:running}]\label{ex:repair-ex}
+As shown in Figure~\ref{fig:af-evolution}(c), the repair $\pi = \langle \mathsf{add}(a_6), \mathsf{add}(a_6, a_5) \rangle$ restores~$a_4$ at $\mathit{cost}(\pi) = 2$ under uniform cost.
+The alternative $\pi' = \langle \mathsf{del}(a_5) \rangle$ costs~$1$ but discards evidence; under structure-preserving cost with $w = 2$, both repairs cost~$2$, and domain preferences break the tie.
+\end{example}
+
+The weight function $w$ allows domain-specific preferences: deleting a well-supported argument is typically more expensive than removing an unsupported one, and introducing a new argument incurs a higher cost than adding an attack between existing arguments. This formalization connects to enforcement in abstract argumentation~\cite{baumann2010complexity,cayrol2019argumentation} while extending it with an explicit cost model tailored to explanation maintenance. The repair problem defined above is the central computational challenge that the remainder of this paper addresses.
+

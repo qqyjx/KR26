@@ -1,0 +1,101 @@
+%%%% ARGUS -- KR2026 Submission
+\typeout{KR2026 -- ARGUS Paper}
+
+\documentclass{article}
+\pdfpagewidth=8.5in
+\pdfpageheight=11in
+
+\usepackage{styles/kr}
+
+% Required packages (from KR2026 template)
+\usepackage{times}
+\usepackage{soul}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[small]{caption}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{booktabs}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{xcolor}
+\usepackage{multirow}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc}
+\urlstyle{same}
+
+% Theorem environments (global numbering per KR instructions)
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+
+% PDF metadata
+\pdfinfo{
+/TemplateVersion (KR.2026.0)
+}
+
+% ===== TikZ Argumentation Styles =====
+\tikzset{
+  arg node/.style={circle, draw, minimum size=6mm, inner sep=0pt, font=\footnotesize},
+  acc node/.style={arg node, fill=green!20},
+  rej node/.style={arg node, fill=red!20},
+  tgt node/.style={arg node, double, double distance=1pt},
+  new node/.style={arg node, fill=blue!10, draw=blue, dashed},
+  att edge/.style={-{Stealth[length=2mm]}, thick},
+}
+
+% ===== Result Macros (single source of truth for all numbers) =====
+% Main results
+\newcommand{\resultFaithHotpot}{0.847}
+\newcommand{\resultFaithFEVER}{0.832}
+\newcommand{\resultContestHotpot}{0.791}
+\newcommand{\resultContestFEVER}{0.768}
+\newcommand{\resultRepairCostHotpot}{3.2}
+\newcommand{\resultRepairCostFEVER}{2.8}
+\newcommand{\resultRepairAccHotpot}{0.883}
+\newcommand{\resultRepairAccFEVER}{0.871}
+% Improvement over ArgLLMs
+\newcommand{\improveFaithfulness}{12.3\%}
+\newcommand{\improveContestability}{18.6\%}
+\newcommand{\improveRepairAcc}{20.0\%}
+
+% ===== Title =====
+\title{ARGUS: Argumentation-Based Minimal-Change Repair\\for Verifiable LLM Self-Explanations}
+
+% Anonymous submission
+\author{
+Paper ID: XXX \\
+\affiliations
+Anonymous Authors \\
+\emails
+anonymous@example.com
+}
+
+\begin{document}
+
+\maketitle
+
+\input{sections/abstract}
+\input{sections/introduction}
+\input{sections/related_work}
+\input{sections/preliminaries}
+\input{sections/method}
+\input{sections/theory}
+\input{sections/experiments}
+\input{sections/conclusion}
+
+% Acknowledgements (add after acceptance)
+% \section*{Acknowledgements}
+
+\bibliographystyle{styles/kr}
+\bibliography{references}
+
+\end{document}

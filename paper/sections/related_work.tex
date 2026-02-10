@@ -1,0 +1,27 @@
+% ===== §6  Related Work =====
+\section{Related Work}\label{sec:related}
+
+Our work connects three lines of research: argumentation-based approaches to LLM reasoning, self-correction methods for language models, and formal theories of belief change in argumentation.
+
+\textbf{Argumentation and LLMs.}
+Several recent proposals structure LLM outputs using argumentation frameworks.
+ArgLLMs~\cite{freedman2025arglm} decomposes LLM-generated claims into Dung-style argument graphs and applies grounded and preferred semantics to determine acceptability, producing explainable and contestable verification verdicts.
+However, ArgLLMs treats verification as a one-shot, terminal operation: once the argument graph is constructed and evaluated, there is no mechanism to update the explanation when new evidence arrives, forcing the user to regenerate the entire rationale from scratch.
+ARGORA~\cite{argora2026} orchestrates multiple LLM agents through an argumentation-mediated dialogue, incorporating causal semantics to ground the reasoning process.
+While ARGORA includes a correction mechanism, it operates through agent re-deliberation rather than through a formally defined repair operator with cost minimization and provable guarantees.
+MQArgEng~\cite{mqargeng2024} investigates whether modular argumentation engines can improve LLM reasoning accuracy, demonstrating gains on structured tasks but without addressing explanation maintenance under evolving evidence.
+\textsc{Argus} differs from all three in providing a minimal-change repair operator with AGM-compliant guarantees and complexity-theoretic characterization, treating explanation maintenance as a first-class optimization problem rather than an afterthought.
+
+\textbf{Self-Correction and Revision.}
+Self-Refine~\cite{madaan2023selfrefine} iteratively rewrites LLM outputs using the model's own feedback, while Reflexion~\cite{shinn2023reflexion} augments this paradigm with episodic memory to guide subsequent attempts.
+Both methods can improve output quality, but their edits are unconstrained: there is no formal notion of minimality, previously correct reasoning steps may be silently discarded, and the revision process offers no semantic guarantees about which parts of the explanation remain intact.
+RARR~\cite{gao2023rarr} retrieves external evidence to revise LLM statements, yet its edits target surface-level attribution without modeling the inferential structure that connects claims.
+SelfCheckGPT~\cite{manakul2023selfcheckgpt} detects hallucinations through sampling consistency but provides no repair capability.
+In contrast, \textsc{Argus} formalizes the repair search space as edits to an argumentation framework, bounds the cost of change, and guarantees that unaffected reasoning steps are preserved.
+
+\textbf{Belief Revision and Argumentation Dynamics.}
+The AGM theory~\cite{alchourron1985agm} establishes rationality postulates for belief change, and Katsuno and Mendelzon~\cite{katsuno1992update} distinguish revision from update in propositional settings.
+In the argumentation literature, Cayrol et al.~\cite{cayrol2019argumentation} study how adding or removing arguments affects extensions, and Baumann and Brewka~\cite{baumann2010complexity} analyze the complexity of extension enforcement---ensuring that a designated set becomes an extension through framework modifications.
+Bisquert et al.~\cite{bisquert2013repair} propose a change model for argumentation frameworks based on minimal operations.
+Our repair operator instantiates these classical ideas in the specific setting of LLM explanation maintenance, combining the AGM minimal-change principle with argumentation enforcement while introducing a weighted cost model tailored to the confidence and structural role of each argument unit.
+

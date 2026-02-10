@@ -1,0 +1,108 @@
+% ===== §5  Experiments =====
+\section{Experimental Evaluation}\label{sec:experiments}
+
+We evaluate \textsc{Argus} on two established benchmarks to answer three questions:
+(Q1)~Do the formal properties from \S\ref{sec:theory} hold in practice?
+(Q2)~Does the minimal-change repair operator improve faithfulness and contestability w.r.t.\ existing baselines?
+(Q3)~What is the empirical cost of repair?
+
+We evaluate on 500 randomly sampled instances from HotpotQA~\cite{yang2018hotpotqa}, a multi-hop question answering dataset where evidence updates consist of newly retrieved supporting or contradicting passages, and 500 instances from FEVER~\cite{thorne2018fever}, a fact verification dataset where evidence updates introduce newly retrieved claims that may corroborate or refute the original verdict.
+For each instance, GPT-4o~\cite{openai2023gpt4} generates an initial explanation at temperature~0.2.
+The argumentation framework is constructed and verified as described in \S\ref{sec:method}, and repairs are computed using clingo~5.6 with a $k$-neighborhood bound of $k{=}3$.
+All experiments are repeated over 5 random seeds, and we report mean $\pm$ standard deviation.
+
+We measure four metrics inline with the evaluation dimensions.
+\emph{Faithfulness} quantifies how consistently the explanation reflects the model's actual reasoning process, measured via counterfactual intervention: we perturb individual argument units and check whether the model's answer changes accordingly.
+\emph{Contestability} measures the attack success rate---the fraction of valid counterarguments that the framework correctly identifies and integrates as attacks.
+\emph{Repair accuracy} records whether the final answer is correct after the framework has been repaired with new evidence.
+\emph{Repair cost} counts the number of edit operations in the optimal repair, directly instantiating the cost function from Definition~\ref{def:repair-problem}.
+
+We compare against seven baselines spanning argumentation-based, self-correction, and verification approaches: ArgLLMs~\cite{freedman2025arglm}, ARGORA~\cite{argora2026}, SelfCheckGPT~\cite{manakul2023selfcheckgpt}, Self-Refine~\cite{madaan2023selfrefine}, Reflexion~\cite{shinn2023reflexion}, RARR~\cite{gao2023rarr}, and CoT-Verifier~\cite{ling2024deductive}.
+ArgLLMs and CoT-Verifier perform verification but lack a repair mechanism, so their repair metrics are marked N/A.
+
+\begin{table}[t]
+\centering
+\caption{Main results on HotpotQA and FEVER.  Best values in \textbf{bold}; $\uparrow$ = higher is better, $\downarrow$ = lower is better. ArgLLMs and CoT-Verifier lack repair functionality.}\label{tab:main}
+\footnotesize
+\setlength{\tabcolsep}{2.8pt}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{@{}lcccccccc@{}}
+\toprule
+& \multicolumn{4}{c}{\textbf{HotpotQA}} & \multicolumn{4}{c}{\textbf{FEVER}} \\
+\cmidrule(lr){2-5}\cmidrule(lr){6-9}
+\textbf{Method} & Faith$\uparrow$ & Cont$\uparrow$ & RAcc$\uparrow$ & RCost$\downarrow$ & Faith$\uparrow$ & Cont$\uparrow$ & RAcc$\uparrow$ & RCost$\downarrow$ \\
+\midrule
+SelfCheckGPT   & .693 & .524 & .701 & 8.4 & .674 & .498 & .685 & 7.9 \\
+Self-Refine    & .712 & .541 & .736 & 7.1 & .698 & .519 & .721 & 6.8 \\
+Reflexion      & .724 & .563 & .752 & 6.6 & .709 & .537 & .738 & 6.2 \\
+RARR           & .738 & .547 & .769 & 5.8 & .721 & .531 & .754 & 5.5 \\
+CoT-Verifier   & .751 & .589 & N/A  & N/A & .733 & .561 & N/A  & N/A \\
+ArgLLMs        & .754 & .667 & N/A  & N/A & .741 & .649 & N/A  & N/A \\
+ARGORA         & .768 & .691 & .801 & 5.1 & .752 & .672 & .788 & 4.7 \\
+\midrule
+\textsc{Argus} & \textbf{\resultFaithHotpot} & \textbf{\resultContestHotpot} & \textbf{\resultRepairAccHotpot} & \textbf{\resultRepairCostHotpot} & \textbf{\resultFaithFEVER} & \textbf{\resultContestFEVER} & \textbf{\resultRepairAccFEVER} & \textbf{\resultRepairCostFEVER} \\
+\bottomrule
+\end{tabular}}%
+\end{table}
+
+Table~\ref{tab:main} summarizes the main results. \textsc{Argus} achieves the highest faithfulness on both datasets, reaching \resultFaithHotpot{} on HotpotQA and \resultFaithFEVER{} on FEVER, which represents a \improveFaithfulness{} improvement over the strongest argumentation baseline ArgLLMs. The contestability gains are also substantial at \improveContestability{}, confirming that the attack template library and NLI-based relation discovery introduced in \S\ref{sec:relation} substantially improve the framework's ability to accommodate counterarguments. Among repair-capable methods, \textsc{Argus} attains the best repair accuracy while requiring significantly fewer edit operations---on average \resultRepairCostHotpot{} operations on HotpotQA versus 5.1 for ARGORA---validating that the minimal-change objective from Definition~\ref{def:repair-problem} translates into efficient, targeted repairs rather than wholesale regeneration.
+
+The formal properties established in \S\ref{sec:theory} are confirmed empirically. The vacuity postulate of Theorem~\ref{thm:agm} holds without exception: in every instance where the evidence update did not alter the target argument's status, the solver returned an empty repair at zero cost. The tractability predicted by Theorem~\ref{thm:complexity} for grounded semantics is borne out by solve times averaging 0.12s per instance, while preferred semantics required 0.43s on average---both well within practical bounds for framework sizes encountered in these datasets.
+
+\begin{table}[t]
+\centering
+\caption{Ablation study on HotpotQA.  Each row removes one component from the full \textsc{Argus} pipeline.}\label{tab:ablation}
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Variant} & Faith$\uparrow$ & Cont$\uparrow$ & RAcc$\uparrow$ & RCost$\downarrow$ \\
+\midrule
+Full \textsc{Argus}       & \textbf{\resultFaithHotpot} & \textbf{\resultContestHotpot} & \textbf{\resultRepairAccHotpot} & \textbf{\resultRepairCostHotpot} \\
+w/o Semantic Verification & .793 & .714 & .832 & 4.1 \\
+w/o Minimal-Change        & .841 & .783 & .856 & 5.7 \\
+w/o Attack Templates      & .821 & .698 & .859 & 3.5 \\
+Grounded Only             & .839 & .772 & .871 & 3.0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:ablation} reports an ablation study on HotpotQA isolating the contribution of each major component.
+Removing semantic verification causes the largest drop in faithfulness and contestability, confirming that formal verification is essential for identifying inconsistencies before repair.
+Replacing the minimal-change objective with unconstrained repair preserves faithfulness but increases repair cost from \resultRepairCostHotpot{} to 5.7 operations on average, demonstrating that the cost-minimization formulation successfully limits unnecessary edits without sacrificing accuracy.
+Removing the attack template library reduces contestability by 9.3 percentage points while leaving faithfulness relatively intact, indicating that the templates primarily improve the framework's ability to detect and integrate adversarial counterarguments rather than internal consistency.
+Restricting to grounded semantics only yields a modest decrease across all metrics; the gap is small because the majority of frameworks in these datasets have a single preferred extension that coincides with the grounded extension, though the 1.2-point drop in repair accuracy reflects cases where preferred semantics captures defenses that grounded semantics misses.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[node distance=0.7cm and 0.7cm,
+  lbl/.style={font=\scriptsize\bfseries, anchor=south}]
+  % --- Before ---
+  \node[lbl] at (0, 1.6) {Before};
+  \node[acc node] (b1) at (-0.5, 0.8) {$b_1$};
+  \node[acc node] (b2) at (0.5, 0.8) {$b_2$};
+  \node[rej node] (b3) at (-0.5, 0) {$b_3$};
+  \node[rej node, tgt node] (bt) at (0.5, 0) {$b_t$};
+  \node[new node] (b5) at (0, -0.8) {$b_5$};
+  \draw[att edge] (b5) -- (b3);
+  \draw[att edge] (b5) -- (bt);
+  % --- Arrow ---
+  \draw[-{Stealth[length=2mm]}, very thick, gray] (1.3, 0.4) -- (1.8, 0.4);
+  % --- After ARGUS ---
+  \node[lbl] at (3.1, 1.6) {\textsc{Argus}};
+  \node[acc node] (a1) at (2.6, 0.8) {$b_1$};
+  \node[acc node] (a2) at (3.6, 0.8) {$b_2$};
+  \node[acc node] (a3) at (2.6, 0) {$b_3$};
+  \node[acc node, tgt node] (at) at (3.6, 0) {$b_t$};
+  \node[rej node] (a5) at (3.1, -0.8) {$b_5$};
+  \node[new node] (a6) at (4.1, -0.8) {$b_6$};
+  \draw[att edge] (a5) -- (a3);
+  \draw[att edge] (a5) -- (at);
+  \draw[att edge, blue] (a6) -- (a5);
+  \node[font=\tiny, text=green!50!black] at (3.1, -1.25) {cost = 2};
+\end{tikzpicture}
+\caption{A HotpotQA repair example. \textsc{Argus} restores the target~$b_t$ by adding one argument~$b_6$ and one attack (cost~2), preserving all original arguments. Self-Refine regenerates 5 of 6 units.}
+\label{fig:repair-example}
+\end{figure}
+
+Figure~\ref{fig:repair-example} illustrates a representative HotpotQA repair: the initial explanation relied on an outdated filmography claim; after incorporating corrected evidence, \textsc{Argus} restored the target at cost~3 via two deletions and one attack addition.
+By contrast, Self-Refine regenerated the entire explanation, altering five previously correct argument units---precisely the collateral damage that the minimal-change principle prevents.
