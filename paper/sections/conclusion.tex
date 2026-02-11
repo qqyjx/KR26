@@ -4,11 +4,11 @@
 We presented \textsc{Argus}, a framework that structures LLM self-explanations as argumentation frameworks, verifies them against formal semantics, and repairs them at minimum cost when new evidence arrives.
 The minimal-change repair operator satisfies adapted AGM postulates---success, inclusion, and vacuity---providing formal guarantees that are absent from existing self-correction and argumentation-based approaches.
 We established that the repair problem is tractable under grounded semantics and NP-complete under preferred semantics, and introduced a $k$-neighborhood approximation that maintains scalability in practice.
-Experiments on HotpotQA and FEVER yielded improvements of \improveFaithfulness{} in faithfulness and \improveContestability{} in contestability w.r.t.\ the strongest argumentation baseline, while achieving the lowest repair cost among all repair-capable methods.
+Experiments on HotpotQA and FEVER yielded improvements of up to \improveFaithfulness{} in faithfulness and up to \improveContestability{} in contestability over the strongest argumentation baseline, while achieving the lowest repair cost among all repair-capable methods.
 
 Several limitations warrant discussion.
 First, the quality of the argumentation framework depends on the LLM's ability to decompose rationales into atomic argument units; extraction errors propagate through the entire pipeline.
 Second, while the $k$-neighborhood approximation handles the framework sizes encountered in our experiments, frameworks with hundreds of densely connected arguments may require more aggressive approximation strategies.
 Third, our evaluation is restricted to fact-checking and multi-hop question answering; extending the approach to open-ended generation tasks where the notion of a ``correct'' explanation is less well-defined remains an open challenge.
-Finally, the current cost model treats all operation types uniformly within each class; learning domain-specific cost functions from user feedback is a promising direction for future work.
+Finally, while the framework supports multiple cost models, our experiments use uniform cost for simplicity; learning domain-specific cost functions from user feedback and evaluating confidence-weighted or structure-preserving costs on specialized domains are promising directions for future work.
 

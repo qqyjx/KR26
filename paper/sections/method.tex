@@ -42,7 +42,7 @@ The first three stages serve as preprocessing; the repair stage constitutes the 
 \subsection{Structured Extraction}\label{sec:extraction}
 
 We prompt the LLM to decompose its rationale~$e$ into a set of argument units $\mathcal{A}=\{a_1,\dots,a_n\}$.
-Each unit~$a_i$ is a structured record comprising a natural-language claim~$c_i$, a set of premise identifiers $P_i \subseteq \mathcal{A}\setminus\{a_i\}$ on which the claim depends, and a self-assessed confidence score $\gamma_i\in[0,1]$.
+Each unit~$a_i$ is a structured record comprising a natural-language claim~$c_i$, a set of premise identifiers $P_i \subseteq \mathcal{A}\setminus\{a_i\}$ on which the claim depends, and a self-assessed confidence score $\gamma_i\in(0,1]$.
 The prompt constrains the LLM to produce JSON output, ensuring that every claim is atomic---that is, it asserts exactly one proposition that can be independently verified or rebutted.
 We designate one distinguished unit~$a_t\in\mathcal{A}$ as the \emph{target argument}, whose claim directly supports the answer~$a$.
 
@@ -72,10 +72,10 @@ We define four elementary edit operations: $\mathsf{add\_arg}(a)$ and $\mathsf{d
 A sequence of operations yields a repaired framework $\mathit{AF}'=(\mathcal{A}',\mathcal{R}')$.
 
 \textbf{Cost Function.}
-Each operation~$o$ is assigned a non-negative cost $\kappa(o)\in\mathbb{R}_{\geq 0}$.
+Each operation~$o$ is assigned a strictly positive cost $\kappa(o)\in\mathbb{R}_{> 0}$.
 We consider three cost models.
 Under \emph{uniform cost}, every operation costs~$1$, so the objective reduces to minimizing the total number of edits.
-Under \emph{confidence-weighted cost}, argument deletions are weighted by the confidence of the removed argument, $\kappa(\mathsf{del\_arg}(a_i))=\gamma_i$, reflecting the intuition that highly confident claims should be more expensive to retract.
+Under \emph{confidence-weighted cost}, argument deletions are weighted by the confidence of the removed argument, $\kappa(\mathsf{del\_arg}(a_i))=\gamma_i$ (recall $\gamma_i > 0$ for all extracted arguments), reflecting the intuition that highly confident claims should be more expensive to retract.
 Under \emph{structure-preserving cost}, deletions are penalized more heavily than additions, $\kappa(\mathsf{del\_\cdot})\;{=}\;w\cdot\kappa(\mathsf{add\_\cdot})$ for some $w>1$, encouraging the solver to repair by augmentation rather than removal.
 
 \begin{definition}[Minimal-Change Repair Problem]\label{def:repair-problem}
@@ -117,7 +117,7 @@ Algorithm~\ref{alg:repair} summarizes the complete procedure.
 \end{algorithm}
 
 \textbf{Approximation for Scalability.}
-The repair problem under preferred semantics is $\Sigma_2^P$-complete in general~\cite{dvorak2012computational}, so we introduce two approximation strategies.
+Even under preferred semantics the repair problem is NP-complete (Theorem~\ref{thm:complexity}), and rises to $\Sigma_2^P$-completeness under stable semantics~\cite{dvorak2012computational}, so we introduce two approximation strategies.
 First, a $k$-neighborhood restriction limits the search space to arguments within distance~$k$ of the target in the attack graph; setting $k{=}3$ covers over 95\% of required repairs while reducing grounding by an order of magnitude.
 Second, beam search over repair sequences with width~$b$ bounds the search depth, yielding a bounded-depth approximation with time complexity linear in~$b$.
 Together, these ensure scalability to frameworks with hundreds of arguments without sacrificing repair quality.

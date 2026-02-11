@@ -8,7 +8,7 @@ We establish three groups of results for the \textsc{Argus} repair operator: com
 The AGM theory of belief revision~\cite{alchourron1985agm} prescribes rationality postulates that any principled revision operator should satisfy.  We adapt three core postulates---success, inclusion, and vacuity---to the argumentation repair setting.  Intuitively, success requires that the repair achieves the desired outcome; inclusion requires that the repaired framework retains as much of the original as possible; and vacuity requires that no edits are made when the current state already satisfies the goal.
 
 \begin{theorem}[AGM Compliance]\label{thm:agm}
-Let $\mathit{AF}=(\mathcal{A},\mathcal{R})$ be an argumentation framework, $\sigma$ an argumentation semantics, $a_t$ a target argument, $s\in\{\textsc{in},\textsc{out}\}$ a desired status, and $\Delta$ an evidence update.  If a valid repair exists, then every optimal repair $\mathit{Ops}^*$ returned by Definition~\ref{def:repair-problem} satisfies:
+Let $\mathit{AF}=(\mathcal{A},\mathcal{R})$ be an argumentation framework, $\sigma$ an argumentation semantics, $a_t$ a target argument, $s\in\{\textsc{in},\textsc{out}\}$ a desired status, $\Delta$ an evidence update, and $\kappa$ a strictly positive cost function ($\kappa(o)>0$ for every operation~$o$).  If a valid repair exists, then every optimal repair $\mathit{Ops}^*$ returned by Definition~\ref{def:repair-problem} satisfies:
 \begin{enumerate}
     \item \textbf{Success.} The target $a_t$ has status $s$ in $\mathit{AF}'=\mathsf{apply}(\mathit{AF},\Delta,\mathit{Ops}^*)$ under $\sigma$.
     \item \textbf{Inclusion.} $\mathcal{A}\cap\mathcal{A}' \supseteq \mathcal{A}\setminus\{a\mid \mathsf{del\_arg}(a)\in\mathit{Ops}^*\}$ and $\mathcal{R}\cap\mathcal{R}' \supseteq \mathcal{R}\setminus\{(a,b)\mid \mathsf{del\_att}(a,b)\in\mathit{Ops}^*\}$.
@@ -42,7 +42,7 @@ The decision version of the minimal-change repair problem---``does there exist a
 \end{theorem}
 
 \begin{proof}[Proof sketch]
-For grounded semantics, the unique grounded extension is computable in polynomial time via the characteristic function, so repair verification is polynomial and optimization over polynomially many local edits remains in~P.
+For grounded semantics, the unique grounded extension is computable in polynomial time via the characteristic function~\cite{dung1995acceptability}, so verifying whether a candidate repair achieves the desired status is polynomial.  Because the grounded extension is monotone with respect to attack removal and argument addition, the optimal repair can be found by a polynomial-time greedy procedure analogous to the enforcement algorithm of Baumann and Brewka~\cite{baumann2010complexity}.
 For preferred semantics, hardness reduces from NP-hard extension enforcement~\cite{baumann2010complexity}; membership in NP follows since a valid repair can be guessed and verified via preferred extension computation.
 The stable case inherits $\Sigma_2^P$-completeness from skeptical acceptance.
 Full reductions appear in the supplementary material.
@@ -56,4 +56,4 @@ These results motivate the $k$-neighborhood approximation introduced in \S\ref{s
 The ASP encoding described in \S\ref{sec:repair} is sound and complete with respect to optimal repairs under grounded and preferred semantics.  That is, every optimal answer set of the program corresponds to a valid minimum-cost repair, and every valid minimum-cost repair has a corresponding optimal answer set.
 \end{proposition}
 
-The proof follows from the established correctness of the argumentation encodings of Egly et al.~\cite{egly2010asparg} composed with the standard semantics of weak constraints in ASP solvers such as \emph{clingo}~\cite{niskanen2020asp}.  The composition is sound because the generate rules enumerate exactly the feasible edit operations and the integrity constraints enforce the semantics of the repaired framework, while the optimization directive selects minimum-cost solutions.
+The proof follows from the established correctness of the argumentation encodings of Egly et al.~\cite{egly2010asparg} composed with the standard semantics of weak constraints in ASP solvers such as \emph{clingo}~\cite{gebser2019clingo}.  The composition is sound because the generate rules enumerate exactly the feasible edit operations and the integrity constraints enforce the semantics of the repaired framework, while the optimization directive selects minimum-cost solutions.

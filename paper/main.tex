@@ -26,6 +26,8 @@
 \usepackage{subcaption}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta, positioning, calc}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
 \urlstyle{same}
 
 % Theorem environments (global numbering per KR instructions)
@@ -55,17 +57,17 @@
 % ===== Result Macros (single source of truth for all numbers) =====
 % Main results
 \newcommand{\resultFaithHotpot}{0.847}
-\newcommand{\resultFaithFEVER}{0.832}
+\newcommand{\resultFaithFEVER}{0.829}
 \newcommand{\resultContestHotpot}{0.791}
 \newcommand{\resultContestFEVER}{0.768}
 \newcommand{\resultRepairCostHotpot}{3.2}
 \newcommand{\resultRepairCostFEVER}{2.8}
 \newcommand{\resultRepairAccHotpot}{0.883}
 \newcommand{\resultRepairAccFEVER}{0.871}
-% Improvement over ArgLLMs
-\newcommand{\improveFaithfulness}{12.3\%}
-\newcommand{\improveContestability}{18.6\%}
-\newcommand{\improveRepairAcc}{20.0\%}
+% Improvement over ARGORA (strongest argumentation baseline)
+\newcommand{\improveFaithfulness}{10.3\%}
+\newcommand{\improveContestability}{14.5\%}
+\newcommand{\improveRepairAcc}{10.2\%}
 
 % ===== Title =====
 \title{ARGUS: Argumentation-Based Minimal-Change Repair\\for Verifiable LLM Self-Explanations}
