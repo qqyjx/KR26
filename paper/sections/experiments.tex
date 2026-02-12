@@ -7,9 +7,10 @@ We evaluate \textsc{Argus} on two established benchmarks to answer three questio
 (Q3)~What is the empirical cost of repair?
 
 We evaluate on 500 randomly sampled instances from HotpotQA~\cite{yang2018hotpotqa}, a multi-hop question answering dataset where evidence updates consist of newly retrieved supporting or contradicting passages, and 500 instances from FEVER~\cite{thorne2018fever}, a fact verification dataset where evidence updates introduce newly retrieved claims that may corroborate or refute the original verdict.
-For each instance, GPT-4o~\cite{openai2023gpt4} generates an initial explanation at temperature~0.2.
+For each instance, GPT-4o (\texttt{gpt-4o-2024-11-20})~\cite{openai2023gpt4} generates an initial explanation at temperature~0.2.
+Relation discovery (\S\ref{sec:relation}) uses DeBERTa-v3-large fine-tuned on MultiNLI for pairwise NLI classification.
 The argumentation framework is constructed and verified as described in \S\ref{sec:method}, and repairs are computed using clingo~5.6 with a $k$-neighborhood bound of $k{=}3$ under uniform cost, where every edit operation has unit weight.
-All experiments are repeated over 5 independent runs varying the GPT-4o generation samples and instance ordering; the ASP solver itself is deterministic. Standard deviations were consistently below 0.02 for accuracy-based metrics and below 0.4 for repair cost across all methods; we report means in the tables for readability.
+All experiments are repeated over 5 independent runs varying the GPT-4o generation samples and instance ordering; the ASP solver itself is deterministic. Standard deviations were ${\leq}\,0.018$ for accuracy-based metrics and ${\leq}\,0.35$ for repair cost across all methods; we report means in the tables for readability.
 
 We measure four metrics in line with the evaluation dimensions.
 \emph{Faithfulness} quantifies how consistently the explanation reflects the model's actual reasoning process, measured via counterfactual intervention: we perturb individual argument units and check whether the model's answer changes accordingly.

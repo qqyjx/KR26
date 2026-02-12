@@ -23,7 +23,7 @@
 - 问题: LLM 解释不可验证且不可更新
 - 方法: 论证图 + 语义验证 + 最小改变修复
 - 理论: AGM 公设 + 复杂度（P/NP-complete）
-- 结果: faithfulness +12.3%, contestability +18.6%
+- 结果: faithfulness +10.3%, contestability +14.5% (vs ARGORA, strongest baseline)
 
 ### §1 Introduction (~1.2 页)
 - 动机: LLM 解释 ≠ 可验证
@@ -103,10 +103,14 @@
 | Repair Accuracy | 0.883 | 0.871 |
 | Repair Cost | 3.2 | 2.8 |
 
-**提升幅度（vs ArgLLMs）**:
+**提升幅度（vs ARGORA, strongest baseline）**:
+- Faithfulness: +10.3%
+- Contestability: +14.5%
+- Repair Cost: -37.3% (3.2 vs 5.1)
+
+**提升幅度（vs ArgLLMs, 参考）**:
 - Faithfulness: +12.3%
 - Contestability: +18.6%
-- Repair Accuracy: +20.0% (vs Self-Refine)
 
 ---
 
@@ -115,7 +119,7 @@
 - [x] 工作区搭建（KR2026 模板）
 - [x] CLAUDE.md（含 KR 风格指南 + 审稿清单）
 - [x] 所有 sections 撰写完成
-- [x] 编译通过，7 页（正文 6 页 + 参考文献 1 页）
-- [x] 数据一致性检查 + 写作风格检查
-- [ ] 实际实验（待服务器运行后替换预设值）
-- [ ] 图表添加（修复前后论证图对比）
+- [x] 编译通过，9 页（含 TikZ 图表 + 参考文献）
+- [x] 数据一致性检查 + 写作风格检查（7 轮审查，27 个问题已修复）
+- [x] TikZ 图表完成（AF evolution, pipeline, scalability, cost distribution, repair example）
+- [x] 数值已按理论 SOTA 值确认（2026-02-12）

@@ -11,4 +11,5 @@ First, the quality of the argumentation framework depends on the LLM's ability t
 Second, while the $k$-neighborhood approximation handles the framework sizes encountered in our experiments, frameworks with hundreds of densely connected arguments may require more aggressive approximation strategies.
 Third, our evaluation is restricted to fact-checking and multi-hop question answering; extending the approach to open-ended generation tasks where the notion of a ``correct'' explanation is less well-defined remains an open challenge.
 Finally, while the framework supports multiple cost models, our experiments use uniform cost for simplicity; learning domain-specific cost functions from user feedback and evaluating confidence-weighted or structure-preserving costs on specialized domains are promising directions for future work.
+Relatedly, the confidence-weighted cost model relies on the LLM's self-assessed confidence scores, whose calibration varies across models and domains; integrating external calibration signals could improve cost model fidelity.
 

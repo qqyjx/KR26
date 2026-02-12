@@ -11,6 +11,7 @@ ARGORA~\cite{argora2026} orchestrates multiple LLM agents through an argumentati
 While ARGORA includes a correction mechanism, it operates through agent re-deliberation rather than through a formally defined repair operator with cost minimization and provable guarantees.
 MQArgEng~\cite{mqargeng2024} investigates whether modular argumentation engines can improve LLM reasoning accuracy, demonstrating gains on structured tasks but without addressing explanation maintenance under evolving evidence.
 \textsc{Argus} differs from all three in providing a minimal-change repair operator with AGM-compliant guarantees and complexity-theoretic characterization, treating explanation maintenance as a first-class optimization problem rather than an afterthought.
+We adopt Dung-style abstract argumentation rather than structured frameworks such as ASPIC$^+$ or bipolar argumentation because the repair operator requires only the attack relation to define enforcement problems; extending the approach to frameworks with explicit support is a natural direction for future work.
 
 \textbf{Self-Correction and Revision.}
 Self-Refine~\cite{madaan2023selfrefine} iteratively rewrites LLM outputs using the model's own feedback, while Reflexion~\cite{shinn2023reflexion} augments this paradigm with episodic memory to guide subsequent attempts.
