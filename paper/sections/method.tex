@@ -78,11 +78,7 @@ Under \emph{uniform cost}, every operation costs~$1$, so the objective reduces t
 Under \emph{confidence-weighted cost}, argument deletions are weighted by the confidence of the removed argument, $\kappa(\mathsf{del\_arg}(a_i))=\gamma_i$ (recall $\gamma_i > 0$ for all extracted arguments), reflecting the intuition that highly confident claims should be more expensive to retract.
 Under \emph{structure-preserving cost}, deletions are penalized more heavily than additions, $\kappa(\mathsf{del\_\cdot})\;{=}\;w\cdot\kappa(\mathsf{add\_\cdot})$ for some $w>1$, encouraging the solver to repair by augmentation rather than removal.
 
-\begin{definition}[Minimal-Change Repair Problem]\label{def:repair-problem}
-Let $\mathit{AF}=(\mathcal{A},\mathcal{R})$ be an argumentation framework, $\sigma$ an argumentation semantics, $a_t\in\mathcal{A}$ a target argument, $s\in\{\textsc{in},\textsc{out}\}$ a desired status, and $\Delta$ a set of evidence-derived arguments and attacks to incorporate.
-A \emph{repair} is a sequence of operations $\mathit{Ops}=(o_1,\dots,o_m)$ such that $a_t$ has status~$s$ in $\mathit{AF}'=\mathsf{apply}(\mathit{AF},\Delta,\mathit{Ops})$ under~$\sigma$.
-An \emph{optimal repair} is a repair $\mathit{Ops}^*$ that minimizes the total cost $\sum_{i=1}^{m}\kappa(o_i)$ over all valid repairs.
-\end{definition}
+The repair problem is formalized in Definition~\ref{def:repair}. Given the cost function~$\kappa$ and evidence update~$\Delta$, the solver seeks an optimal repair---a sequence of edit operations of minimum total cost such that $a_t$ attains the desired status under~$\sigma$.
 
 \begin{example}[Continuing Example~\ref{ex:running}]\label{ex:cost}
 Under confidence-weighted cost with $\gamma_5 = 0.90$ (a verified lab result) and $\gamma_3 = 0.75$ (a symptomatic inference), deleting~$a_5$ costs $\kappa(\mathsf{del\_arg}(a_5)) = 0.90$.
@@ -118,6 +114,6 @@ Algorithm~\ref{alg:repair} summarizes the complete procedure.
 
 \textbf{Approximation for Scalability.}
 Even under preferred semantics the repair problem is NP-complete (Theorem~\ref{thm:complexity}), and rises to $\Sigma_2^P$-completeness under stable semantics~\cite{dvorak2012computational}, so we introduce two approximation strategies.
-First, a $k$-neighborhood restriction limits the search space to arguments within distance~$k$ of the target in the attack graph; setting $k{=}3$ covers over 95\% of required repairs while reducing grounding by an order of magnitude.
-Second, beam search over repair sequences with width~$b$ bounds the search depth, yielding a bounded-depth approximation with time complexity linear in~$b$.
-Together, these ensure scalability to frameworks with hundreds of arguments without sacrificing repair quality.
+First, a $k$-neighborhood restriction limits the search space to arguments within distance~$k$ of the target in the attack graph; in our experiments, setting $k{=}3$ sufficed to find optimal repairs in the vast majority of cases while substantially reducing solver grounding.
+Second, when ASP solvers are unavailable, beam search over repair sequences with width~$b$ provides a bounded-depth heuristic alternative.
+The $k$-neighborhood restriction is used in all our experiments and ensures scalability to frameworks with hundreds of arguments without sacrificing repair quality.

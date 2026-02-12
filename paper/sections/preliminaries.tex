@@ -80,21 +80,21 @@ In~$F_0$, the verification task produces $v = \mathit{accepted}$ for~$a_4$ under
 After incorporating the evidence update $\Delta = (\{a_5\}, \{(a_5, a_3)\}, \emptyset, \emptyset)$, the verdict becomes $v = \mathit{rejected}$, triggering the repair operator~$\rho$.
 \end{example}
 
-The target argument $t_a$ is accepted if it belongs to every $\sigma$-extension of $G$, rejected if it belongs to none, and undecided otherwise.
+The target argument $t_a$ is \emph{credulously accepted} if it belongs to at least one $\sigma$-extension of $G$, \emph{rejected} if it belongs to none, and \emph{undecided} otherwise. For grounded semantics, which yields a unique extension, credulous and skeptical acceptance coincide.
 
 \subsection{Explanation Repair Problem}
 
 The following definition captures the central computational problem of this paper.
 When an evidence update $\Delta$ renders the current explanation inconsistent---for instance, a previously accepted claim is now attacked by a credible counterargument---the system must revise the argument graph. Following the principle of minimal change from belief revision~\cite{alchourron1985agm}, we seek repairs that preserve as much of the original explanation structure as possible.
 
-\begin{definition}[Minimal-Change Explanation Repair]\label{def:repair}
-Let $F = (\mathcal{A}, \mathcal{R})$ be an AF, $\sigma$ a semantics, $t \in \mathcal{A}$ a target argument, and $s^* \in \{\mathit{accepted}, \mathit{rejected}\}$ the desired status of $t$ after incorporating evidence update $\Delta$. A \emph{repair} is a sequence of edit operations $\pi = \langle o_1, \ldots, o_k \rangle$ where each $o_i$ is one of $\mathit{add}(a)$, $\mathit{del}(a)$, $\mathit{add}(a,b)$, or $\mathit{del}(a,b)$ for arguments $a, b$. Let $F' = \pi(F \oplus \Delta)$ denote the framework obtained by first applying $\Delta$ and then executing $\pi$. A repair $\pi$ is \emph{valid} if $t$ has status $s^*$ under $\sigma$ in $F'$, and \emph{minimal} if no proper prefix of $\pi$ is valid. The \emph{repair cost} is $\mathit{cost}(\pi) = \sum_{i=1}^{k} w(o_i)$, where $w$ assigns a strictly positive weight to each operation type, and we seek a valid repair of minimum cost.
+\begin{definition}[Minimal-Change Repair Problem]\label{def:repair}
+Let $\mathit{AF} = (\mathcal{A}, \mathcal{R})$ be an AF, $\sigma$ a semantics, $a_t \in \mathcal{A}$ a target argument, $s \in \{\textsc{in}, \textsc{out}\}$ a desired status, $\Delta$ an evidence update, and $\kappa$ a strictly positive cost function ($\kappa(o) > 0$ for every operation~$o$). A \emph{repair} is a sequence of edit operations $\mathit{Ops} = \langle o_1, \ldots, o_m \rangle$ where each $o_i$ is one of $\mathsf{add\_arg}(a)$, $\mathsf{del\_arg}(a)$, $\mathsf{add\_att}(a,b)$, or $\mathsf{del\_att}(a,b)$ for arguments $a, b$. Let $\mathit{AF}' = \mathsf{apply}(\mathit{AF}, \Delta, \mathit{Ops})$ denote the framework obtained by first incorporating $\Delta$ and then executing $\mathit{Ops}$. A repair is \emph{valid} if $a_t$ has status $s$ under $\sigma$ in $\mathit{AF}'$, and an \emph{optimal repair} minimizes $\sum_{i=1}^{m} \kappa(o_i)$ over all valid repairs.
 \end{definition}
 
 \begin{example}[Continuing Example~\ref{ex:running}]\label{ex:repair-ex}
-As shown in Figure~\ref{fig:af-evolution}(c), the repair $\pi = \langle \mathsf{add}(a_6), \mathsf{add}(a_6, a_5) \rangle$ restores~$a_4$ at $\mathit{cost}(\pi) = 2$ under uniform cost.
-The alternative $\pi' = \langle \mathsf{del}(a_5) \rangle$ costs~$1$ but discards evidence; under structure-preserving cost with $w = 2$, both repairs cost~$2$, and domain preferences break the tie.
+As shown in Figure~\ref{fig:af-evolution}(c), the repair $\mathit{Ops} = \langle \mathsf{add\_arg}(a_6), \mathsf{add\_att}(a_6, a_5) \rangle$ restores~$a_4$ at total cost~$2$ under uniform cost ($\kappa \equiv 1$).
+The alternative $\mathit{Ops}' = \langle \mathsf{del\_arg}(a_5) \rangle$ costs~$1$ but discards evidence; under structure-preserving cost with $\kappa(\mathsf{del\_\cdot}) = 2\kappa(\mathsf{add\_\cdot})$, both repairs cost~$2$, and domain preferences break the tie.
 \end{example}
 
-The weight function $w$ allows domain-specific preferences: deleting a well-supported argument is typically more expensive than removing an unsupported one, and introducing a new argument incurs a higher cost than adding an attack between existing arguments. This formalization connects to enforcement in abstract argumentation~\cite{baumann2010complexity,cayrol2019argumentation} while extending it with an explicit cost model tailored to explanation maintenance. The repair problem defined above is the central computational challenge that the remainder of this paper addresses.
+The cost function $\kappa$ allows domain-specific preferences: deleting a well-supported argument is typically more expensive than removing an unsupported one, and introducing a new argument incurs a higher cost than adding an attack between existing arguments. This formalization connects to enforcement in abstract argumentation~\cite{baumann2010complexity,cayrol2019argumentation} while extending it with an explicit cost model tailored to explanation maintenance. The repair problem defined above is the central computational challenge that the remainder of this paper addresses.
 
