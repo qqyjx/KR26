@@ -9,17 +9,20 @@ An \emph{abstract argumentation framework} (AF) is a pair $F = (\mathcal{A}, \ma
 \end{definition}
 
 \begin{example}[Continuing Example~\ref{ex:running}]\label{ex:af}
-The initial AF is $F_0 = (\{a_1, a_2, a_3, a_4\}, \emptyset)$ with no attacks; after the negative ANA result, $F_1 = (\{a_1, \ldots, a_5\}, \{(a_5, a_3)\})$, as shown in Figure~\ref{fig:af-evolution}(a--b).
+The initial AF is $F_0 = (\{a_0, a_1, a_2, a_3, a_4\}, \{(a_0, a_4), (a_3, a_0)\})$, where $a_0$~(``symptoms are non-specific'') attacks the target~$a_4$ and $a_3$~(``Lupus commonly presents with these symptoms'') counterattacks~$a_0$; after the negative ANA result, $F_1 = (\{a_0, a_1, \ldots, a_5\}, \{(a_0, a_4), (a_3, a_0), (a_5, a_3)\})$, as shown in Figure~\ref{fig:af-evolution}(a--b).
 \end{example}
 
 \begin{figure*}[t]
 \centering
-\subcaptionbox{$F_0$: Initial framework (all accepted)\label{fig:af-f0}}[0.30\textwidth]{%
+\subcaptionbox{$F_0$: Initial framework ($a_4$ accepted)\label{fig:af-f0}}[0.30\textwidth]{%
 \begin{tikzpicture}[node distance=0.8cm and 0.9cm]
   \node[acc node, tgt node] (a4) {$a_4$};
   \node[acc node, left=of a4] (a3) {$a_3$};
   \node[acc node, above=of a3] (a1) {$a_1$};
   \node[acc node, above=of a4] (a2) {$a_2$};
+  \node[rej node, below=of a4] (a0) {$a_0$};
+  \draw[att edge] (a0) -- (a4);
+  \draw[att edge] (a3) -- (a0);
 \end{tikzpicture}%
 }\hfill
 \subcaptionbox{$F_1$: After evidence update ($a_4$ rejected)\label{fig:af-f1}}[0.30\textwidth]{%
@@ -28,7 +31,10 @@ The initial AF is $F_0 = (\{a_1, a_2, a_3, a_4\}, \emptyset)$ with no attacks; a
   \node[rej node, left=of a4] (a3) {$a_3$};
   \node[acc node, above=of a3] (a1) {$a_1$};
   \node[acc node, above=of a4] (a2) {$a_2$};
+  \node[acc node, below=of a4] (a0) {$a_0$};
   \node[new node, above right=0.4cm and 0.5cm of a2] (a5) {$a_5$};
+  \draw[att edge] (a0) -- (a4);
+  \draw[att edge] (a3) -- (a0);
   \draw[att edge] (a5) -- (a3);
 \end{tikzpicture}%
 }\hfill
@@ -38,13 +44,16 @@ The initial AF is $F_0 = (\{a_1, a_2, a_3, a_4\}, \emptyset)$ with no attacks; a
   \node[acc node, left=of a4] (a3) {$a_3$};
   \node[acc node, above=of a3] (a1) {$a_1$};
   \node[acc node, above=of a4] (a2) {$a_2$};
+  \node[rej node, below=of a4] (a0) {$a_0$};
   \node[rej node, above right=0.4cm and 0.5cm of a2] (a5) {$a_5$};
   \node[new node, right=0.5cm of a5] (a6) {$a_6$};
+  \draw[att edge] (a0) -- (a4);
+  \draw[att edge] (a3) -- (a0);
   \draw[att edge] (a5) -- (a3);
   \draw[att edge, blue] (a6) -- (a5);
 \end{tikzpicture}%
 }
-\caption{Evolution of the argumentation framework from Example~\ref{ex:running}. Green fill = accepted, red fill = rejected, blue dashed border = newly introduced, double border = target argument~$a_4$. The repair in~(c) adds $a_6$ and the attack $(a_6, a_5)$ to restore~$a_4$.}
+\caption{Evolution of the argumentation framework from Example~\ref{ex:running}. Green fill = accepted, red fill = rejected, blue dashed border = newly introduced, double border = target argument~$a_4$. In~(a), $a_3$ defeats the differential~$a_0$, keeping~$a_4$ accepted. In~(b), $a_5$ defeats~$a_3$, reinstating~$a_0$ and rejecting~$a_4$. The repair in~(c) adds $a_6$ attacking~$a_5$ to restore~$a_4$.}
 \label{fig:af-evolution}
 \end{figure*}
 
@@ -60,7 +69,7 @@ Given an AF $F = (\mathcal{A}, \mathcal{R})$, semantics $\sigma$, and a skeptica
 \end{definition}
 
 \begin{example}[Continuing Example~\ref{ex:running}]\label{ex:defense}
-In~$F_0$ (Figure~\ref{fig:af-evolution}a), $D = \{a_1, a_2, a_3, a_4\}$ is a defense set for~$a_4$: it is admissible and $a_4 \in D$.
+In~$F_0$ (Figure~\ref{fig:af-evolution}a), $D = \{a_3, a_4\}$ is a defense set for~$a_4$: it is conflict-free, $a_3$ defends~$a_4$ by attacking~$a_0$, and $D$~is minimal since removing~$a_3$ would leave $a_4$ undefended against~$a_0$.
 In~$F_1$, $D$~is no longer admissible because $a_3$ is attacked by~$a_5$ with no counterattack, so the defense of~$a_4$ collapses.
 \end{example}
 
@@ -72,15 +81,15 @@ With these foundations in place, we formalize the task addressed by \textsc{Argu
 We consider a setting in which a large language model receives a question $q$ and produces an answer $a$ together with a free-form explanation $e$. The \textsc{Argus} pipeline transforms these into a formal argumentation structure amenable to verification and repair.
 
 \begin{definition}[Explanation Verification Task]\label{def:task}
-Given a question $q$, an LLM-generated answer $a$, and an explanation $e$, the \emph{explanation verification task} produces a tuple $(G, v, \rho)$ where $G = (\mathcal{A}, \mathcal{R})$ is an argument graph constructed from $e$, $v \in \{\mathit{accepted}, \mathit{rejected}, \mathit{undecided}\}$ is the verification verdict for the target argument $t_a$ representing $a$ under semantics $\sigma$, and $\rho$ is an optional repair operator applied when $v \neq \mathit{accepted}$. An \emph{evidence update} $\Delta = (\mathcal{A}^+, \mathcal{R}^+, \mathcal{A}^-, \mathcal{R}^-)$ specifies new arguments and attacks to be added or removed, reflecting newly available facts or counterarguments.
+Given a question $q$, an LLM-generated answer $a$, and an explanation $e$, the \emph{explanation verification task} produces a tuple $(G, v, \rho)$ where $G = (\mathcal{A}, \mathcal{R})$ is an argument graph constructed from $e$, $v \in \{\mathit{accepted}, \mathit{rejected}, \mathit{undecided}\}$ is the verification verdict for the target argument $a_t$ representing $a$ under semantics $\sigma$, and $\rho$ is an optional repair operator applied when $v \neq \mathit{accepted}$. An \emph{evidence update} $\Delta = (\mathcal{A}^+, \mathcal{R}^+, \mathcal{A}^-, \mathcal{R}^-)$ specifies new arguments and attacks to be added or removed, reflecting newly available facts or counterarguments.
 \end{definition}
 
 \begin{example}[Continuing Example~\ref{ex:running}]\label{ex:verify}
-In~$F_0$, the verification task produces $v = \mathit{accepted}$ for~$a_4$ under grounded semantics, since $a_4$ belongs to the unique grounded extension $\{a_1, a_2, a_3, a_4\}$.
-After incorporating the evidence update $\Delta = (\{a_5\}, \{(a_5, a_3)\}, \emptyset, \emptyset)$, the verdict becomes $v = \mathit{rejected}$, triggering the repair operator~$\rho$.
+In~$F_0$, the verification task produces $v = \mathit{accepted}$ for~$a_4$ under grounded semantics: $a_3$ defeats the differential~$a_0$, so the grounded extension is $\{a_1, a_2, a_3, a_4\}$.
+After incorporating the evidence update $\Delta = (\{a_5\}, \{(a_5, a_3)\}, \emptyset, \emptyset)$, $a_5$ defeats~$a_3$, reinstating~$a_0$, and the verdict becomes $v = \mathit{rejected}$, triggering the repair operator~$\rho$.
 \end{example}
 
-The target argument $t_a$ is \emph{credulously accepted} if it belongs to at least one $\sigma$-extension of $G$, \emph{rejected} if it belongs to none, and \emph{undecided} otherwise. For grounded semantics, which yields a unique extension, credulous and skeptical acceptance coincide.
+The target argument $a_t$ is \emph{credulously accepted} if it belongs to at least one $\sigma$-extension of $G$, \emph{rejected} if it belongs to none, and \emph{undecided} otherwise. For grounded semantics, which yields a unique extension, credulous and skeptical acceptance coincide.
 
 \subsection{Explanation Repair Problem}
 

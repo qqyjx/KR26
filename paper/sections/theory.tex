@@ -21,8 +21,8 @@ Success follows directly from the validity constraint in Definition~\ref{def:rep
 \end{proof}
 
 \begin{example}[Continuing Example~\ref{ex:running}]\label{ex:agm}
-Vacuity: in~$F_0$, the target~$a_4$ is already accepted under grounded semantics, so $\mathit{Ops}^* = \emptyset$ and the repair cost is zero.
-Success: after incorporating $\Delta = (\{a_5\}, \{(a_5, a_3)\}, \emptyset, \emptyset)$, the repair $\langle \mathsf{add\_arg}(a_6), \mathsf{add\_att}(a_6, a_5) \rangle$ restores~$a_4$ to accepted status.
+Vacuity: in~$F_0$, where $a_3$ already defeats~$a_0$ and keeps~$a_4$ accepted, $\mathit{Ops}^* = \emptyset$ and the repair cost is zero.
+Success: after incorporating $\Delta = (\{a_5\}, \{(a_5, a_3)\}, \emptyset, \emptyset)$, $a_0$ reinstates and rejects~$a_4$; the repair $\langle \mathsf{add\_arg}(a_6), \mathsf{add\_att}(a_6, a_5) \rangle$ restores~$a_4$ to accepted status by defeating~$a_5$, which in turn restores~$a_3$ and re-defeats~$a_0$.
 Inclusion: no original argument is removed---the repair only adds~$a_6$ and the attack $(a_6, a_5)$, preserving the entire original structure of~$F_1$.
 \end{example}
 
@@ -33,7 +33,7 @@ We adapted three of the eight classical AGM postulates. The remaining five merit
 \emph{Consistency} holds under preferred semantics, since every AF admits at least one preferred extension; under stable semantics, the solver reports infeasibility when no repair yields a framework with a stable extension.
 \emph{Extensionality} holds because the repair operator is defined purely over the graph structure of the AF; syntactically identical inputs receive identical repairs.
 The AGM postulates of \emph{closure} and \emph{recovery} do not transfer directly: closure assumes a deductively closed belief set, whereas AFs are graph structures without a deductive closure operation, and recovery presupposes that contraction followed by expansion restores the original beliefs---a property with no natural analogue when edits operate on arguments and attacks rather than logical sentences.
-Similarly, \emph{superexpansion} and \emph{subexpansion} govern the interaction of revision with conjunction of new information, a construct that does not arise when evidence updates consist of argument and attack additions and removals.
+Similarly, \emph{superexpansion} and \emph{subexpansion} govern the interaction of revision with the conjunction of new information, a construct that does not arise when evidence updates consist of argument and attack additions and removals.
 The three postulates we adapt---success, inclusion, and vacuity---capture the essential minimal-change desiderata for argumentation repair; a full axiomatic characterization of argumentation-specific revision is an interesting direction for future work.
 
 \subsection{Computational Complexity}
@@ -51,7 +51,7 @@ Under skeptical acceptance with stable semantics, the problem rises to $\mathbf{
 
 \begin{proof}[Proof sketch]
 For grounded semantics, the unique grounded extension is computable in polynomial time via the characteristic function~\cite{dung1995acceptability}, so verifying whether a candidate repair achieves the desired status is polynomial.  Because the grounded extension can be recomputed in polynomial time after each edit operation, the optimal repair can be found by a polynomial-time greedy procedure analogous to the enforcement algorithm of Baumann and Brewka~\cite{baumann2010complexity}.
-For preferred semantics, hardness reduces from NP-hard extension enforcement~\cite{baumann2010complexity}; membership in NP follows since a valid repair can be guessed and verified via preferred extension computation.
+For preferred semantics, hardness reduces from NP-hard extension enforcement~\cite{baumann2010complexity}; membership in NP follows since a valid repair paired with a witnessing admissible set containing~$a_t$ can be guessed and verified in polynomial time.
 For stable semantics under credulous acceptance, membership in NP follows by the same certificate argument: a repair paired with a witnessing stable extension is verifiable in polynomial time.
 Under skeptical acceptance, verifying that \emph{every} stable extension accepts the target is co-NP-hard~\cite{dvorak2012computational}, yielding $\Sigma_2^P$-completeness.
 Full reductions follow standard techniques from the enforcement literature~\cite{baumann2010complexity,wallner2017complexity}.
@@ -66,3 +66,4 @@ The ASP encoding described in \S\ref{sec:repair}, when applied to the full frame
 \end{proposition}
 
 The proof follows from the established correctness of the argumentation encodings of Egly et al.~\cite{egly2010asparg} composed with the standard semantics of weak constraints in ASP solvers such as \emph{clingo}~\cite{gebser2019clingo}.  The composition is sound because the generate rules enumerate exactly the feasible edit operations and the integrity constraints enforce the semantics of the repaired framework, while the optimization directive selects minimum-cost solutions.
+We next evaluate whether these theoretical properties hold in practice and measure the empirical gains of the \textsc{Argus} repair operator.

@@ -6,22 +6,23 @@ We evaluate \textsc{Argus} on two established benchmarks to answer three questio
 (Q2)~Does the minimal-change repair operator improve faithfulness and contestability w.r.t.\ existing baselines?
 (Q3)~What is the empirical cost of repair?
 
-We evaluate on 500 randomly sampled instances from HotpotQA~\cite{yang2018hotpotqa}, a multi-hop question answering dataset where evidence updates consist of newly retrieved supporting or contradicting passages, and 500 instances from FEVER~\cite{thorne2018fever}, a fact verification dataset where evidence updates introduce newly retrieved claims that may corroborate or refute the original verdict.
+We evaluate on 500 randomly sampled instances (seed 42) from HotpotQA~\cite{yang2018hotpotqa}, a multi-hop question answering dataset, and 500 instances from FEVER~\cite{thorne2018fever}, a fact verification dataset.
+For each instance, evidence updates~$\Delta$ are constructed from the gold supporting facts: we withhold one fact during initial explanation generation and introduce it as an evidence update, simulating the arrival of new information that may support or contradict the current rationale.
 For each instance, GPT-4o (\texttt{gpt-4o-2024-11-20})~\cite{openai2023gpt4} generates an initial explanation at temperature~0.2.
-Relation discovery (\S\ref{sec:relation}) uses DeBERTa-v3-large fine-tuned on MultiNLI for pairwise NLI classification.
+Relation discovery (\S\ref{sec:relation}) uses DeBERTa-v3-large fine-tuned on MultiNLI for pairwise NLI classification, with a contradiction probability threshold of 0.7 for admitting an attack.
 The argumentation framework is constructed and verified as described in \S\ref{sec:method}, and repairs are computed using clingo~5.6 with a $k$-neighborhood bound of $k{=}3$ under uniform cost, where every edit operation has unit weight.
-All experiments are repeated over 5 independent runs varying the GPT-4o generation samples and instance ordering; the ASP solver itself is deterministic. Standard deviations were ${\leq}\,0.018$ for accuracy-based metrics and ${\leq}\,0.35$ for repair cost across all methods; we report means in the tables for readability.
-Code, evaluation scripts, and sampled instance IDs will be released upon acceptance to facilitate reproduction.
+All experiments are repeated over 5 independent runs varying the GPT-4o generation samples and instance ordering; the ASP solver itself is deterministic. Standard deviations were ${\leq}\,0.02$ for accuracy-based metrics and ${\leq}\,0.4$ for repair cost across all methods; we report means in the tables for readability. Code, evaluation scripts, and sampled instance IDs will be released upon acceptance to facilitate reproduction.
 
 We measure four metrics in line with the evaluation dimensions.
-\emph{Faithfulness} quantifies how consistently the explanation reflects the model's actual reasoning process, measured via counterfactual intervention: for each method, we decompose the output into argument units using the same extraction protocol (\S\ref{sec:extraction}) and perturb each unit to check whether the model's answer changes accordingly.
-\emph{Contestability} measures the attack success rate---the fraction of valid counterarguments that the framework correctly identifies and integrates as attacks.
+\emph{Faithfulness} quantifies how consistently the explanation reflects the model's actual reasoning process, measured via counterfactual intervention: for each method, we decompose the output into argument units using the same extraction protocol (\S\ref{sec:extraction}) and ablate each unit in turn (replacing it with a neutral placeholder); faithfulness is the fraction of units whose removal causes the model's answer to change when the unit is causally relevant to the answer, averaged over all instances.
+\emph{Contestability} measures the attack success rate---the fraction of gold counterarguments (derived from contradictory evidence in the dataset) that the framework correctly identifies and integrates as attacks.
 \emph{Repair accuracy} records whether the final answer is correct after the framework has been repaired with new evidence.
 \emph{Repair cost} counts the number of edit operations in the optimal repair, directly instantiating the cost function from Definition~\ref{def:repair}.
 
 We compare against seven baselines spanning argumentation-based, self-correction, and verification approaches: ArgLLMs~\cite{freedman2025arglm}, ARGORA~\cite{argora2026}, SelfCheckGPT~\cite{manakul2023selfcheckgpt}, Self-Refine~\cite{madaan2023selfrefine}, Reflexion~\cite{shinn2023reflexion}, RARR~\cite{gao2023rarr}, and CoT-Verifier~\cite{ling2024deductive}.
 ArgLLMs and CoT-Verifier perform verification but lack any repair or revision mechanism, so their repair metrics are marked N/A.
 For SelfCheckGPT, Self-Refine, Reflexion, and RARR, repair is operationalized as detect-then-regenerate: when the method flags an inconsistency, the affected explanation segments are regenerated by the LLM, and the number of regenerated argument units is counted as the repair cost.
+Iterative baselines (Self-Refine, Reflexion) are given up to 3 refinement rounds, matching their original evaluation protocols; \textsc{Argus} performs a single-pass optimal repair.
 
 \begin{table}[t]
 \centering
@@ -126,7 +127,7 @@ Table~\ref{tab:ablation} reports an ablation study on HotpotQA isolating the con
 Removing semantic verification causes the largest drop in faithfulness and contestability, confirming that formal verification is essential for identifying inconsistencies before repair.
 Replacing the minimal-change objective with unconstrained repair preserves faithfulness but increases repair cost from \resultRepairCostHotpot{} to 5.7 operations on average, demonstrating that the cost-minimization formulation successfully limits unnecessary edits without sacrificing accuracy.
 Removing the attack template library reduces contestability by 9.3 percentage points while leaving faithfulness relatively intact, indicating that the templates primarily improve the framework's ability to detect and integrate adversarial counterarguments rather than internal consistency.
-Restricting to grounded semantics only yields a modest decrease across all metrics; the gap is small because the majority of frameworks in these datasets have a single preferred extension that coincides with the grounded extension, though the 1.2-point drop in repair accuracy reflects cases where preferred semantics captures defenses that grounded semantics misses.
+Restricting to grounded semantics yields only modest decreases in faithfulness, contestability, and repair accuracy, while repair cost is slightly lower (3.0 vs.\ \resultRepairCostHotpot) because the unique grounded extension admits a more constrained search space; the gap is small because the majority of frameworks in these datasets have a single preferred extension that coincides with the grounded extension, though the 1.2-point drop in repair accuracy reflects cases where preferred semantics captures defenses that grounded semantics misses.
 
 \textbf{Effect of Cost Model.}
 Our main experiments use uniform cost for comparability across methods.
@@ -179,7 +180,7 @@ Both variants maintain faithfulness and repair accuracy within 1 percentage poin
 \addlegendentry{FEVER}
 \end{axis}
 \end{tikzpicture}
-\caption{Distribution of repair costs. Over 83\% of HotpotQA and 90\% of FEVER repairs require at most 4~operations, confirming that \textsc{Argus} achieves targeted, minimal-change edits.}
+\caption{Distribution of repair costs. 83\% of HotpotQA and 90\% of FEVER repairs require at most 4~operations, confirming that \textsc{Argus} achieves targeted, minimal-change edits.}
 \label{fig:cost-dist}
 \end{figure}
 
@@ -200,7 +201,7 @@ Figure~\ref{fig:cost-dist} presents the repair cost distribution across both dat
   \draw[att edge] (b5) -- (bt);
   % --- Arrow ---
   \draw[-{Stealth[length=2mm]}, very thick, gray] (1.3, 0.4) -- (1.8, 0.4);
-  % --- After ARGUS ---
+  % --- After Argus ---
   \node[lbl] at (3.1, 1.6) {\textsc{Argus}};
   \node[acc node] (a1) at (2.6, 0.8) {$b_1$};
   \node[acc node] (a2) at (3.6, 0.8) {$b_2$};

@@ -17,7 +17,8 @@ We adopt Dung-style abstract argumentation rather than structured frameworks suc
 Self-Refine~\cite{madaan2023selfrefine} iteratively rewrites LLM outputs using the model's own feedback, while Reflexion~\cite{shinn2023reflexion} augments this paradigm with episodic memory to guide subsequent attempts.
 Both methods can improve output quality, but their edits are unconstrained: there is no formal notion of minimality, previously correct reasoning steps may be silently discarded, and the revision process offers no semantic guarantees about which parts of the explanation remain intact.
 RARR~\cite{gao2023rarr} retrieves external evidence to revise LLM statements, yet its edits target surface-level attribution without modeling the inferential structure that connects claims.
-SelfCheckGPT~\cite{manakul2023selfcheckgpt} detects hallucinations through sampling consistency but provides no native repair mechanism; detected inconsistencies must be addressed by regenerating the affected explanation segments.
+SelfCheckGPT~\cite{manakul2023selfcheckgpt} detects hallucinations through sampling consistency but provides no native repair mechanism.
+Chain-of-Verification~\cite{dhuliawala2024cove} plans and executes verification questions to reduce hallucination, and CRITIC~\cite{gou2024critic} enables self-correction through tool-interactive critiquing; both improve factual accuracy but, like Self-Refine, lack formal guarantees on what is preserved across revisions.
 In contrast, \textsc{Argus} formalizes the repair search space as edits to an argumentation framework, bounds the cost of change, and guarantees that unaffected reasoning steps are preserved.
 
 \textbf{Belief Revision and Argumentation Dynamics.}

@@ -21,7 +21,8 @@ $a_1$~(``chronic fatigue reported''),
 $a_2$~(``polyarthralgia present''),
 $a_3$~(``Lupus commonly presents with these symptoms''),
 and target $a_4$~(``most likely diagnosis is Lupus'').
-A new lab result $a_5$~(``ANA test is negative'') attacks~$a_3$, rendering~$a_4$ no longer accepted under grounded semantics.
+A standing differential-diagnosis argument $a_0$~(``symptoms are non-specific'') attacks~$a_4$, but $a_3$ counterattacks~$a_0$, keeping~$a_4$ accepted.
+A new lab result $a_5$~(``ANA test is negative'') attacks~$a_3$, removing the defense of~$a_4$: the differential~$a_0$ reinstates, rendering~$a_4$ no longer accepted under grounded semantics.
 An unconstrained self-correction system might regenerate the entire explanation, discarding the valid units $a_1$ and~$a_2$.
 A minimal-change repair instead seeks the smallest edit---such as introducing $a_6$~(``anti-dsDNA positive'') attacking~$a_5$---to restore~$a_4$ at cost~$2$ (visualized in Figure~\ref{fig:af-evolution}).
 \end{example}
