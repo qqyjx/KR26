@@ -17,7 +17,7 @@ Let $\mathit{AF}=(\mathcal{A},\mathcal{R})$ be an argumentation framework, $\sig
 \end{theorem}
 
 \begin{proof}[Proof sketch]
-Success follows directly from the validity constraint in Definition~\ref{def:repair}: any repair returned by the solver satisfies the prescribed status.  Inclusion holds because every deletion incurs a positive cost, so the optimizer never removes an element unless forced.  Vacuity is immediate: when no edits are needed, the empty sequence is valid and has cost zero, so no non-empty sequence can be cheaper.  A formal proof is provided in the supplementary material.
+Success follows directly from the validity constraint in Definition~\ref{def:repair}: any repair returned by the solver satisfies the prescribed status.  Inclusion holds because every deletion incurs a positive cost, so the optimizer never removes an element unless forced.  Vacuity is immediate: when no edits are needed, the empty sequence is valid and has cost zero, so no non-empty sequence can be cheaper.
 \end{proof}
 
 \begin{example}[Continuing Example~\ref{ex:running}]\label{ex:agm}
@@ -27,9 +27,10 @@ Inclusion: no original argument is removed---the repair only adds~$a_6$ and the 
 \end{example}
 
 The connection to classical belief revision is instructive: inclusion mirrors the AGM postulate that revised beliefs should be a subset of the expansion, while vacuity mirrors the requirement that revision has no effect when the new information is already entailed~\cite{katsuno1992update}.
+We note that inclusion, as stated, follows constructively from the semantics of $\mathsf{apply}$; the substantive minimal-change guarantee arises from cost optimization, which prevents unnecessary deletions when $\kappa > 0$.
 
 We adapted three of the eight classical AGM postulates. The remaining five merit discussion.
-\emph{Consistency} holds by construction: the output of the ASP solver is always a well-formed argumentation framework.
+\emph{Consistency} holds under preferred semantics, since every AF admits at least one preferred extension; under stable semantics, the solver reports infeasibility when no repair yields a framework with a stable extension.
 \emph{Extensionality} holds because the repair operator is defined purely over the graph structure of the AF; syntactically identical inputs receive identical repairs.
 The AGM postulates of \emph{closure} and \emph{recovery} do not transfer directly: closure assumes a deductively closed belief set, whereas AFs are graph structures without a deductive closure operation, and recovery presupposes that contraction followed by expansion restores the original beliefs---a property with no natural analogue when edits operate on arguments and attacks rather than logical sentences.
 Similarly, \emph{superexpansion} and \emph{subexpansion} govern the interaction of revision with conjunction of new information, a construct that does not arise when evidence updates consist of argument and attack additions and removals.
@@ -40,19 +41,20 @@ The three postulates we adapt---success, inclusion, and vacuity---capture the es
 The complexity of the repair problem depends critically on the choice of argumentation semantics. Our results assume credulous acceptance (as defined in \S\ref{sec:preliminaries}), inheriting the corresponding complexity landscape~\cite{dunne2009complexity,dvorak2012computational}.
 
 \begin{theorem}[Repair Complexity]\label{thm:complexity}
-The decision version of the minimal-change repair problem---``does there exist a valid repair of cost at most $C$?''---has the following complexity:
+The decision version of the minimal-change repair problem---``does there exist a valid repair of cost at most $C$?''---has the following complexity under credulous acceptance:
 \begin{enumerate}
     \item Under grounded semantics, the problem is in \textbf{P}.
-    \item Under preferred semantics, the problem is \textbf{NP}-complete.
-    \item Under stable semantics, the problem is $\mathbf{\Sigma_2^P}$-complete.
+    \item Under preferred and stable semantics, the problem is \textbf{NP}-complete.
 \end{enumerate}
+Under skeptical acceptance with stable semantics, the problem rises to $\mathbf{\Sigma_2^P}$-completeness.
 \end{theorem}
 
 \begin{proof}[Proof sketch]
 For grounded semantics, the unique grounded extension is computable in polynomial time via the characteristic function~\cite{dung1995acceptability}, so verifying whether a candidate repair achieves the desired status is polynomial.  Because the grounded extension can be recomputed in polynomial time after each edit operation, the optimal repair can be found by a polynomial-time greedy procedure analogous to the enforcement algorithm of Baumann and Brewka~\cite{baumann2010complexity}.
 For preferred semantics, hardness reduces from NP-hard extension enforcement~\cite{baumann2010complexity}; membership in NP follows since a valid repair can be guessed and verified via preferred extension computation.
-For stable semantics, verifying whether a repair ensures credulous acceptance requires checking stable extension existence, which is itself NP-complete~\cite{dvorak2012computational}; the additional repair-guessing layer yields $\Sigma_2^P$-completeness.
-Full reductions appear in the supplementary material.
+For stable semantics under credulous acceptance, membership in NP follows by the same certificate argument: a repair paired with a witnessing stable extension is verifiable in polynomial time.
+Under skeptical acceptance, verifying that \emph{every} stable extension accepts the target is co-NP-hard~\cite{dvorak2012computational}, yielding $\Sigma_2^P$-completeness.
+Full reductions follow standard techniques from the enforcement literature~\cite{baumann2010complexity,wallner2017complexity}.
 \end{proof}
 
 These results motivate the $k$-neighborhood approximation introduced in \S\ref{sec:repair}: by restricting the search space, we reduce the effective problem size and ensure tractability even under preferred semantics for the framework sizes encountered in practice.
@@ -60,7 +62,7 @@ These results motivate the $k$-neighborhood approximation introduced in \S\ref{s
 \subsection{Soundness of the ASP Encoding}
 
 \begin{proposition}[Encoding Correctness]\label{prop:encoding}
-The ASP encoding described in \S\ref{sec:repair} is sound and complete with respect to optimal repairs under grounded and preferred semantics.  That is, every optimal answer set of the program corresponds to a valid minimum-cost repair, and every valid minimum-cost repair has a corresponding optimal answer set.
+The ASP encoding described in \S\ref{sec:repair}, when applied to the full framework without $k$-neighborhood restriction, is sound and complete with respect to optimal repairs under grounded and preferred semantics.  That is, every optimal answer set of the program corresponds to a valid minimum-cost repair, and every valid minimum-cost repair has a corresponding optimal answer set.
 \end{proposition}
 
 The proof follows from the established correctness of the argumentation encodings of Egly et al.~\cite{egly2010asparg} composed with the standard semantics of weak constraints in ASP solvers such as \emph{clingo}~\cite{gebser2019clingo}.  The composition is sound because the generate rules enumerate exactly the feasible edit operations and the integrity constraints enforce the semantics of the repaired framework, while the optimization directive selects minimum-cost solutions.

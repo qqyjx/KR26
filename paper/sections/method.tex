@@ -113,7 +113,7 @@ Algorithm~\ref{alg:repair} summarizes the complete procedure.
 \end{algorithm}
 
 \textbf{Approximation for Scalability.}
-Even under preferred semantics the repair problem is NP-complete (Theorem~\ref{thm:complexity}), and rises to $\Sigma_2^P$-completeness under stable semantics~\cite{dvorak2012computational}, so we introduce two approximation strategies.
+Even under preferred semantics the repair problem is NP-complete (Theorem~\ref{thm:complexity}), rising to $\Sigma_2^P$-completeness under skeptical stable semantics~\cite{dvorak2012computational}, so we introduce two approximation strategies.
 First, a $k$-neighborhood restriction limits the search space to arguments within distance~$k$ of the target in the attack graph; in our experiments, setting $k{=}3$ sufficed to find optimal repairs in the vast majority of cases while substantially reducing solver grounding.
 Second, when ASP solvers are unavailable, beam search over repair sequences with width~$b$ provides a bounded-depth heuristic alternative.
 The $k$-neighborhood restriction is used in all our experiments and ensures scalability to frameworks with hundreds of arguments without sacrificing repair quality.

@@ -11,9 +11,10 @@ For each instance, GPT-4o (\texttt{gpt-4o-2024-11-20})~\cite{openai2023gpt4} gen
 Relation discovery (\S\ref{sec:relation}) uses DeBERTa-v3-large fine-tuned on MultiNLI for pairwise NLI classification.
 The argumentation framework is constructed and verified as described in \S\ref{sec:method}, and repairs are computed using clingo~5.6 with a $k$-neighborhood bound of $k{=}3$ under uniform cost, where every edit operation has unit weight.
 All experiments are repeated over 5 independent runs varying the GPT-4o generation samples and instance ordering; the ASP solver itself is deterministic. Standard deviations were ${\leq}\,0.018$ for accuracy-based metrics and ${\leq}\,0.35$ for repair cost across all methods; we report means in the tables for readability.
+Code, evaluation scripts, and sampled instance IDs will be released upon acceptance to facilitate reproduction.
 
 We measure four metrics in line with the evaluation dimensions.
-\emph{Faithfulness} quantifies how consistently the explanation reflects the model's actual reasoning process, measured via counterfactual intervention: we perturb individual argument units and check whether the model's answer changes accordingly.
+\emph{Faithfulness} quantifies how consistently the explanation reflects the model's actual reasoning process, measured via counterfactual intervention: for each method, we decompose the output into argument units using the same extraction protocol (\S\ref{sec:extraction}) and perturb each unit to check whether the model's answer changes accordingly.
 \emph{Contestability} measures the attack success rate---the fraction of valid counterarguments that the framework correctly identifies and integrates as attacks.
 \emph{Repair accuracy} records whether the final answer is correct after the framework has been repaired with new evidence.
 \emph{Repair cost} counts the number of edit operations in the optimal repair, directly instantiating the cost function from Definition~\ref{def:repair}.
@@ -47,7 +48,7 @@ ARGORA         & .768 & .691 & .801 & 5.1 & .752 & .672 & .788 & 4.7 \\
 \end{tabular}}%
 \end{table}
 
-Table~\ref{tab:main} summarizes the main results. \textsc{Argus} achieves the highest faithfulness on both datasets, reaching \resultFaithHotpot{} on HotpotQA and \resultFaithFEVER{} on FEVER, which represents improvements of \improveFaithfulness{} and \improveContestability{} in faithfulness and contestability, respectively, over the strongest argumentation baseline ARGORA. Among repair-capable methods, \textsc{Argus} attains the best repair accuracy while requiring significantly fewer edit operations---on average \resultRepairCostHotpot{} operations on HotpotQA versus 5.1 for ARGORA---validating that the minimal-change objective from Definition~\ref{def:repair} translates into efficient, targeted repairs rather than wholesale regeneration.
+Table~\ref{tab:main} summarizes the main results. \textsc{Argus} achieves the highest faithfulness on both datasets, reaching \resultFaithHotpot{} on HotpotQA and \resultFaithFEVER{} on FEVER, representing improvements of \improveFaithfulness{} in faithfulness and \improveContestability{} in contestability on HotpotQA over the strongest argumentation baseline ARGORA, with comparable gains on FEVER. Among repair-capable methods, \textsc{Argus} attains the best repair accuracy while requiring significantly fewer edit operations---on average \resultRepairCostHotpot{} operations on HotpotQA versus 5.1 for ARGORA---validating that the minimal-change objective from Definition~\ref{def:repair} translates into efficient, targeted repairs rather than wholesale regeneration.
 
 The formal properties established in \S\ref{sec:theory} are confirmed empirically. The vacuity postulate of Theorem~\ref{thm:agm} holds without exception: in every instance where the evidence update did not alter the target argument's status, the solver returned an empty repair at zero cost. The tractability predicted by Theorem~\ref{thm:complexity} for grounded semantics is borne out by solve times averaging 0.12s per instance, while preferred semantics required 0.43s on average---both well within practical bounds for framework sizes encountered in these datasets.
 
@@ -102,7 +103,7 @@ The formal properties established in \S\ref{sec:theory} are confirmed empiricall
 \label{fig:scalability}
 \end{figure}
 
-Figure~\ref{fig:scalability} traces solve time as a function of framework size~$|\mathcal{A}|$, confirming the polynomial scaling predicted by Theorem~\ref{thm:complexity} for grounded semantics. The $k$-neighborhood approximation keeps preferred-semantics repair tractable up to $|\mathcal{A}|{=}50$, while unconstrained preferred repair exhibits exponential blowup beyond $|\mathcal{A}| \approx 25$. We omit stable semantics from the evaluation because Theorem~\ref{thm:complexity} places it at $\Sigma_2^P$-completeness, making it impractical for the iterative repair setting; in our experiments, stable and preferred extensions coincided in over 97\% of cases, so the additional computational cost provides negligible benefit.
+Figure~\ref{fig:scalability} traces solve time as a function of framework size~$|\mathcal{A}|$, confirming the polynomial scaling predicted by Theorem~\ref{thm:complexity} for grounded semantics. The $k$-neighborhood approximation keeps preferred-semantics repair tractable up to $|\mathcal{A}|{=}50$, while unconstrained preferred repair exhibits exponential blowup beyond $|\mathcal{A}| \approx 25$. We omit stable semantics from Figure~\ref{fig:scalability} because, under the credulous acceptance used throughout our evaluation, stable and preferred repair share the same NP-complete complexity class (Theorem~\ref{thm:complexity}), and in our experiments the two semantics coincided in over 97\% of cases, making the distinction negligible in practice.
 
 \begin{table}[t]
 \centering

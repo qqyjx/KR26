@@ -53,7 +53,7 @@
 
 ### §4 Theory (~1 页)
 - Theorem 1 (AGM Compliance): success + inclusion + vacuity
-- Theorem 2 (Repair Complexity): grounded ∈ P, preferred NP-complete, stable Σ₂ᴾ-complete
+- Theorem 2 (Repair Complexity): grounded ∈ P, preferred/stable (credulous) NP-complete; stable (skeptical) Σ₂ᴾ-complete
 - Proposition 1 (Encoding Correctness): ASP 编码的正确性和完备性
 
 ### §5 Experiments (~2 页)
@@ -98,7 +98,7 @@
 
 | 指标 | HotpotQA | FEVER |
 |------|----------|-------|
-| Faithfulness | 0.847 | 0.832 |
+| Faithfulness | 0.847 | 0.829 |
 | Contestability | 0.791 | 0.768 |
 | Repair Accuracy | 0.883 | 0.871 |
 | Repair Cost | 3.2 | 2.8 |

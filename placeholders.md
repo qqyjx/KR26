@@ -41,7 +41,7 @@
 
 | 方法 | FEVER Faith. | FEVER Contest. | FEVER RepairAcc | FEVER RepairCost |
 |------|-------------|---------------|-----------------|------------------|
-| ARGUS (ours) | 0.832 | 0.768 | 0.871 | 2.8 |
+| ARGUS (ours) | 0.829 | 0.768 | 0.871 | 2.8 |
 | ArgLLMs | 0.741 | 0.649 | N/A | N/A |
 | ARGORA | 0.752 | 0.672 | 0.788 | 4.7 |
 | SelfCheckGPT | 0.674 | 0.498 | 0.685 | 7.9 |
