@@ -40,24 +40,58 @@ grep -E "newlabel\\{(sec:conclusion|app:)" main.aux
 
 ---
 
-## 3. Paper Structure
+## 3. Repository Structure
 
 ```
 KR26/
 ├── CLAUDE.md              # Claude Code 工作指南（本文件）
 ├── dagang.md              # 论文大纲，定义各 section 结构和要点
-├── paper/                 # 论文目录
-│   ├── main.tex           # 主文件
-│   ├── sections/          # 章节文件
-│   ├── figures/           # 图表
-│   └── styles/            # 模板样式文件
+├── placeholders.md        # 占位符追踪清单（图表/数值/同步状态）
+├── .gitignore             # LaTeX artifacts, IDE files, Python cache, OS files
+├── paper/                 # LaTeX 论文源文件
+│   ├── main.tex           # 主文件（宏定义 + section includes）
+│   ├── .latexmkrc         # latexmk 构建配置（pdflatex, BibTeX）
+│   ├── references.bib     # 参考文献（26 条被引用条目）
+│   ├── sections/          # 章节文件（8 个 .tex 文件，共 ~604 行）
+│   │   ├── abstract.tex        # §0 Abstract (~127 词)
+│   │   ├── introduction.tex    # §1 Introduction + Running Example + C1-C4
+│   │   ├── related_work.tex    # §2 Related Work（KR 惯例：紧跟 Introduction）
+│   │   ├── preliminaries.tex   # §3 Preliminaries (Def 1-4 + Examples)
+│   │   ├── method.tex          # §4 Method (§4.1-4.4, Algorithm 1, ASP encoding)
+│   │   ├── theory.tex          # §5 Theory (Theorem 1-2, Proposition 1)
+│   │   ├── experiments.tex     # §6 Experiments (Tables 1-2, Figures 3-5)
+│   │   └── conclusion.tex      # §7 Conclusion + 4 limitations
+│   └── styles/            # KR2026 模板样式文件
 │       ├── kr.sty         # KR 2026 LaTeX 样式
 │       └── kr.bst         # KR 2026 BibTeX 样式
-├── experiments/           # 实验代码
-├── results/               # 实验结果
-│   └── results.json       # 结构化结果数据，含预设值和实际实验结果
-└── review/                # 审稿意见存档
+├── results/               # 实验结果数据
+│   └── results.json       # 结构化结果（status: ACTUAL, 5 seeds, 2026-02-10）
+└── review/                # 审稿意见存档（9 个文件，12 轮审查）
+    ├── review-20260211-120000.md       # R1: 初始全面审查
+    ├── review-20260212-051500.md       # R2-R5: 后续审查轮次
+    ├── review-20260212-154759.md       # R6
+    ├── review-20260212-181239.md       # R7
+    ├── review-20260212-R08-theory.md   # R8: KR 理论专家审查
+    ├── review-20260212-R09-experiments.md  # R9: ML/NLP 专家审查
+    ├── review-20260212-R10-writing.md  # R10: 写作质量审查
+    ├── review-20260212-R11-adversarial.md  # R11: 对抗性审查
+    └── review-20260212-R12-final.md    # R12: 投稿前终审（READY）
 ```
+
+**注意**：论文中的 TikZ 图表（Figures 1-5）内联定义在 `.tex` 文件中，无独立 `figures/` 目录。实验代码在外部服务器运行，本仓库仅含论文源文件和结构化结果数据。
+
+### Section 文件详细信息
+
+| 文件 | 内容 | 关键元素 |
+|------|------|---------|
+| `abstract.tex` | ~127 词摘要 | Context+Gap → Contribution → Validation |
+| `introduction.tex` | 动机 + Running Example + C1-C4 | Example 1 (医疗诊断场景), 4 contributions |
+| `related_work.tex` | 三条研究线比较 | 论证+LLM, 自我修正, 信念修正 |
+| `preliminaries.tex` | Definitions 1-4 + Examples | AF, Defense Set, 验证任务, 修复问题 |
+| `method.tex` | §4.1-4.4 核心方法 | Algorithm 1, ASP encoding, k-neighborhood |
+| `theory.tex` | 形式化理论结果 | Theorem 1 (AGM), Theorem 2 (复杂度), Prop 1 |
+| `experiments.tex` | 实验评测 | Table 1-2, Fig 3-5, 7 baselines, 消融 |
+| `conclusion.tex` | 总结 + 局限 | 4 具体技术局限 |
 
 ---
 
@@ -294,21 +328,46 @@ Double-blind review: do NOT include author names, affiliations, or self-identify
 
 ---
 
-## 8. 论文先行模式
+## 8. Result Macros（数值单一真相源）
+
+`main.tex` 第 57-69 行定义了 10 个结果宏，是论文中所有数值的唯一来源。Abstract、Introduction、Experiments、Conclusion 均通过宏引用这些数值，确保全文一致。
+
+```latex
+% Main results
+\newcommand{\resultFaithHotpot}{0.847}       % ARGUS Faithfulness on HotpotQA
+\newcommand{\resultFaithFEVER}{0.829}        % ARGUS Faithfulness on FEVER
+\newcommand{\resultContestHotpot}{0.791}     % ARGUS Contestability on HotpotQA
+\newcommand{\resultContestFEVER}{0.768}      % ARGUS Contestability on FEVER
+\newcommand{\resultRepairAccHotpot}{0.883}   % Repair accuracy on HotpotQA
+\newcommand{\resultRepairAccFEVER}{0.871}    % Repair accuracy on FEVER
+\newcommand{\resultRepairCostHotpot}{3.2}    % Repair edit cost on HotpotQA
+\newcommand{\resultRepairCostFEVER}{2.8}     % Repair edit cost on FEVER
+% Improvement over ARGORA (strongest argumentation baseline)
+\newcommand{\improveFaithfulness}{10.3\%}
+\newcommand{\improveContestability}{14.5\%}
+```
+
+**修改数值时**：只需更新 `main.tex` 中的宏定义，然后同步更新 `results/results.json`、`placeholders.md` 和 `dagang.md`。编译后全文自动更新。
+
+---
+
+## 9. 论文先行模式
 
 **核心理念**：先用合理的预设数值完成论文框架，确保叙事逻辑完整，再用真实实验结果替换。
+
+**当前状态**：所有数值已从 PRESET 更新为 ACTUAL（`results.json` status: "ACTUAL", last_updated: 2026-02-10）。
 
 ### 项目配置文件
 
 | 文件 | 用途 |
 |------|------|
 | `dagang.md` | 论文大纲，定义各 section 结构和要点 |
-| `placeholders.md` | 占位符追踪清单，记录待替换的图表和数值 |
-| `results/results.json` | 结构化结果数据，含预设值和实际实验结果 |
+| `placeholders.md` | 占位符追踪清单，记录待替换的图表和数值（当前全部 DONE） |
+| `results/results.json` | 结构化结果数据，含 8 methods × 2 datasets × 4 metrics + 消融 + 理论验证 |
 
 ---
 
-## 9. 论文审稿流程
+## 10. 论文审稿流程
 
 ### 审稿指令速查
 
@@ -330,7 +389,7 @@ Double-blind review: do NOT include author names, affiliations, or self-identify
 
 ---
 
-## 10. 创新点检查工作流（重要环节）
+## 11. 创新点检查工作流（重要环节）
 
 **核心原则**：先检查创新点强度，再做其他工作。防止所有工作完成后才发现需要大改。
 
@@ -363,7 +422,7 @@ Double-blind review: do NOT include author names, affiliations, or self-identify
 
 ---
 
-## 11. 数据同步原则
+## 12. 数据同步原则
 
 **论文先行，实验后补**：
 1. 先检查论文设定是否符合理论和逻辑
@@ -374,7 +433,7 @@ Double-blind review: do NOT include author names, affiliations, or self-identify
 
 ---
 
-## 12. Baseline 选择原则
+## 13. Baseline 选择原则
 
 - 搜索近 2 年（2024--2026）相关工作
 - 选择强 baseline，确保 SOTA 对比
@@ -388,3 +447,78 @@ Double-blind review: do NOT include author names, affiliations, or self-identify
   - 自我批判/修订（Self-Refine, Reflexion）
   - 检索后修订（RARR, RARE）
   - 推理验证（Deductive Verification, Verifiers for CoT）
+
+---
+
+## 14. 当前项目状态
+
+**状态**: 投稿就绪（R12 终审 PASS，2026-02-13）
+
+| 维度 | 状态 |
+|------|------|
+| 论文内容 | ✅ 完成，9 页，0 编译错误 |
+| 数据一致性 | ✅ 10 核心宏一致，48 + 20 表格单元格验证通过 |
+| 匿名化 | ✅ 双盲合规 |
+| 格式 | ✅ KR2026 模板，≤9 页 |
+| 引用 | ✅ 26 keys = 26 entries，0 undefined references |
+| 审查轮次 | ✅ 12 轮完成，17 issues found，12 fixed，1 skipped，4 defended |
+
+### 审查历程
+
+共进行 12 轮审查（R1-R12），覆盖理论正确性、实验设计、写作质量和对抗性审查。关键修复包括：
+
+- **R8 (CRITICAL)**: Stable credulous 复杂度应为 NP-complete（非 Σ₂ᴾ），已修正 Theorem 2
+- **R9 (CRITICAL)**: experiments.tex 中 Σ₂ᴾ 与 theory.tex 不一致，已统一
+- **R10 (MAJOR)**: 删除不存在的 supplementary material 引用
+- **R11 (MAJOR)**: Faithfulness 评估协议说明不充分，已补充
+
+### 形式化元素清单
+
+| 元素 | 编号 | 位置 | 内容 |
+|------|------|------|------|
+| Definition 1 | Def 1 | preliminaries.tex | 抽象论证框架 (AF) |
+| Definition 2 | Def 2 | preliminaries.tex | Defense Set |
+| Definition 3 | Def 3 | preliminaries.tex | 解释验证任务 |
+| Definition 4 | Def 4 | preliminaries.tex | 最小改变解释修复 |
+| Definition 5 | Def 5 | method.tex | 修复问题形式化 |
+| Algorithm 1 | Alg 1 | method.tex | ARGUS Repair |
+| Theorem 1 | Thm 1 | theory.tex | AGM Compliance (success, inclusion, vacuity) |
+| Theorem 2 | Thm 2 | theory.tex | 复杂度 (grounded ∈ P, preferred/stable credulous NP-c, skeptical stable Σ₂ᴾ-c) |
+| Proposition 1 | Prop 1 | theory.tex | ASP encoding 正确性和完备性 |
+
+### Running Example
+
+- **场景**: 医疗诊断（Lupus case）
+- **引入**: Introduction (Example 1, `\label{ex:running}`)
+- **复用**: Preliminaries, Method, Theory, Experiments 各 section 通过 `Continuing Example~\ref{ex:running}` 引用
+
+---
+
+## 15. 数值快速参考
+
+### ARGUS 主结果
+
+| 指标 | HotpotQA | FEVER |
+|------|----------|-------|
+| Faithfulness | 0.847 ± 0.011 | 0.829 ± 0.013 |
+| Contestability | 0.791 ± 0.014 | 0.768 ± 0.016 |
+| Repair Accuracy | 0.883 ± 0.009 | 0.871 ± 0.010 |
+| Repair Cost | 3.2 ± 0.3 | 2.8 ± 0.3 |
+
+### 提升幅度 (vs ARGORA, strongest baseline)
+
+| 指标 | HotpotQA | FEVER |
+|------|----------|-------|
+| Faithfulness | +10.3% | +10.2% |
+| Contestability | +14.5% | +14.3% |
+| Repair Accuracy | +10.2% | +10.5% |
+| Repair Cost | -37.3% (3.2 vs 5.1) | -40.4% (2.8 vs 4.7) |
+
+### AGM 理论验证
+
+| 属性 | 通过率 |
+|------|--------|
+| AGM Success | 100% (500 cases) |
+| AGM Inclusion | 100% (500 cases) |
+| AGM Vacuity | 100% |
+| Minimality | 99.7% (500 cases) |
