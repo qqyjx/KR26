@@ -88,7 +88,7 @@ Under structure-preserving cost with $w=2$, deleting~$a_5$ costs~$2$ while the a
 
 \textbf{ASP Encoding.}
 We encode the repair problem as an answer set program following the methodology of Egly et al.~\cite{egly2010asparg} for argumentation reasoning and extending it with choice rules for repair operations.
-The encoding consists of three components.
+The encoding consists of three components; at a high level, it mirrors an integer linear program where binary variables select edits, constraints enforce semantics, and the objective minimizes cost.
 First, \emph{generate rules} introduce choice atoms for each candidate operation: the solver may optionally add or delete any argument or attack within a bounded edit budget.
 Second, \emph{semantics constraints} enforce that the repaired framework satisfies~$\sigma$; for grounded semantics, these take the form of integrity constraints requiring that every argument in the grounded extension defends itself against all attackers.
 Third, a \emph{weak constraint} minimizes the weighted sum of selected operations:

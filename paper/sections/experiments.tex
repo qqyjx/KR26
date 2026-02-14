@@ -7,7 +7,7 @@ We evaluate \textsc{Argus} on two established benchmarks to answer three questio
 (Q3)~What is the empirical cost of repair?
 
 We evaluate on 500 randomly sampled instances (seed 42) from HotpotQA~\cite{yang2018hotpotqa}, a multi-hop question answering dataset, and 500 instances from FEVER~\cite{thorne2018fever}, a fact verification dataset.
-For each instance, evidence updates~$\Delta$ are constructed from the gold supporting facts: we withhold one fact during initial explanation generation and introduce it as an evidence update, simulating the arrival of new information that may support or contradict the current rationale.
+For each instance, evidence updates~$\Delta$ are constructed from the gold supporting facts: we withhold one fact during initial explanation generation and introduce it as an evidence update, simulating the arrival of new information that may support or contradict the current rationale.  While these updates are derived from existing annotations, the repair mechanism is agnostic to the evidence source and would apply unchanged to naturally occurring updates.
 For each instance, GPT-4o (\texttt{gpt-4o-2024-11-20})~\cite{openai2023gpt4} generates an initial explanation at temperature~0.2.
 Relation discovery (\S\ref{sec:relation}) uses DeBERTa-v3-large fine-tuned on MultiNLI for pairwise NLI classification, with a contradiction probability threshold of 0.7 for admitting an attack.
 The argumentation framework is constructed and verified as described in \S\ref{sec:method}, and repairs are computed using clingo~5.6 with a $k$-neighborhood bound of $k{=}3$ under uniform cost, where every edit operation has unit weight.
@@ -125,7 +125,7 @@ Grounded Only             & .839 & .772 & .871 & 3.0 \\
 
 Table~\ref{tab:ablation} reports an ablation study on HotpotQA isolating the contribution of each major component.
 Removing semantic verification causes the largest drop in faithfulness and contestability, confirming that formal verification is essential for identifying inconsistencies before repair.
-Replacing the minimal-change objective with unconstrained repair preserves faithfulness but increases repair cost from \resultRepairCostHotpot{} to 5.7 operations on average, demonstrating that the cost-minimization formulation successfully limits unnecessary edits without sacrificing accuracy.
+Replacing the minimal-change objective with unconstrained repair preserves faithfulness---as expected, since the cost-minimization objective targets edit efficiency rather than per-unit accuracy---but increases repair cost from \resultRepairCostHotpot{} to 5.7 operations on average, demonstrating that the formulation successfully limits unnecessary edits without sacrificing accuracy.
 Removing the attack template library reduces contestability by 9.3 percentage points while leaving faithfulness relatively intact, indicating that the templates primarily improve the framework's ability to detect and integrate adversarial counterarguments rather than internal consistency.
 Restricting to grounded semantics yields only modest decreases in faithfulness, contestability, and repair accuracy, while repair cost is slightly lower (3.0 vs.\ \resultRepairCostHotpot) because the unique grounded extension admits a more constrained search space; the gap is small because the majority of frameworks in these datasets have a single preferred extension that coincides with the grounded extension, though the 1.2-point drop in repair accuracy reflects cases where preferred semantics captures defenses that grounded semantics misses.
 

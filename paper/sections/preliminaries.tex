@@ -12,6 +12,7 @@ An \emph{abstract argumentation framework} (AF) is a pair $F = (\mathcal{A}, \ma
 The initial AF is $F_0 = (\{a_0, a_1, a_2, a_3, a_4\}, \{(a_0, a_4), (a_3, a_0)\})$, where $a_0$~(``symptoms are non-specific'') attacks the target~$a_4$ and $a_3$~(``Lupus commonly presents with these symptoms'') counterattacks~$a_0$; after the negative ANA result, $F_1 = (\{a_0, a_1, \ldots, a_5\}, \{(a_0, a_4), (a_3, a_0), (a_5, a_3)\})$, as shown in Figure~\ref{fig:af-evolution}(a--b).
 \end{example}
 
+Intuitively, an argument is accepted if every objection against it can be countered; different semantics formalize this intuition with varying degrees of caution.
 Given an AF $F = (\mathcal{A}, \mathcal{R})$, a set $S \subseteq \mathcal{A}$ is \emph{conflict-free} if no two arguments in $S$ attack each other. An argument $a$ is \emph{defended} by $S$ if every attacker of $a$ is attacked by some member of $S$. A conflict-free set $S$ is \emph{admissible} if it defends all its elements. The principal semantics we employ are the \emph{grounded} extension, which is the unique minimal complete extension obtained as the least fixed point of the characteristic function; the \emph{preferred} extensions, which are maximal admissible sets; and \emph{stable} extensions, which are conflict-free sets that attack every argument outside themselves~\cite{baroni2018handbook}. Throughout this paper we write $\sigma(F)$ to denote the set of extensions of $F$ under semantics $\sigma \in \{\mathit{gr}, \mathit{pr}, \mathit{st}\}$.
 
 \subsection{Argumentation Semantics for Explanation}
