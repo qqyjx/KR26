@@ -25,8 +25,16 @@
 \usepackage{multirow}
 \usepackage{subcaption}
 \usepackage{tikz}
-\usetikzlibrary{arrows.meta, positioning, calc}
+\usetikzlibrary{arrows.meta, positioning, calc, backgrounds}
 \usepackage{pgfplots}
+
+% ===== Global Color Palette (Material Design) =====
+\definecolor{AccGreen}{HTML}{4CAF50}
+\definecolor{RejRed}{HTML}{E53935}
+\definecolor{NewBlue}{HTML}{1E88E5}
+\definecolor{SelfCorr}{HTML}{FB8C00}
+\definecolor{ArguMeth}{HTML}{43A047}
+\definecolor{ArgusMain}{HTML}{1565C0}
 \pgfplotsset{compat=1.18}
 \urlstyle{same}
 
@@ -46,12 +54,14 @@
 
 % ===== TikZ Argumentation Styles =====
 \tikzset{
-  arg node/.style={circle, draw, minimum size=6mm, inner sep=0pt, font=\footnotesize},
-  acc node/.style={arg node, fill=green!20},
-  rej node/.style={arg node, fill=red!20},
-  tgt node/.style={arg node, double, double distance=1pt},
-  new node/.style={arg node, fill=blue!10, draw=blue, dashed},
-  att edge/.style={-{Stealth[length=2mm]}, thick},
+  arg node/.style={circle, draw, minimum size=8mm, inner sep=0pt,
+                   font=\small, line width=0.7pt},
+  acc node/.style={arg node, fill=AccGreen!25, draw=AccGreen!70!black},
+  rej node/.style={arg node, fill=RejRed!25, draw=RejRed!70!black},
+  tgt node/.style={arg node, double, double distance=1.2pt},
+  new node/.style={arg node, fill=NewBlue!20, draw=NewBlue!70!black,
+                   dashed, line width=0.8pt},
+  att edge/.style={-{Stealth[length=2.5mm, width=1.8mm]}, line width=0.9pt},
 }
 
 % ===== Result Macros (single source of truth for all numbers) =====
