@@ -26,15 +26,8 @@ Success: after incorporating $\Delta = (\{a_5\}, \{(a_5, a_3)\}, \emptyset, \emp
 Inclusion: no original argument is removed---the repair only adds~$a_6$ and the attack $(a_6, a_5)$, preserving the entire original structure of~$F_1$.
 \end{example}
 
-The connection to classical belief revision is instructive: inclusion mirrors the AGM postulate that revised beliefs should be a subset of the expansion, while vacuity mirrors the requirement that revision has no effect when the new information is already entailed~\cite{katsuno1992update}.
-We note that inclusion, as stated, follows constructively from the semantics of $\mathsf{apply}$; the substantive minimal-change guarantee arises from cost optimization, which prevents unnecessary deletions when $\kappa > 0$.
-
-We adapted three of the eight classical AGM postulates. The remaining five merit discussion.
-\emph{Consistency} holds under preferred semantics, since every AF admits at least one preferred extension; under stable semantics, the solver reports infeasibility when no repair yields a framework with a stable extension.
-\emph{Extensionality} holds because the repair operator is defined purely over the graph structure of the AF; syntactically identical inputs receive identical repairs.
-The AGM postulates of \emph{closure} and \emph{recovery} do not transfer directly: closure assumes a deductively closed belief set, whereas AFs are graph structures without a deductive closure operation, and recovery presupposes that contraction followed by expansion restores the original beliefs---a property with no natural analogue when edits operate on arguments and attacks rather than logical sentences.
-Similarly, \emph{superexpansion} and \emph{subexpansion} govern the interaction of revision with the conjunction of new information, a construct that does not arise when evidence updates consist of argument and attack additions and removals.
-The three postulates we adapt---success, inclusion, and vacuity---capture the essential minimal-change desiderata for argumentation repair; a full axiomatic characterization of argumentation-specific revision is an interesting direction for future work.
+Among the eight classical AGM postulates~\cite{katsuno1992update}, \emph{consistency} and \emph{extensionality} also hold (the former under preferred semantics; the latter because the operator is defined purely over graph structure), while \emph{closure}, \emph{recovery}, \emph{superexpansion}, and \emph{subexpansion} presuppose deductively closed belief sets or conjunctive information---constructs without natural analogues in argumentation frameworks.
+The three postulates we adapt capture the essential minimal-change desiderata; a full axiomatic characterization is an interesting direction for future work.
 
 \subsection{Computational Complexity}
 
@@ -50,7 +43,7 @@ Under skeptical acceptance with stable semantics, the problem rises to $\mathbf{
 \end{theorem}
 
 \begin{proof}[Proof sketch]
-For grounded semantics, the unique grounded extension is computable in polynomial time via the characteristic function~\cite{dung1995acceptability}, so verifying whether a candidate repair achieves the desired status is polynomial.  Because the grounded extension can be recomputed in polynomial time after each edit operation, the optimal repair can be found by a polynomial-time greedy procedure analogous to the enforcement algorithm of Baumann and Brewka~\cite{baumann2010complexity}.
+For grounded semantics, the unique grounded extension is computable in polynomial time via the characteristic function~\cite{dung1995acceptability}.  Membership in P follows by reduction to grounded enforcement, which Dvo\v{r}\'ak and Dunne~\cite{dvorak2012computational} showed is solvable in polynomial time by exploiting the monotonicity of the characteristic function.  Our repair problem reduces to enforcement: we first incorporate the evidence update~$\Delta$ into the framework and then seek a minimum-cost set of edit operations that enforces the target argument's desired acceptability status; since both the incorporation of~$\Delta$ and the verification of any candidate repair via the grounded extension are polynomial, the overall decision problem is in~P.
 For preferred semantics, hardness reduces from NP-hard extension enforcement~\cite{baumann2010complexity}; membership in NP follows since a valid repair paired with a witnessing admissible set containing~$a_t$ can be guessed and verified in polynomial time.
 For stable semantics under credulous acceptance, membership in NP follows by the same certificate argument: a repair paired with a witnessing stable extension is verifiable in polynomial time.
 Under skeptical acceptance, verifying that \emph{every} stable extension accepts the target is co-NP-hard~\cite{dvorak2012computational}, yielding $\Sigma_2^P$-completeness.

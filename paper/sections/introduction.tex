@@ -5,12 +5,32 @@ Large language models generate natural-language explanations for their outputs, 
 Recent studies demonstrate that LLM rationales can be inconsistent with the computations that actually produce the answer~\cite{ye2024selfexplanation}, and that chain-of-thought traces are often post-hoc rationalizations rather than faithful accounts of inference~\cite{lanham2023measuring}.
 The gap between \emph{apparent} and \emph{actual} reasoning makes the verification and maintenance of explanations a central knowledge representation challenge, particularly in domains such as medical diagnosis and legal reasoning where explanation correctness is critical.
 
-Current approaches to improving LLM explanations fall short along two complementary dimensions.
-Self-correction methods such as Self-Refine~\cite{madaan2023selfrefine} and Reflexion~\cite{shinn2023reflexion} iteratively rewrite explanations using the model's own feedback, but they operate without formal guarantees: edits are unconstrained, previously valid reasoning steps may be silently discarded, and there is no mechanism to ensure that changes are minimal or semantically justified.
-On the other end of the spectrum, argumentation-based approaches such as ArgLLMs~\cite{freedman2025arglm} and ARGORA~\cite{argora2026} structure explanations into argument graphs and verify them against formal semantics, providing rigorous one-shot verdicts.
-However, these frameworks treat verification as a static, terminal operation.
-When new evidence arrives---a factual correction, a credible counterargument, or an updated knowledge source---they offer no principled way to update the explanation, forcing the system to either regenerate from scratch or apply ad-hoc edits that may violate the very consistency guarantees the formalism was designed to provide.
-To the best of our knowledge, no existing framework provides a formal notion of \emph{minimal change} for maintaining LLM explanations under evolving evidence.
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[
+  method/.style={rounded corners=2pt, inner sep=2pt, font=\scriptsize},
+]
+  \draw[-{Stealth[length=2mm]}, gray!70] (-0.2, 0) -- (4.6, 0);
+  \draw[-{Stealth[length=2mm]}, gray!70] (0, -0.2) -- (0, 3.2);
+  \node[font=\scriptsize, gray!60!black] at (4.6, -0.35) {Formal guarantees};
+  \node[font=\scriptsize, gray!60!black, rotate=90, anchor=south] at (-0.45, 1.5) {Repair capability};
+  \fill[blue!6, rounded corners=3pt] (2.4, 1.7) rectangle (4.4, 3.0);
+  \node[method, fill=orange!20, draw=orange!40] at (0.7, 2.6) {Self-Refine};
+  \node[method, fill=orange!20, draw=orange!40] at (0.9, 2.1) {Reflexion};
+  \node[method, fill=orange!20, draw=orange!40] at (1.3, 1.7) {RARR};
+  \node[method, fill=green!15, draw=green!40] at (3.7, 0.5) {ArgLLMs};
+  \node[method, fill=green!15, draw=green!40] at (2.9, 1.1) {ARGORA};
+  \node[method, fill=green!15, draw=green!40] at (2.3, 0.4) {CoT-Verifier};
+  \node[method, fill=blue!25, draw=blue!60, thick, font=\scriptsize\bfseries] at (3.5, 2.4) {\textsc{Argus}};
+\end{tikzpicture}
+\caption{Positioning of \textsc{Argus}. Self-correction methods (orange) repair without formal guarantees; argumentation-based methods (green) verify without principled repair. \textsc{Argus} (blue region) bridges both dimensions.}
+\label{fig:positioning}
+\end{figure}
+
+As illustrated in Figure~\ref{fig:positioning}, current approaches fall short along two complementary dimensions.
+Self-correction methods~\cite{madaan2023selfrefine,shinn2023reflexion,gao2023rarr} iteratively rewrite explanations but without formal guarantees---edits are unconstrained and previously valid reasoning may be silently discarded.
+Argumentation-based approaches~\cite{freedman2025arglm,argora2026} verify explanations against formal semantics but treat verification as terminal: when new evidence arrives, they offer no principled way to update the explanation while preserving consistency.
+No existing framework provides a formal notion of \emph{minimal change} for maintaining LLM explanations under evolving evidence.
 
 The following example, revisited throughout the paper, illustrates the problem concretely.
 
@@ -27,6 +47,51 @@ An unconstrained self-correction system might regenerate the entire explanation,
 A minimal-change repair instead seeks the smallest edit---such as introducing $a_6$~(``anti-dsDNA positive'') attacking~$a_5$---to restore~$a_4$ at cost~$2$ (visualized in Figure~\ref{fig:af-evolution}).
 \end{example}
 
+\begin{figure*}[t]
+\centering
+\subcaptionbox{$F_0$: Initial framework ($a_4$ accepted)\label{fig:af-f0}}[0.30\textwidth]{%
+\begin{tikzpicture}[node distance=0.8cm and 0.9cm]
+  \node[acc node, tgt node] (a4) {$a_4$};
+  \node[acc node, left=of a4] (a3) {$a_3$};
+  \node[acc node, above=of a3] (a1) {$a_1$};
+  \node[acc node, above=of a4] (a2) {$a_2$};
+  \node[rej node, below=of a4] (a0) {$a_0$};
+  \draw[att edge] (a0) -- (a4);
+  \draw[att edge] (a3) -- (a0);
+\end{tikzpicture}%
+}\hfill
+\subcaptionbox{$F_1$: After evidence update ($a_4$ rejected)\label{fig:af-f1}}[0.30\textwidth]{%
+\begin{tikzpicture}[node distance=0.8cm and 0.9cm]
+  \node[rej node, tgt node] (a4) {$a_4$};
+  \node[rej node, left=of a4] (a3) {$a_3$};
+  \node[acc node, above=of a3] (a1) {$a_1$};
+  \node[acc node, above=of a4] (a2) {$a_2$};
+  \node[acc node, below=of a4] (a0) {$a_0$};
+  \node[new node, above right=0.4cm and 0.5cm of a2] (a5) {$a_5$};
+  \draw[att edge] (a0) -- (a4);
+  \draw[att edge] (a3) -- (a0);
+  \draw[att edge] (a5) -- (a3);
+\end{tikzpicture}%
+}\hfill
+\subcaptionbox{$F_2$: After repair ($a_4$ restored)\label{fig:af-f2}}[0.30\textwidth]{%
+\begin{tikzpicture}[node distance=0.8cm and 0.9cm]
+  \node[acc node, tgt node] (a4) {$a_4$};
+  \node[acc node, left=of a4] (a3) {$a_3$};
+  \node[acc node, above=of a3] (a1) {$a_1$};
+  \node[acc node, above=of a4] (a2) {$a_2$};
+  \node[rej node, below=of a4] (a0) {$a_0$};
+  \node[rej node, above right=0.4cm and 0.5cm of a2] (a5) {$a_5$};
+  \node[new node, right=0.5cm of a5] (a6) {$a_6$};
+  \draw[att edge] (a0) -- (a4);
+  \draw[att edge] (a3) -- (a0);
+  \draw[att edge] (a5) -- (a3);
+  \draw[att edge, blue] (a6) -- (a5);
+\end{tikzpicture}%
+}
+\caption{Evolution of the argumentation framework from Example~\ref{ex:running}. Green fill = accepted, red fill = rejected, blue dashed border = newly introduced, double border = target argument~$a_4$. In~(a), $a_3$ defeats the differential~$a_0$, keeping~$a_4$ accepted. In~(b), $a_5$ defeats~$a_3$, reinstating~$a_0$ and rejecting~$a_4$. The repair in~(c) adds $a_6$ attacking~$a_5$ to restore~$a_4$.}
+\label{fig:af-evolution}
+\end{figure*}
+
 We propose \textsc{Argus}, a framework that bridges this gap by unifying argumentation-based verification with minimal-change repair.
 Given an LLM-generated explanation, \textsc{Argus} decomposes it into atomic argument units, constructs an argumentation framework in the sense of Dung~\cite{dung1995acceptability}, and verifies whether the target claim is accepted under a chosen semantics.
 When new evidence renders the explanation inconsistent, \textsc{Argus} computes a minimum-cost sequence of edit operations---adding or removing arguments and attacks---that restores the desired acceptability status.
@@ -35,10 +100,9 @@ The repair operator draws on two classical KR traditions: the AGM theory of beli
 Our contributions are as follows:
 \begin{enumerate}
     \item \textbf{(C1)} A framework that structures LLM self-explanations as Dung-style argumentation frameworks and verifies them under grounded and preferred semantics, producing defense-set certificates that make acceptance verdicts interpretable (\S\ref{sec:method}).
-    \item \textbf{(C2)} A minimal-change repair operator for explanation maintenance under evolving evidence, satisfying adapted AGM revision postulates with a complexity analysis placing the problem in P under grounded semantics and NP-complete under preferred semantics (\S\ref{sec:repair}--\S\ref{sec:theory}).
+    \item \textbf{(C2)} A minimal-change repair operator for explanation maintenance under evolving evidence, satisfying adapted AGM revision postulates with a complexity analysis placing the problem in P under grounded semantics and NP-complete under preferred and stable semantics (\S\ref{sec:repair}--\S\ref{sec:theory}).
     \item \textbf{(C3)} A scalable ASP encoding with a $k$-neighborhood approximation that restricts the search space to arguments near the target, reducing solver grounding substantially while preserving repair quality (\S\ref{sec:method}).
     \item \textbf{(C4)} An empirical evaluation on HotpotQA and FEVER validating the formal properties and demonstrating improvements in faithfulness, contestability, and repair cost w.r.t.\ seven baselines (\S\ref{sec:experiments}).
 \end{enumerate}
 
-The remainder of this paper is organized as follows. \S\ref{sec:related} surveys related work; \S\ref{sec:preliminaries} introduces the formal background on argumentation frameworks and belief revision; \S\ref{sec:method} presents the \textsc{Argus} pipeline; \S\ref{sec:theory} establishes theoretical properties of the repair operator; and \S\ref{sec:experiments} reports experimental results. Example~\ref{ex:running} is revisited throughout to build intuition.
 
