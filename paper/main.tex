@@ -47,10 +47,12 @@
 \newtheorem{example}[theorem]{Example}
 \newtheorem{remark}[theorem]{Remark}
 
-% PDF metadata
+% PDF metadata (use hyperxmp or hyperref for XeTeX compatibility)
+\ifx\pdfinfo\undefined\else
 \pdfinfo{
 /TemplateVersion (KR.2026.0)
 }
+\fi
 
 % ===== TikZ Argumentation Styles =====
 \tikzset{
@@ -106,6 +108,7 @@ anonymous@example.com
 % Acknowledgements (add after acceptance)
 % \section*{Acknowledgements}
 
+\newpage
 \bibliographystyle{styles/kr}
 \bibliography{references}
 

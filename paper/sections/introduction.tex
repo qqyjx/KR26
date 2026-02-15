@@ -80,7 +80,7 @@ A minimal-change repair instead seeks the smallest edit---such as introducing $a
 We propose \textsc{Argus}, a framework that bridges this gap by unifying argumentation-based verification with minimal-change repair.
 Given an LLM-generated explanation, \textsc{Argus} decomposes it into atomic argument units, constructs an argumentation framework in the sense of Dung~\cite{dung1995acceptability}, and verifies whether the target claim is accepted under a chosen semantics.
 When new evidence renders the explanation inconsistent, \textsc{Argus} computes a minimum-cost set of edit operations---adding or removing arguments and attacks---that restores the desired acceptability status.
-The repair operator draws on two classical KR traditions: the AGM theory of belief revision~\cite{alchourron1985agm}, which supplies the minimal-change principle, and argumentation dynamics~\cite{cayrol2019argumentation}, which provides formal machinery for structural change.
+The repair operator draws on two classical KR traditions: the AGM theory of belief revision~\cite{alchourron1985agm}, which supplies the minimal-change principle, and argumentation dynamics~\cite{cayrol2020argumentation}, which provides formal machinery for structural change.
 Because the repair operates on an explicit graph structure external to the LLM, it admits formal guarantees---AGM compliance, complexity bounds, provable preservation of unaffected reasoning---that are unattainable when editing model internals or regenerating from scratch.
 
 Our contributions are as follows:

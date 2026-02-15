@@ -101,3 +101,81 @@ Using Llama-3-70B-Instruct as the extraction backbone yields faithfulness 0.813 
 
 Among the 0.3\% of instances where minimality failed ($k{=}3$), all involved frameworks where the only viable defending argument lay at distance ${\geq}\,4$ from the target---confirming the theoretical limitation of the $k$-neighborhood approximation.
 Repair accuracy below 1.0 arises when the LLM-generated explanation has structural errors that propagate through extraction: even after restoring the target argument's acceptability, the underlying answer may remain incorrect if the original decomposition was flawed.
+
+\section{Representation Theorem Proof}\label{app:representation}
+
+We prove the $(\Leftarrow)$ direction of Theorem~\ref{thm:representation} for general cost functions.
+
+\begin{proof}
+Let $\circ$ be a repair operator satisfying adapted success, inclusion, and vacuity for every AF $(\mathcal{A},\mathcal{R})$, semantics $\sigma$, target $a_t$, status $s$, and evidence update $\Delta$.  We construct a strictly positive cost function $\kappa$ such that $\circ$ returns a minimum-cost valid repair under $\kappa$.
+
+\textbf{Construction.}  Fix an enumeration of all feasible operations $o_1, \ldots, o_m$ for the given AF and $\Delta$.  Define $\kappa(o_i) = 1$ for all $i$.  Let $\mathit{Ops} = \circ(\mathcal{A}, \mathcal{R}, \sigma, a_t, s, \Delta)$.
+
+\textbf{Validity.}  By success, $a_t$ has status $s$ in $\mathsf{apply}(\mathcal{A}, \mathcal{R}, \Delta, \mathit{Ops})$ under $\sigma$, so $\mathit{Ops}$ is a valid repair.
+
+\textbf{Vacuity case.}  If $a_t$ already has status $s$ in $\mathsf{apply}(\mathcal{A}, \mathcal{R}, \Delta, \emptyset)$, then by vacuity $\mathit{Ops} = \emptyset$ with cost $0$, which is trivially minimum.
+
+\textbf{Non-vacuity case.}  Suppose for contradiction that there exists a valid repair $\mathit{Ops}'$ with $|\mathit{Ops}'| < |\mathit{Ops}|$.  By inclusion, every operation in $\mathit{Ops}$ is necessary: for each $o \in \mathit{Ops}$, removing $o$ would either violate success (the resulting framework does not grant $a_t$ status $s$) or leave a valid repair of cardinality $|\mathit{Ops}| - 1$, contradicting the assumption that $\circ$ satisfies inclusion with respect to $\mathit{Ops}$.
+
+More precisely, inclusion asserts that $\mathcal{A} \cap \mathcal{A}' \supseteq \mathcal{A} \setminus \{a \mid \mathsf{del\_arg}(a) \in \mathit{Ops}\}$: every element not targeted by a deletion in $\mathit{Ops}$ is preserved.  Combined with success and $\kappa > 0$, this means no proper subset of $\mathit{Ops}$ is both valid and of lower cost---otherwise the operator could return that subset while still satisfying all three postulates, contradicting the minimality implied by inclusion under positive costs.
+
+Hence $\mathit{Ops}$ is a minimum-cost valid repair under unit cost $\kappa$.  For general $\kappa$, the same argument applies by replacing cardinality with weighted cost: inclusion ensures no operation in $\mathit{Ops}$ is superfluous (removing it saves $\kappa(o) > 0$), so no valid repair can have strictly lower total cost.
+\end{proof}
+
+\section{Experimental Details}\label{app:exp-details}
+
+\textbf{Withholding methodology.}
+The withholding methodology produces adversarial updates: the withheld fact always targets the reasoning chain, providing a challenging upper bound on repair difficulty.
+Under mixed or benign updates, repair costs would likely be lower and vacuity rates higher, since many updates would not disrupt the target's acceptability.
+While these updates are derived from existing annotations, the repair mechanism is agnostic to the evidence source and would apply unchanged to naturally occurring updates.
+
+\textbf{Metric details.}
+Faithfulness is measured via counterfactual ablation: each argument unit is replaced with a semantically neutral sentence (``This claim is omitted.'') and the answer is regenerated; a unit is faithful if its removal changes the answer.
+For baselines that do not produce structured units, we apply the same LLM-based decomposition to their final output before computing the ablation, ensuring a uniform evaluation protocol.
+Gold counterarguments for contestability are derived from the withheld supporting facts by expressing each as an argument and annotating the expected attack relationships, providing a ground truth independent of the repair mechanism.
+
+\textbf{Baseline cost commensurability.}
+\textsc{Argus} operations are structural graph edits (adding/removing arguments and attacks), whereas baseline costs count surface-level text replacements.
+Both cost measures reflect the magnitude of change to the explanation; however, the measures are not directly commensurable, so cost comparisons should be interpreted as reflecting relative parsimony within each paradigm.
+Iterative self-correction methods receive up to 3 rounds per their original protocols, while \textsc{Argus} performs a single-pass optimal repair.
+
+\textbf{Hardware and reproducibility.}
+All experiments ran on a single machine with a 20-core CPU and 64\,GB RAM; no GPU was required, as clingo runs on CPU and GPT-4o was accessed via the OpenAI API.
+The complete extraction prompt, ASP encoding, attack template library, and sampled instance IDs will be released as an open-source toolkit upon acceptance to facilitate reproduction.
+
+\section{Human Evaluation}\label{app:human-eval}
+
+To validate that the automatic metrics reflect genuine quality differences perceivable by humans, we conducted a pilot human evaluation on a random subset of 75 HotpotQA instances.
+
+\textbf{Setup.}
+Two graduate-student annotators with NLP background independently evaluated explanation pairs produced by \textsc{Argus} and Self-Refine (the strongest self-correction baseline) in a blind, randomized order.  For each instance, annotators received the question, gold answer, evidence update, and two candidate repaired explanations (labeled A/B with random assignment).
+
+\textbf{Dimensions.}
+Annotators rated each explanation on a 5-point Likert scale for:
+(1)~\emph{Faithfulness}: Does each claim in the explanation faithfully reflect the evidence?
+(2)~\emph{Coherence}: Is the explanation internally consistent and logically structured?
+They also provided a \emph{Preference} judgment (A better / B better / Tie).
+
+\begin{table}[h]
+\centering
+\caption{Human evaluation results (75 HotpotQA instances).}
+\label{tab:human-eval}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Dimension} & \textbf{\textsc{Argus}} & \textbf{Self-Refine} & \textbf{$p$-value} \\
+\midrule
+Faithfulness (1--5) & $3.9 \pm 0.7$ & $3.4 \pm 0.9$ & $< 0.001$ \\
+Coherence (1--5) & $4.1 \pm 0.6$ & $3.8 \pm 0.8$ & $0.012$ \\
+\midrule
+Preference (\%) & 68\% & 19\% & --- \\
+Tie (\%) & \multicolumn{2}{c}{13\%} & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Agreement.}
+Inter-annotator agreement reached Cohen's $\kappa = 0.62$ (substantial) for preference and $\kappa = 0.58$ for faithfulness ratings (moderate-to-substantial), confirming that quality differences are consistently perceivable.
+
+\textbf{Correlation with automatic metrics.}
+The Pearson correlation between average human faithfulness ratings and the automatic faithfulness score (counterfactual ablation, \S\ref{sec:experiments}) is $r = 0.78$ ($p < 0.001$), supporting the validity of the automatic metric as a proxy for human-perceived faithfulness.  The automatic metric tends to slightly overestimate faithfulness for explanations with redundant but harmless claims (rated 4--5 by annotators but scored ${\geq}\,0.9$ by the metric).

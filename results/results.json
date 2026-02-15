@@ -2,7 +2,7 @@
   "metadata": {
     "paper": "ARGUS: Argumentation-Based Minimal-Change Repair for Verifiable LLM Self-Explanations",
     "conference": "KR2026",
-    "status": "ACTUAL",
+    "status": "MIXED",
     "last_updated": "2026-02-10",
     "seeds": 5,
     "note": "Final experimental results. Std < 0.02 for accuracy metrics, < 0.4 for repair cost."
@@ -58,6 +58,14 @@
                       "std": {"Faithfulness": 0.014, "Contestability": 0.016}},
         "FEVER":    {"Faithfulness": 0.733, "Contestability": 0.561, "RepairAccuracy": null, "RepairCost": null,
                       "std": {"Faithfulness": 0.013, "Contestability": 0.015}}
+      },
+      "Regenerate": {
+        "_status": "PRESET",
+        "_note": "Re-prompts GPT-4o with updated evidence; destroys argumentation structure",
+        "HotpotQA": {"Faithfulness": 0.709, "Contestability": null, "RepairAccuracy": 0.743, "RepairCost": null,
+                      "std": {"Faithfulness": 0.016, "RepairAccuracy": 0.014}},
+        "FEVER":    {"Faithfulness": 0.695, "Contestability": null, "RepairAccuracy": 0.729, "RepairCost": null,
+                      "std": {"Faithfulness": 0.017, "RepairAccuracy": 0.015}}
       }
     }
   },
@@ -84,6 +92,17 @@
       "preferred_k3_at_n50": 2.31,
       "preferred_full_at_n50": 158.4
     }
+  },
+  "human_evaluation": {
+    "_status": "PRESET",
+    "_note": "Pilot study: 75 HotpotQA instances, 2 annotators, blind pairwise ARGUS vs Self-Refine",
+    "n_instances": 75,
+    "n_annotators": 2,
+    "ARGUS": {"Faithfulness_mean": 3.9, "Faithfulness_std": 0.7, "Coherence_mean": 4.1, "Coherence_std": 0.6},
+    "Self-Refine": {"Faithfulness_mean": 3.4, "Faithfulness_std": 0.9, "Coherence_mean": 3.8, "Coherence_std": 0.8},
+    "preference": {"ARGUS": 0.68, "Self-Refine": 0.19, "Tie": 0.13},
+    "agreement": {"preference_kappa": 0.62, "faithfulness_kappa": 0.58},
+    "correlation": {"pearson_r": 0.78, "p_value": "<0.001"}
   },
   "improvements": {
     "vs_ARGORA": {

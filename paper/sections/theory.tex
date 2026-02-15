@@ -29,11 +29,20 @@ Inclusion: no original argument is removed---the repair only adds~$a_6$ and the 
 Among the eight classical AGM postulates~\cite{katsuno1992update}, \emph{consistency} and \emph{extensionality} also hold: consistency follows because every valid repair produces a framework with at least one $\sigma$-extension (under preferred semantics), and extensionality holds because the operator is defined purely over graph structure.
 \emph{Recovery} fails in our setting.  In Example~\ref{ex:running}, repairing $F_1$ yields $F_2$ by adding $a_6$ and $(a_6,a_5)$; if the evidence $a_5$ were subsequently retracted, $F_2$ would retain $a_6$ and its attack---the original framework $F_0$ is not recovered.  This asymmetry is fundamental: structural additions made during repair cannot be automatically unwound by evidence retraction, unlike classical belief revision where recovery ensures reversibility.
 \emph{Closure}, \emph{superexpansion}, and \emph{subexpansion} presuppose deductively closed belief sets---constructs without natural analogues in argumentation frameworks where ``beliefs'' are graph-structural elements rather than logical sentences.
-To the best of our knowledge, this is the first formal bridge between AGM rationality criteria and argumentation-based explanation repair for LLM self-explanations.  While individual postulates follow naturally from cost minimization, the contribution lies in identifying which AGM rationality criteria have meaningful argumentation analogues and establishing that our operator satisfies them; unlike classical belief revision where the input is a sentence, our setting requires reasoning about graph-structural changes where inclusion and vacuity interact with the combinatorial structure of extensions.  A full axiomatic characterization---a representation theorem connecting the adapted postulates to the class of minimum-cost repair operators---is a direction for future work.
+To the best of our knowledge, this is the first formal bridge between AGM rationality criteria and argumentation-based explanation repair for LLM self-explanations.  The contribution lies in identifying which AGM postulates have meaningful argumentation analogues and showing that they \emph{characterize} the class of minimum-cost repair operators:
+
+\begin{theorem}[Representation]\label{thm:representation}
+A repair operator~$\circ$ satisfies adapted success, inclusion, and vacuity for every AF, semantics~$\sigma$, target~$a_t$, and evidence update~$\Delta$ if and only if there exists a strictly positive cost function~$\kappa$ such that~$\circ$ returns a minimum-cost valid repair under~$\kappa$.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+($\Rightarrow$) Theorem~\ref{thm:agm} establishes that every minimum-cost repair under positive~$\kappa$ satisfies all three postulates.
+($\Leftarrow$) Given an operator satisfying the three postulates, define~$\kappa(o) = 1$ for every operation~$o$.  Success guarantees validity; vacuity ensures the empty set is returned when no repair is needed, so any non-empty output incurs positive cost; inclusion ensures every operation in the output is necessary, since removing any one would either violate success or produce a valid repair of strictly lower cost---contradicting the assumption that the operator already returns a repair satisfying inclusion.  Hence the output is a minimum-cost valid repair under unit cost.  The full construction for general~$\kappa$ appears in Appendix~\ref{app:representation}.
+\end{proof}
 
 \subsection{Computational Complexity}
 
-The complexity of the repair problem depends critically on the choice of argumentation semantics. Our results assume credulous acceptance (as defined in \S\ref{sec:preliminaries}), inheriting the corresponding complexity landscape~\cite{dunne2009complexity,dvorak2012computational}.
+The complexity of the repair problem depends critically on the choice of argumentation semantics. Our results assume credulous acceptance (as defined in \S\ref{sec:preliminaries}), inheriting the corresponding complexity landscape~\cite{dunne2009complexity,dvorak2018computational}.
 
 \begin{theorem}[Repair Complexity]\label{thm:complexity}
 The decision version of the minimal-change repair problem---``does there exist a valid repair of cost at most $C$?''---has the following complexity under credulous acceptance:
@@ -45,18 +54,14 @@ Under skeptical acceptance with stable semantics, the problem rises to $\mathbf{
 \end{theorem}
 
 \begin{proof}[Proof sketch]
-For grounded semantics, the unique grounded extension is computable in polynomial time via the characteristic function~\cite{dung1995acceptability}.  Membership in P follows by reduction to grounded enforcement, which Dvo\v{r}\'ak and Dunne~\cite{dvorak2012computational} showed is solvable in polynomial time by exploiting the monotonicity of the characteristic function.  Our repair problem reduces to enforcement: we first incorporate the evidence update~$\Delta$ into the framework and then seek a minimum-cost set of edit operations that enforces the target argument's desired acceptability status; since both the incorporation of~$\Delta$ and the verification of any candidate repair via the grounded extension are polynomial, the overall decision problem is in~P.
+For grounded semantics, the unique grounded extension is computable in polynomial time via the characteristic function~\cite{dung1995acceptability}.  Membership in P follows by reduction to grounded enforcement, which Dvo\v{r}\'ak and Dunne~\cite{dvorak2018computational} showed is solvable in polynomial time by exploiting the monotonicity of the characteristic function.  Our repair problem reduces to enforcement: we first incorporate the evidence update~$\Delta$ into the framework and then seek a minimum-cost set of edit operations that enforces the target argument's desired acceptability status; since both the incorporation of~$\Delta$ and the verification of any candidate repair via the grounded extension are polynomial, the overall decision problem is in~P.
 For preferred semantics, hardness reduces from NP-hard extension enforcement~\cite{baumann2010complexity}; membership in NP follows since a valid repair paired with a witnessing admissible set containing~$a_t$ can be guessed and verified in polynomial time.
 For stable semantics under credulous acceptance, membership in NP follows by the same certificate argument: a repair paired with a witnessing stable extension is verifiable in polynomial time.
-Under skeptical acceptance, verifying that \emph{every} stable extension accepts the target is co-NP-hard~\cite{dvorak2012computational}, yielding $\Sigma_2^P$-completeness.
+Under skeptical acceptance, verifying that \emph{every} stable extension accepts the target is co-NP-hard~\cite{dvorak2018computational}, yielding $\Sigma_2^P$-completeness.
 Full reductions follow standard techniques from the enforcement literature~\cite{baumann2010complexity,wallner2017complexity}.
 \end{proof}
 
-\begin{remark}
-The reduction to enforcement establishes complexity bounds but does not subsume the repair problem.  Three structural differences distinguish our formulation: (i)~an evidence update~$\Delta$ first perturbs the framework before repair begins, coupling the search space to external input that enforcement does not model; (ii)~heterogeneous cost functions weight operations by argument confidence and structural role, whereas enforcement minimizes unweighted edit count; and (iii)~each $\mathsf{add\_arg}$ operation is grounded through the NLI pipeline (\S\ref{sec:relation}), constraining the candidate space by semantic plausibility rather than allowing arbitrary graph modifications.
-\end{remark}
-
-These results motivate the $k$-neighborhood approximation introduced in \S\ref{sec:repair}: by restricting the search space, we reduce the effective problem size and ensure tractability even under preferred semantics for the framework sizes encountered in practice.  In practical terms, grounded repairs complete in under 0.2\,s and preferred repairs in under 0.5\,s for the framework sizes in our benchmarks (\S\ref{sec:experiments}).
+Note that the reduction to enforcement establishes complexity bounds but does not subsume the repair problem, which additionally involves evidence updates~$\Delta$, heterogeneous cost functions, and NLI-grounded candidate generation (\S\ref{sec:relation}).  These results motivate the $k$-neighborhood approximation (\S\ref{sec:repair}), ensuring tractability under preferred semantics for practical framework sizes.
 
 \subsection{Soundness of the ASP Encoding}
 

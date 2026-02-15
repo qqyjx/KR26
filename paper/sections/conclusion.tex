@@ -2,7 +2,7 @@
 \section{Conclusion}\label{sec:conclusion}
 
 We presented \textsc{Argus}, a framework that structures LLM self-explanations as argumentation frameworks, verifies them against formal semantics, and repairs them at minimum cost when new evidence arrives.
-The minimal-change repair operator satisfies adapted AGM postulates---success, inclusion, and vacuity---providing formal guarantees that are absent from existing self-correction and argumentation-based approaches.
+The minimal-change repair operator satisfies adapted AGM postulates---success, inclusion, and vacuity---and a representation theorem shows that these three postulates \emph{characterize} the class of minimum-cost repair operators under positive costs, providing formal guarantees absent from existing approaches.
 We established that the repair problem is tractable under grounded semantics and NP-complete under preferred and stable semantics, and introduced a $k$-neighborhood approximation that maintains scalability in practice.
 Experiments on HotpotQA and FEVER yielded relative improvements of up to \improveFaithfulness{} in faithfulness and \improveContestability{} in contestability over the strongest argumentation baseline, while achieving the lowest repair cost among all repair-capable methods.
 
@@ -10,7 +10,7 @@ Several limitations warrant discussion.
 First, the quality of the argumentation framework depends on the LLM's ability to decompose rationales into atomic argument units; extraction errors propagate through the entire pipeline, and the faithfulness metric itself relies on the LLM's consistency under ablation, providing a causal proxy rather than a ground-truth measure.
 Relatedly, the $\mathsf{add\_arg}$ operation uses the same LLM to generate repair candidates, though the NLI and ASP verification stages serve as external checks that break self-referential bias; integrating retrieval-augmented verification for generated arguments is a natural extension.
 Second, while the $k$-neighborhood approximation handles the framework sizes encountered in our experiments, frameworks with hundreds of densely connected arguments may require more aggressive approximation strategies.
-Third, our evaluation relies on automatic metrics over fact-checking and multi-hop QA datasets, with evidence updates constructed by withholding gold supporting facts; a human evaluation with naturalistically occurring evidence updates would further strengthen the empirical validation.
+Third, while a pilot human evaluation (Appendix~\ref{app:human-eval}) confirms that automatic metrics correlate with human judgments, the evaluation relies primarily on automatic metrics over fact-checking and multi-hop QA datasets with synthetic evidence updates; a larger-scale human study with naturalistically occurring updates would further strengthen the empirical validation.
 Extending the approach to open-ended generation---where correctness is less well-defined and the target argument may lack a ground-truth referent---would require alternative acceptance criteria such as coherence-based semantics.
 Finally, while the framework supports multiple cost models, our experiments use uniform cost for simplicity; learning domain-specific cost functions from user feedback---including external calibration of the LLM's self-assessed confidence scores---is a promising direction for future work.
 
