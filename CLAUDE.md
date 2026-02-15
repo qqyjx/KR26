@@ -538,34 +538,38 @@ Double-blind review: do NOT include author names, affiliations, or self-identify
 
 ---
 
-## 16. 跨 Session 审稿轮次编号纪律（教训）
+## 16. 审稿文件管理规范
 
-> **背景**：2026-02-15 在跨 session 继续审稿时，因 context window 压缩丢失了实际轮次计数，导致新一轮审稿的编号（R13-R18、R19-R22）与已有的 R13-R57 文件重复，引发大规模文件重命名。
+### 16.1 编号纪律
 
-### 铁律
+> **教训**：2026-02-15 因 context window 压缩丢失实际轮次计数，R13-R18/R19-R22 与已有文件重复，引发 49 文件重命名。根因：plan 文件中的过期编号被当作真实编号。
 
-1. **开始新审稿前，必须先执行 `ls review/ | tail -5` 确认当前最大轮次编号**，然后从 N+1 开始编号。
-2. **禁止依赖 plan 文件或上下文记忆中的轮次编号**——context 压缩和 session 切换会导致编号信息丢失。
-3. **审稿文件命名格式**：`review-YYYYMMDD-R{NN}-{topic}.md`，其中 `{NN}` 为全局递增的两位数编号。
-4. **每个审稿文件内部**：第一行 `# Round {NN}` 必须与文件名中的编号一致。
-5. **批量审稿文件**（如 R39-R45）：文件名中使用范围 `R{start}-R{end}`，内部标题也使用范围。
+**铁律**：
+1. **开始新审稿前，必须先执行 `ls review/ | tail -5` 确认当前最大轮次编号**，然后从 N+1 开始。
+2. **禁止依赖 plan 文件或上下文记忆中的轮次编号**——context 压缩和 session 切换会导致丢失。
 
-### 正确操作流程
+### 16.2 命名格式
 
-```bash
-# 1. 查看当前最大轮次
-ls /home/qq/KR26/review/ | sort -t'R' -k2 -n | tail -3
+- **标准格式**：`review-YYYYMMDD-R{NN}-{topic}.md`（NN 为两位数全局递增）
+- **批量文件**：`review-YYYYMMDD-R{start}-R{end}.md`（如 R39-R45）
+- **禁止混用**：统一使用 `RXX` 格式，禁止 `roundXX`
+- **内部一致**：文件第一行 `# Round {NN}` 必须与文件名编号一致
 
-# 2. 确认最大编号（例如 R57）
-# 3. 新审稿从 R58 开始命名
+### 16.3 索引维护
 
-# 4. 创建新审稿文件
-# review-20260215-R58-topic.md
-# 内部标题: # Round 58 审稿报告：...
-```
+- 每个项目 `review/` 下必须有 **INDEX.md**
+- 每轮审稿结束后更新索引
+- 跳号须在索引中注明原因
+- INDEX.md 包含：轮次映射表、累计统计、关键修复追踪、非 FIXED 清单
 
-### 根因分析
+### 16.4 每轮一文件原则
 
-- Plan 文件（`.claude/plans/`）在 session A 写入 "R13-R18 deep review"
-- Session B 开始时 context 被压缩，只看到 plan 中的 "R13-R18"，不知道 R13-R57 已存在
-- 导致创建了重复编号的 R13-R18 文件，后续修正花费大量时间
+- **建议**每轮独立文件（利于 git blame 和定位）
+- 批量文件（≤7 轮合并）可接受，但须在 INDEX.md 标注
+- 每个子轮次用 `## R{NN}: {Topic}` 作为节标题
+
+### 16.5 跨轮修复追踪
+
+- Issue 在后续轮次被修复时，须在 INDEX.md 标注修复轮次
+- 最终回归轮使用 `R{原轮}.{序号}` 格式引用（如 R13.1, R13.2）
+- 非 FIXED 条目须标注状态（DEFERRED/WONTFIX/ACCEPTED/ACKNOWLEDGED）和理由
