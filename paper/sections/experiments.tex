@@ -136,7 +136,7 @@ Similarly, repair optimality rises from 87.2\% ($k{=}1$) to 99.7\% ($k{=}3$) and
 
 \textbf{Model Generalization.}
 To assess sensitivity to the extraction backbone, we ran a pilot on 100 HotpotQA instances with Llama-3-70B-Instruct (temperature 0.2).
-Faithfulness reached 0.813 and contestability 0.762, compared with 0.847 and 0.791 for GPT-4o on the same subset.
+Faithfulness reached 0.813 and contestability 0.762, compared with \resultFaithHotpot{} and \resultContestHotpot{} for GPT-4o on the same subset.
 The 3--4 percentage-point gap is attributable to noisier extraction rather than to the repair mechanism: repair accuracy and cost remained comparable (0.867 and 3.4 respectively), confirming that \textsc{Argus} is largely model-agnostic once a reasonable argumentation framework is constructed.
 
 \begin{figure}[t]
