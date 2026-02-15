@@ -550,10 +550,10 @@ Double-blind review: do NOT include author names, affiliations, or self-identify
 
 ### 16.2 命名格式
 
-- **标准格式**：`review-YYYYMMDD-R{NN}-{topic}.md`（NN 为两位数全局递增）
-- **批量文件**：`review-YYYYMMDD-R{start}-R{end}.md`（如 R39-R45）
-- **禁止混用**：统一使用 `RXX` 格式，禁止 `roundXX`
-- **内部一致**：文件第一行 `# Round {NN}` 必须与文件名编号一致
+- **标准格式**：`review_round{N}.md`（N 为轮次号，如 `review_round8.md`）
+- **批量文件**：`review_round{start}-{end}.md`（如 `review_round39-45.md`）
+- **特殊轮次**：`review_round{N}b.md`（如 `review_round5b.md`，额外修订轮）
+- **内部一致**：文件第一行 `# Review Round {N}: {Topic}` 与文件名编号一致
 
 ### 16.3 索引维护
 

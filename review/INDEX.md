@@ -11,55 +11,55 @@
 
 | # | 文件 | 轮次 | 日期 | 焦点 | Issues |
 |---|------|------|------|------|--------|
-| 1 | review-20260211-R01-R05-initial.md | R01-R05 | 02-11 | 初始全面审查 | 14 |
-| 2 | review-20260212-R05b-revision.md | R05b | 02-12 | 修订轮 | 7 |
-| 3 | review-20260212-R06-titleabstract.md | R06 | 02-12 | 标题摘要审查 | 14 |
-| 4 | review-20260212-R07-fixes.md | R07 | 02-12 | 修复确认 | 14 |
-| 5 | review-20260212-R08-theory.md | R08 | 02-12 | KR 理论专家审查 | 10 |
-| 6 | review-20260212-R09-experiments.md | R09 | 02-12 | ML/NLP 实验审查 | 8 |
-| 7 | review-20260212-R10-writing.md | R10 | 02-12 | 写作质量审查 | 10 |
-| 8 | review-20260212-R11-adversarial.md | R11 | 02-12 | 对抗性审查 | 5 |
-| 9 | review-20260212-R12-final.md | R12 | 02-12 | 投稿前终审 | 24 |
-| 10 | review-20260213-R13-formal.md | R13 | 02-13 | 形式化审查 | 9 |
-| 11 | review-20260213-R14-citations.md | R14 | 02-13 | 引用/统计审查 | 7 |
-| 12 | review-20260213-R15-reproducibility.md | R15 | 02-13 | 可复现性检查 | 11 |
-| 13 | review-20260213-R16-mltrack.md | R16 | 02-13 | ML Track 定位 | 9 |
-| 14 | review-20260213-R17-final.md | R17 | 02-13 | R13-R16 综合终审 | 7 |
-| 15 | review-20260213-R18-formal.md | R18 | 02-13 | 形式化补充 | 2 |
-| 16 | review-20260213-R19-competitive.md | R19 | 02-13 | 竞争定位 | 1 |
-| 17 | review-20260213-R20-readability.md | R20 | 02-13 | 可读性检查 | 8 |
-| 18 | review-20260213-R21-adversarial.md | R21 | 02-13 | 对抗性审查 | 2 |
-| 19 | review-20260213-R22-data-integrity.md | R22 | 02-13 | 数据完整性 | 1 |
-| 20 | review-20260213-R23-final.md | R23 | 02-13 | R18-R22 综合终审 | 1 |
-| 21 | review-20260214-R24-bibliography.md | R24 | 02-14 | 参考文献审查 | 3 |
-| 22 | review-20260214-R25-theory.md | R25 | 02-14 | 理论深化 | 2 |
-| 23 | review-20260214-R26-experiments.md | R26 | 02-14 | 实验重审 | 6 |
-| 24 | review-20260214-R27-positioning.md | R27 | 02-14 | 新颖性/定位 | 0 |
-| 25 | review-20260214-R28-final.md | R28 | 02-14 | 综合终审 | 5 |
-| 26 | review-20260214-R29-accessibility.md | R29 | 02-14 | 可访问性/清晰度 | 3 |
-| 27 | review-20260214-R30-anonymity.md | R30 | 02-14 | 双盲匿名化 | 1 |
-| 28 | review-20260214-R31-presentation.md | R31 | 02-14 | 表达精修 | 1 |
-| 29 | review-20260214-R32-defensive.md | R32 | 02-14 | 防御性审查 | 2 |
-| 30 | review-20260214-R33-final.md | R33 | 02-14 | 全日终审 | 0 |
-| 31 | review-20260215-R34-style.md | R34 | 02-15 | 写作风格 | 0 |
-| 32 | review-20260215-R35-crossref.md | R35 | 02-15 | 交叉引用 | 0 |
-| 33 | review-20260215-R36-relatedwork.md | R36 | 02-15 | 相关工作 | 1 |
-| 34 | review-20260215-R37-reproducibility.md | R37 | 02-15 | 可复现性 | 1 |
-| 35 | review-20260215-R38-cameraready.md | R38 | 02-15 | Camera-ready 检查 | 0 |
-| 36 | review-20260215-R39-R45.md | R39-R45 | 02-15 | 7 轮批量审稿 | 19 |
-| 37 | review-20260215-R46-R51.md | R46-R51 | 02-15 | 6 轮批量审稿 | 12 |
-| 38 | review-20260215-R52-R57.md | R52-R57 | 02-15 | 6 轮批量审稿 | 3 |
-| 39 | review-20260215-R58-theory-depth.md | R58 | 02-15 | AGM 理论深化 | 3 |
-| 40 | review-20260215-R59-statistics.md | R59 | 02-15 | 统计/Bonferroni | 5 |
-| 41 | review-20260215-R60-references.md | R60 | 02-15 | 引用补充 | 4 |
-| 42 | review-20260215-R61-formalization.md | R61 | 02-15 | 形式化精确 | 4 |
-| 43 | review-20260215-R62-clarity.md | R62 | 02-15 | 清晰度改善 | 6 |
-| 44 | review-20260215-R63-adversarial.md | R63 | 02-15 | 对抗性终审 | 5 |
-| 45 | review-20260215-R64-page-compression.md | R64 | 02-15 | 页面压缩 | 1 |
-| 46 | review-20260215-R65-readability.md | R65 | 02-15 | 压缩后可读性 | 0 |
-| 47 | review-20260215-R66-adversarial.md | R66 | 02-15 | 压缩后对抗 | 2 |
-| 48 | review-20260215-R67-data-consistency.md | R67 | 02-15 | 数据一致性验证 | 117* |
-| 49 | review-20260215-R68-final-regression.md | R68 | 02-15 | 最终回归 | 22+118* |
+| 1 | review_round1-5.md | R01-R05 | 02-11 | 初始全面审查 | 14 |
+| 2 | review_round5b.md | R05b | 02-12 | 修订轮 | 7 |
+| 3 | review_round6.md | R06 | 02-12 | 标题摘要审查 | 14 |
+| 4 | review_round7.md | R07 | 02-12 | 修复确认 | 14 |
+| 5 | review_round8.md | R08 | 02-12 | KR 理论专家审查 | 10 |
+| 6 | review_round9.md | R09 | 02-12 | ML/NLP 实验审查 | 8 |
+| 7 | review_round10.md | R10 | 02-12 | 写作质量审查 | 10 |
+| 8 | review_round11.md | R11 | 02-12 | 对抗性审查 | 5 |
+| 9 | review_round12.md | R12 | 02-12 | 投稿前终审 | 24 |
+| 10 | review_round13.md | R13 | 02-13 | 形式化审查 | 9 |
+| 11 | review_round14.md | R14 | 02-13 | 引用/统计审查 | 7 |
+| 12 | review_round15.md | R15 | 02-13 | 可复现性检查 | 11 |
+| 13 | review_round16.md | R16 | 02-13 | ML Track 定位 | 9 |
+| 14 | review_round17.md | R17 | 02-13 | R13-R16 综合终审 | 7 |
+| 15 | review_round18.md | R18 | 02-13 | 形式化补充 | 2 |
+| 16 | review_round19.md | R19 | 02-13 | 竞争定位 | 1 |
+| 17 | review_round20.md | R20 | 02-13 | 可读性检查 | 8 |
+| 18 | review_round21.md | R21 | 02-13 | 对抗性审查 | 2 |
+| 19 | review_round22.md | R22 | 02-13 | 数据完整性 | 1 |
+| 20 | review_round23.md | R23 | 02-13 | R18-R22 综合终审 | 1 |
+| 21 | review_round24.md | R24 | 02-14 | 参考文献审查 | 3 |
+| 22 | review_round25.md | R25 | 02-14 | 理论深化 | 2 |
+| 23 | review_round26.md | R26 | 02-14 | 实验重审 | 6 |
+| 24 | review_round27.md | R27 | 02-14 | 新颖性/定位 | 0 |
+| 25 | review_round28.md | R28 | 02-14 | 综合终审 | 5 |
+| 26 | review_round29.md | R29 | 02-14 | 可访问性/清晰度 | 3 |
+| 27 | review_round30.md | R30 | 02-14 | 双盲匿名化 | 1 |
+| 28 | review_round31.md | R31 | 02-14 | 表达精修 | 1 |
+| 29 | review_round32.md | R32 | 02-14 | 防御性审查 | 2 |
+| 30 | review_round33.md | R33 | 02-14 | 全日终审 | 0 |
+| 31 | review_round34.md | R34 | 02-15 | 写作风格 | 0 |
+| 32 | review_round35.md | R35 | 02-15 | 交叉引用 | 0 |
+| 33 | review_round36.md | R36 | 02-15 | 相关工作 | 1 |
+| 34 | review_round37.md | R37 | 02-15 | 可复现性 | 1 |
+| 35 | review_round38.md | R38 | 02-15 | Camera-ready 检查 | 0 |
+| 36 | review_round39-45.md | R39-R45 | 02-15 | 7 轮批量审稿 | 19 |
+| 37 | review_round46-51.md | R46-R51 | 02-15 | 6 轮批量审稿 | 12 |
+| 38 | review_round52-57.md | R52-R57 | 02-15 | 6 轮批量审稿 | 3 |
+| 39 | review_round58.md | R58 | 02-15 | AGM 理论深化 | 3 |
+| 40 | review_round59.md | R59 | 02-15 | 统计/Bonferroni | 5 |
+| 41 | review_round60.md | R60 | 02-15 | 引用补充 | 4 |
+| 42 | review_round61.md | R61 | 02-15 | 形式化精确 | 4 |
+| 43 | review_round62.md | R62 | 02-15 | 清晰度改善 | 6 |
+| 44 | review_round63.md | R63 | 02-15 | 对抗性终审 | 5 |
+| 45 | review_round64.md | R64 | 02-15 | 页面压缩 | 1 |
+| 46 | review_round65.md | R65 | 02-15 | 压缩后可读性 | 0 |
+| 47 | review_round66.md | R66 | 02-15 | 压缩后对抗 | 2 |
+| 48 | review_round67.md | R67 | 02-15 | 数据一致性验证 | 117* |
+| 49 | review_round68.md | R68 | 02-15 | 最终回归 | 22+118* |
 
 *R67/R68 为验证轮，数字为检查项数而非新发现的 issue 数。
 
