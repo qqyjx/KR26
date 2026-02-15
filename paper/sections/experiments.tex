@@ -14,14 +14,14 @@ The argumentation framework is constructed and verified as described in \S\ref{s
 All experiments are repeated over 5 independent runs varying the GPT-4o generation samples and instance ordering; the ASP solver itself is deterministic. Standard deviations were ${\leq}\,0.02$ for accuracy-based metrics and ${\leq}\,0.4$ for repair cost across all methods; we report means in the tables for readability. All experiments ran on a single machine with a 20-core CPU and 64GB RAM; no GPU was required, as clingo runs on CPU and GPT-4o was accessed via the OpenAI API. The complete extraction prompt, ASP encoding, attack template library, and sampled instance IDs will be released as an open-source toolkit upon acceptance to facilitate reproduction.
 
 We measure four metrics in line with the evaluation dimensions.
-\emph{Faithfulness} measures whether each argument unit is causally relevant to the answer via counterfactual ablation (replacing each unit with a neutral placeholder and checking whether the answer changes).
-\emph{Contestability} is the fraction of gold counterarguments that the framework correctly integrates as attacks.
+\emph{Faithfulness} measures whether each argument unit is causally relevant to the answer via counterfactual ablation: each unit is replaced with a semantically neutral sentence (``This claim is omitted.'') and the answer is regenerated; a unit is faithful if its removal changes the answer.  For baselines that do not produce structured units, we apply the same LLM-based decomposition to their final output before computing the ablation, ensuring a uniform evaluation.
+\emph{Contestability} is the fraction of gold counterarguments that the framework correctly integrates as attacks; gold counterarguments are derived from the withheld supporting facts by expressing each as an argument and annotating the expected attack relationships, providing a ground truth independent of the repair mechanism.
 \emph{Repair accuracy} records whether the answer is correct after repair, and \emph{repair cost} counts edit operations per Definition~\ref{def:repair}.
 
 We compare against seven baselines spanning argumentation-based, self-correction, and verification approaches: ArgLLMs~\cite{freedman2025arglm}, ARGORA~\cite{argora2026}, SelfCheckGPT~\cite{manakul2023selfcheckgpt}, Self-Refine~\cite{madaan2023selfrefine}, Reflexion~\cite{shinn2023reflexion}, RARR~\cite{gao2023rarr}, and CoT-Verifier~\cite{ling2023deductive}.
 ArgLLMs and CoT-Verifier lack repair mechanisms (marked N/A).
 Chain-of-Verification~\cite{dhuliawala2024cove} and CRITIC~\cite{gou2024critic}, discussed in \S\ref{sec:related}, operate at generation time rather than performing post-hoc repair and are therefore excluded from the comparison.
-For self-correction baselines, repair is operationalized as detect-then-regenerate, counting regenerated units as cost; iterative methods get up to 3 rounds per their original protocols, while \textsc{Argus} performs a single-pass optimal repair.
+For self-correction baselines, repair is operationalized as detect-then-regenerate, counting regenerated argument units as cost; iterative methods get up to 3 rounds per their original protocols, while \textsc{Argus} performs a single-pass optimal repair.  Both cost measures reflect the magnitude of change to the explanation, though ARGUS operations are structural graph edits whereas baseline costs are surface-level text replacements.
 
 \begin{table}[t]
 \centering
@@ -104,7 +104,7 @@ The formal properties established in \S\ref{sec:theory} are confirmed empiricall
 \label{fig:scalability}
 \end{figure}
 
-Figure~\ref{fig:scalability} traces solve time as a function of framework size~$|\mathcal{A}|$, confirming the polynomial scaling predicted by Theorem~\ref{thm:complexity} for grounded semantics. The $k$-neighborhood approximation keeps preferred-semantics repair tractable up to $|\mathcal{A}|{=}50$, while unconstrained preferred repair exhibits exponential blowup beyond $|\mathcal{A}| \approx 25$. We omit stable semantics from Figure~\ref{fig:scalability} because, under the credulous acceptance used throughout our evaluation, stable and preferred repair share the same NP-complete complexity class (Theorem~\ref{thm:complexity}), and in our experiments the two semantics coincided in over 97\% of cases, making the distinction negligible in practice.
+Figure~\ref{fig:scalability} traces solve time as a function of framework size~$|\mathcal{A}|$, confirming the polynomial scaling predicted by Theorem~\ref{thm:complexity} for grounded semantics. The $k$-neighborhood approximation keeps preferred-semantics repair tractable up to $|\mathcal{A}|{=}50$, while unconstrained preferred repair exhibits exponential blowup beyond $|\mathcal{A}| \approx 25$. We omit stable semantics from Figure~\ref{fig:scalability} because, under the credulous acceptance used throughout our evaluation, stable and preferred repair share the same NP-complete complexity class (Theorem~\ref{thm:complexity}), and in our experiments the two semantics coincided in over 97\% of cases, making the distinction negligible in practice; this high coincidence rate is expected for the relatively sparse frameworks ($|\mathcal{A}| \leq 20$) generated from LLM explanations, whereas denser or larger frameworks may exhibit greater divergence.
 
 \begin{table}[t]
 \centering

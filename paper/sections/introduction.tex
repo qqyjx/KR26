@@ -85,7 +85,7 @@ The repair operator draws on two classical KR traditions: the AGM theory of beli
 Our contributions are as follows:
 \begin{enumerate}
     \item \textbf{(C1)} A framework that structures LLM self-explanations as Dung-style argumentation frameworks and verifies them under grounded and preferred semantics, producing defense-set certificates that make acceptance verdicts interpretable (\S\ref{sec:method}).
-    \item \textbf{(C2)} A minimal-change repair operator for explanation maintenance under evolving evidence, satisfying adapted AGM revision postulates with a complexity analysis placing the problem in P under grounded semantics and NP-complete under preferred and stable semantics (\S\ref{sec:repair}--\S\ref{sec:theory}).
+    \item \textbf{(C2)} A minimal-change repair operator that formulates explanation maintenance as a new optimization problem over argumentation frameworks, satisfying adapted AGM revision postulates with a complexity analysis placing the problem in P under grounded semantics and NP-complete under preferred and stable semantics (\S\ref{sec:repair}--\S\ref{sec:theory}).
     \item \textbf{(C3)} A scalable ASP encoding with a $k$-neighborhood approximation that restricts the search space to arguments near the target, reducing solver grounding substantially while preserving repair quality (\S\ref{sec:method}).
     \item \textbf{(C4)} An empirical evaluation on HotpotQA and FEVER validating the formal properties and demonstrating improvements in faithfulness, contestability, and repair cost w.r.t.\ seven baselines (\S\ref{sec:experiments}).
 \end{enumerate}
