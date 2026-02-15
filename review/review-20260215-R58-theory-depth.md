@@ -1,7 +1,7 @@
-# Round 13 审稿报告：理论深度强化
+# Round 58 审稿报告：理论深度强化
 
 **日期**: 2026-02-15
-**轮次**: Round 13
+**轮次**: Round 58
 **视角**: KR 资深 PC member，擅长论证理论与信念修正（Hansson/Baumann 学派）
 **目标**: Significance 3.5 → 4.0
 

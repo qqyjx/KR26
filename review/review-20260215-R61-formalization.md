@@ -1,7 +1,7 @@
-# Round 16 审稿报告：形式化精确性审查
+# Round 61 审稿报告：形式化精确性审查
 
 **日期**: 2026-02-15
-**轮次**: Round 16
+**轮次**: Round 61
 **视角**: 发表过 KR/COMMA 的形式化专家（Dvorak/Gaggl 学派）
 **目标**: Soundness 4.0 → 4.5
 
@@ -13,7 +13,7 @@
 |----|--------|------|------|------|
 | 16-1 | **MAJOR** | 全文 | set vs. sequence 不一致：Definition 4 定义 repair 为 set（无序），但 4 处 example 用 ⟨...⟩ (sequence notation)，4 处 prose 说 "sequence of edit operations" | **FIXED** |
 | 16-2 | **MAJOR** | preliminaries.tex Def 2 | σ 参数出现在 defense set 定义签名中但未在定义体中使用；Def_σ(t) 的 σ 下标无意义 | **FIXED** |
-| 16-3 | **Minor** | preliminaries.tex Def 4 | "sequence" → "set"，候选池形式化，del_arg 级联行为 | **FIXED** (R16 初始编辑) |
+| 16-3 | **Minor** | preliminaries.tex Def 4 | "sequence" → "set"，候选池形式化，del_arg 级联行为 | **FIXED** (R61 初始编辑) |
 | 16-4 | **Minor** | 全文 Examples 1-7 | Running example 一致性交叉检查 | **VERIFIED** ✅ |
 
 ---

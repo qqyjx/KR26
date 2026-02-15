@@ -1,7 +1,7 @@
-# Round 18 审稿报告：对抗性审稿模拟 + 全量回归
+# Round 63 审稿报告：对抗性审稿模拟 + 全量回归
 
 **日期**: 2026-02-15
-**轮次**: Round 18 (最终轮)
+**轮次**: Round 63 (最终轮)
 **视角**: 最苛刻 KR 审稿人 — 怀疑 LLM 论文进 KR，熟悉 enforcement 文献
 **目标**: 消除残余弱点，最终回归确认
 
@@ -30,7 +30,7 @@
 ### A4: "Faithfulness 评估循环论证" — MAJOR → ADDRESSED
 **攻击**: 同一 LLM 生成、分解、评估——闭环。
 **当前防御**:
-- R18 新增：conclusion 中明确承认 "faithfulness metric itself relies on the LLM's consistency under ablation, providing a causal proxy rather than a ground-truth measure"
+- R63 新增：conclusion 中明确承认 "faithfulness metric itself relies on the LLM's consistency under ablation, providing a causal proxy rather than a ground-truth measure"
 - experiments 中解释了统一评估确保跨方法公平性
 **评估**: 已显式承认。审稿人可能仍不满意但不会说论文"回避"了这个问题。
 

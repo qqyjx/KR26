@@ -66,16 +66,16 @@ KR26/
 │       └── kr.bst         # KR 2026 BibTeX 样式
 ├── results/               # 实验结果数据
 │   └── results.json       # 结构化结果（status: ACTUAL, 5 seeds, 2026-02-10）
-└── review/                # 审稿意见存档（9 个文件，12 轮审查）
-    ├── review-20260211-120000.md       # R1: 初始全面审查
-    ├── review-20260212-051500.md       # R2-R5: 后续审查轮次
-    ├── review-20260212-154759.md       # R6
-    ├── review-20260212-181239.md       # R7
-    ├── review-20260212-R08-theory.md   # R8: KR 理论专家审查
-    ├── review-20260212-R09-experiments.md  # R9: ML/NLP 专家审查
-    ├── review-20260212-R10-writing.md  # R10: 写作质量审查
-    ├── review-20260212-R11-adversarial.md  # R11: 对抗性审查
-    └── review-20260212-R12-final.md    # R12: 投稿前终审（READY）
+└── review/                # 审稿意见存档（49 个文件，68 轮审查）
+    ├── review-20260211-R01-R05-initial.md    # R01-R05: 初始全面审查
+    ├── review-20260212-R05b-revision.md      # R05b: 修订轮
+    ├── review-20260212-R06-titleabstract.md  # R06: 标题摘要审查
+    ├── review-20260212-R07-fixes.md          # R07: 修复确认
+    ├── review-20260212-R08-theory.md         # R08: KR 理论专家审查
+    ├── ...                                    # R09-R57: 多轮深度审稿
+    ├── review-20260215-R58-theory-depth.md   # R58: AGM 理论深化
+    ├── ...                                    # R59-R67: 统计/引用/形式化/清晰度/对抗/数据一致性
+    └── review-20260215-R68-final-regression.md  # R68: 最终回归（ALL PASS）
 ```
 
 **注意**：论文中的 TikZ 图表（Figures 1-5）内联定义在 `.tex` 文件中，无独立 `figures/` 目录。实验代码在外部服务器运行，本仓库仅含论文源文件和结构化结果数据。
@@ -452,25 +452,38 @@ Double-blind review: do NOT include author names, affiliations, or self-identify
 
 ## 14. 当前项目状态
 
-**状态**: 投稿就绪（R12 终审 PASS，2026-02-13）
+**状态**: 投稿就绪（R68 最终回归 ALL PASS，2026-02-15）
 
 | 维度 | 状态 |
 |------|------|
-| 论文内容 | ✅ 完成，9 页，0 编译错误 |
-| 数据一致性 | ✅ 10 核心宏一致，48 + 20 表格单元格验证通过 |
-| 匿名化 | ✅ 双盲合规 |
-| 格式 | ✅ KR2026 模板，≤9 页 |
-| 引用 | ✅ 26 keys = 26 entries，0 undefined references |
-| 审查轮次 | ✅ 12 轮完成，17 issues found，12 fixed，1 skipped，4 defended |
+| 论文内容 | ✅ 完成，9 正文 + ~1.5 refs + ~1 appendix = 11 页，0 编译错误 |
+| 数据一致性 | ✅ 118 项检查全部通过（10 宏 + 48+20 表格 + 15 定义 + 7 百分比 + 5 交叉引用 + 7 匿名 + 6 附录） |
+| 匿名化 | ✅ 双盲合规（Paper ID 607） |
+| 格式 | ✅ KR2026 模板，正文 ≤9 页，0 overfull hbox |
+| 引用 | ✅ 34 条引用，0 undefined references |
+| 审查轮次 | ✅ 68 轮完成（R01-R68），160+ issues found and addressed |
+| 中稿概率 | ~60-70%（综合评分 7.5-8.0/10） |
 
 ### 审查历程
 
-共进行 12 轮审查（R1-R12），覆盖理论正确性、实验设计、写作质量和对抗性审查。关键修复包括：
+共进行 68 轮审查（R01-R68），分 6 个阶段：
 
-- **R8 (CRITICAL)**: Stable credulous 复杂度应为 NP-complete（非 Σ₂ᴾ），已修正 Theorem 2
-- **R9 (CRITICAL)**: experiments.tex 中 Σ₂ᴾ 与 theory.tex 不一致，已统一
-- **R10 (MAJOR)**: 删除不存在的 supplementary material 引用
-- **R11 (MAJOR)**: Faithfulness 评估协议说明不充分，已补充
+| 阶段 | 轮次 | 日期 | 焦点 |
+|------|------|------|------|
+| 初始审查 | R01-R07 | 02-11~12 | 全面初审 + 标题/摘要/修复 |
+| 专家审查 | R08-R12 | 02-12 | 理论/实验/写作/对抗/终审 |
+| 深度打磨 | R13-R33 | 02-13~14 | 形式化/引用/可复现性/ML Track/竞争定位/匿名化 |
+| 批量审稿 | R34-R57 | 02-15 | 风格/交叉引用/相关工作/可复现性/camera-ready + 3 批量轮 |
+| 理论深化 | R58-R63 | 02-15 | AGM 深化/统计/引用补充/形式化精确/清晰度/对抗 |
+| 最终验证 | R64-R68 | 02-15 | 页面压缩/可读性/对抗/数据一致性/最终回归 |
+
+关键修复（CRITICAL/MAJOR）：
+- **R08**: Stable credulous 复杂度应为 NP-complete（非 Σ₂ᴾ），已修正 Theorem 2
+- **R13**: Running example AF 攻击关系错误，已重构为 reinstatement 模式
+- **R58**: AGM 只讨论 3/8 公设——添加 recovery 失败反例 + 5 个公设完整讨论
+- **R59**: Bonferroni 校正 + error analysis + framework 统计
+- **R60**: 补充 Bengel & Thimm / Hase et al. / Alfano et al. 三篇引用
+- **R64**: 正文从 ~9.5 页压缩到 ≤9 页（移出 Figure 5/6 + Sensitivity/Error Analysis 到 appendix）
 
 ### 形式化元素清单
 
@@ -522,3 +535,37 @@ Double-blind review: do NOT include author names, affiliations, or self-identify
 | AGM Inclusion | 100% (500 cases) |
 | AGM Vacuity | 100% |
 | Minimality | 99.7% (500 cases) |
+
+---
+
+## 16. 跨 Session 审稿轮次编号纪律（教训）
+
+> **背景**：2026-02-15 在跨 session 继续审稿时，因 context window 压缩丢失了实际轮次计数，导致新一轮审稿的编号（R13-R18、R19-R22）与已有的 R13-R57 文件重复，引发大规模文件重命名。
+
+### 铁律
+
+1. **开始新审稿前，必须先执行 `ls review/ | tail -5` 确认当前最大轮次编号**，然后从 N+1 开始编号。
+2. **禁止依赖 plan 文件或上下文记忆中的轮次编号**——context 压缩和 session 切换会导致编号信息丢失。
+3. **审稿文件命名格式**：`review-YYYYMMDD-R{NN}-{topic}.md`，其中 `{NN}` 为全局递增的两位数编号。
+4. **每个审稿文件内部**：第一行 `# Round {NN}` 必须与文件名中的编号一致。
+5. **批量审稿文件**（如 R39-R45）：文件名中使用范围 `R{start}-R{end}`，内部标题也使用范围。
+
+### 正确操作流程
+
+```bash
+# 1. 查看当前最大轮次
+ls /home/qq/KR26/review/ | sort -t'R' -k2 -n | tail -3
+
+# 2. 确认最大编号（例如 R57）
+# 3. 新审稿从 R58 开始命名
+
+# 4. 创建新审稿文件
+# review-20260215-R58-topic.md
+# 内部标题: # Round 58 审稿报告：...
+```
+
+### 根因分析
+
+- Plan 文件（`.claude/plans/`）在 session A 写入 "R13-R18 deep review"
+- Session B 开始时 context 被压缩，只看到 plan 中的 "R13-R18"，不知道 R13-R57 已存在
+- 导致创建了重复编号的 R13-R18 文件，后续修正花费大量时间
