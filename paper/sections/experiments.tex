@@ -21,7 +21,7 @@ We measure four metrics in line with the evaluation dimensions.
 We compare against seven baselines spanning argumentation-based, self-correction, and verification approaches: ArgLLMs~\cite{freedman2025arglm}, ARGORA~\cite{argora2026}, SelfCheckGPT~\cite{manakul2023selfcheckgpt}, Self-Refine~\cite{madaan2023selfrefine}, Reflexion~\cite{shinn2023reflexion}, RARR~\cite{gao2023rarr}, and CoT-Verifier~\cite{ling2023deductive}.
 ArgLLMs and CoT-Verifier lack repair mechanisms (marked N/A).
 Chain-of-Verification~\cite{dhuliawala2024cove} and CRITIC~\cite{gou2024critic}, discussed in \S\ref{sec:related}, operate at generation time rather than performing post-hoc repair and are therefore excluded from the comparison.
-For self-correction baselines, repair is operationalized as detect-then-regenerate, counting regenerated argument units as cost; iterative methods get up to 3 rounds per their original protocols, while \textsc{Argus} performs a single-pass optimal repair.  Both cost measures reflect the magnitude of change to the explanation, though ARGUS operations are structural graph edits whereas baseline costs are surface-level text replacements.
+For self-correction baselines, repair is operationalized as detect-then-regenerate, counting regenerated argument units as cost; iterative methods get up to 3 rounds per their original protocols, while \textsc{Argus} performs a single-pass optimal repair.  Both cost measures reflect the magnitude of change to the explanation, though \textsc{Argus} operations are structural graph edits whereas baseline costs are surface-level text replacements.
 
 \begin{table}[t]
 \centering
@@ -104,7 +104,7 @@ The formal properties established in \S\ref{sec:theory} are confirmed empiricall
 \label{fig:scalability}
 \end{figure}
 
-Figure~\ref{fig:scalability} traces solve time as a function of framework size~$|\mathcal{A}|$, confirming the polynomial scaling predicted by Theorem~\ref{thm:complexity} for grounded semantics. The $k$-neighborhood approximation keeps preferred-semantics repair tractable up to $|\mathcal{A}|{=}50$, while unconstrained preferred repair exhibits exponential blowup beyond $|\mathcal{A}| \approx 25$. Stable semantics is omitted from Figure~\ref{fig:scalability} because stable and preferred repair share the same NP-complete complexity class under credulous acceptance (Theorem~\ref{thm:complexity}) and coincided in over 97\% of our instances.
+Figure~\ref{fig:scalability} traces solve time as a function of framework size~$|\mathcal{A}|$, confirming the polynomial scaling predicted by Theorem~\ref{thm:complexity} for grounded semantics. The $k$-neighborhood approximation keeps preferred-semantics repair tractable up to $|\mathcal{A}|{=}50$, while unconstrained preferred repair exhibits exponential blowup beyond $|\mathcal{A}| \approx 25$. Stable semantics is omitted from Figure~\ref{fig:scalability} because stable and preferred repair share the same NP-complete complexity class under credulous acceptance (Theorem~\ref{thm:complexity}) and coincided in over 97\% of our instances; the theoretical characterization nevertheless ensures correctness for frameworks with richer extension structure.
 
 \begin{table}[t]
 \centering
