@@ -197,7 +197,7 @@ Figure~\ref{fig:cost-dist} presents the repair cost distribution across both dat
   \node[acc node] (b2) at (0.55, 0.85) {$b_2$};
   \node[rej node] (b3) at (-0.55, 0) {$b_3$};
   \node[rej node, tgt node] (bt) at (0.55, 0) {$b_t$};
-  \node[new node] (b5) at (0, -0.85) {$b_5$};
+  \node[new node] (b5) at (0, -1.15) {$b_5$};
   \draw[att edge] (b5) -- (b3);
   \draw[att edge] (b5) -- (bt);
   % --- Arrow ---
@@ -208,12 +208,12 @@ Figure~\ref{fig:cost-dist} presents the repair cost distribution across both dat
   \node[acc node] (a2) at (3.75, 0.85) {$b_2$};
   \node[acc node] (a3) at (2.65, 0) {$b_3$};
   \node[acc node, tgt node] (at) at (3.75, 0) {$b_t$};
-  \node[rej node] (a5) at (3.2, -0.85) {$b_5$};
-  \node[new node] (a6) at (4.3, -0.85) {$b_6$};
+  \node[rej node] (a5) at (3.2, -1.15) {$b_5$};
+  \node[new node] (a6) at (4.3, -1.15) {$b_6$};
   \draw[att edge] (a5) -- (a3);
   \draw[att edge] (a5) -- (at);
   \draw[att edge, NewBlue!80!black, line width=1.1pt] (a6) -- (a5);
-  \node[font=\scriptsize, text=AccGreen!70!black] at (3.2, -1.3) {cost = 2};
+  \node[font=\scriptsize, text=AccGreen!70!black] at (3.2, -1.75) {cost = 2};
 \end{tikzpicture}
 \caption{A HotpotQA repair example. \textsc{Argus} restores the target~$b_t$ by adding one argument~$b_6$ and one attack (cost~2), preserving all original arguments. Self-Refine regenerates 5 of 6 units.}
 \label{fig:repair-example}
