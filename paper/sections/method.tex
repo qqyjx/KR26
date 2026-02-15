@@ -49,7 +49,7 @@ We designate one distinguished unit~$a_t\in\mathcal{A}$ as the \emph{target argu
 \subsection{Relation Discovery and Graph Construction}\label{sec:relation}
 
 Given the argument units~$\mathcal{A}$, we construct an argumentation framework $\mathit{AF}=(\mathcal{A},\mathcal{R})$ as defined in Definition~\ref{def:af}.
-For every ordered pair $(a_i,a_j)$ with $i\neq j$, we query a natural language inference (NLI) model to classify the relationship between~$c_i$ and~$c_j$.
+For every ordered pair $(a_i,a_j)$ with $i\neq j$, we query a natural language inference (NLI) model---a neural classifier trained to determine entailment, contradiction, or neutrality between text pairs---to classify the relationship between~$c_i$ and~$c_j$.
 A \emph{contradiction} verdict yields an attack $(a_i,a_j)\in\mathcal{R}$, while an \emph{entailment} verdict records a support link used for downstream analysis but not encoded in~$\mathcal{R}$, since Dung-style frameworks model attacks only~\cite{dung1995acceptability}.
 To improve recall on domain-specific rebuttals, we maintain an \emph{attack template library}---a curated set of negation patterns, common exceptions, and defeasible-rule conflicts.
 Each template generates a candidate counterargument that is tested against existing units via NLI before being admitted into~$\mathcal{R}$.
@@ -117,4 +117,4 @@ When the solver selects $\mathsf{add\_arg}(a)$, the natural-language claim for t
 Even under preferred semantics the repair problem is NP-complete (Theorem~\ref{thm:complexity}), rising to $\Sigma_2^P$-completeness under skeptical stable semantics~\cite{dvorak2012computational}, so we introduce two approximation strategies.
 First, a $k$-neighborhood restriction limits the search space to arguments within undirected distance~$k$ of the target in the attack graph; in our experiments, setting $k{=}3$ recovered optimal repairs in 99.7\% of cases while substantially reducing solver grounding.
 Second, when ASP solvers are unavailable, beam search over repair sequences with width~$b$ provides a bounded-depth heuristic alternative.
-The approximation can miss optimal repairs when the only viable defender lies at distance greater than~$k$ from the target---a scenario that requires long attack chains.  In the LLM explanation frameworks we study, argument graphs are shallow (median depth~3, maximum~7), so $k{=}3$ is sufficient; for deeper domains, $k$ should be increased accordingly.
+The approximation can miss optimal repairs when the only viable defender lies at distance greater than~$k$ from the target---a scenario that requires long attack chains---and in principle a repair valid for the subgraph may not preserve validity in the full framework if distant arguments influence the target's status.  In the LLM explanation frameworks we study, argument graphs are shallow (median depth~3, maximum~7), so $k{=}3$ is sufficient; for deeper domains, $k$ should be increased accordingly.

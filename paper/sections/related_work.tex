@@ -32,4 +32,5 @@ In argumentation, Cayrol et al.~\cite{cayrol2019argumentation} and Baumann and B
 Alfano et al.~\cite{alfano2024counterfactual} develop counterfactual explanations for abstract argumentation via weak-constrained ASP encodings; their approach identifies minimal changes that would \emph{reverse} an acceptance verdict, whereas \textsc{Argus} computes minimal changes that \emph{restore} a verdict disrupted by external evidence.
 In particular, Coste-Marquis et al.\ enforce a desired extension through minimum structural modifications, whereas our formulation targets a single argument's status, incorporates evidence updates as a first-class input, and supports heterogeneous cost functions that reflect argument-level confidence.
 Our repair operator instantiates these ideas for LLM explanation maintenance, introducing a weighted cost model tailored to argument confidence and structural role.
+We now formalize the core concepts underlying the \textsc{Argus} framework.
 

@@ -7,7 +7,7 @@ We establish three groups of results for the \textsc{Argus} repair operator: com
 
 The AGM theory of belief revision~\cite{alchourron1985agm} prescribes rationality postulates that any principled revision operator should satisfy.  We adapt three core postulates---success, inclusion, and vacuity---to the argumentation repair setting.  Intuitively, success requires that the repair achieves the desired outcome; inclusion requires that the repaired framework retains as much of the original as possible; and vacuity requires that no edits are made when the current state already satisfies the goal.
 
-\begin{theorem}[AGM Compliance]\label{thm:agm}
+\begin{theorem}[Adapted AGM Compliance]\label{thm:agm}
 Let $\mathit{AF}=(\mathcal{A},\mathcal{R})$ be an argumentation framework, $\sigma$ an argumentation semantics, $a_t$ a target argument, $s\in\{\textsc{in},\textsc{out}\}$ a desired status, $\Delta$ an evidence update, and $\kappa$ a strictly positive cost function ($\kappa(o)>0$ for every operation~$o$).  If a valid repair exists, then every optimal repair $\mathit{Ops}^*$ returned by Definition~\ref{def:repair} satisfies:
 \begin{enumerate}
     \item \textbf{Success.} The target $a_t$ has status $s$ in $\mathit{AF}'=\mathsf{apply}(\mathit{AF},\Delta,\mathit{Ops}^*)$ under $\sigma$.
@@ -17,7 +17,7 @@ Let $\mathit{AF}=(\mathcal{A},\mathcal{R})$ be an argumentation framework, $\sig
 \end{theorem}
 
 \begin{proof}[Proof sketch]
-Success follows directly from the validity constraint in Definition~\ref{def:repair}: any repair returned by the solver satisfies the prescribed status.  For inclusion, suppose some $\mathsf{del\_arg}(a)\in\mathit{Ops}^*$ were unnecessary for validity; removing it would yield a valid repair of strictly lower cost ($\kappa>0$), contradicting optimality---hence every deletion in $\mathit{Ops}^*$ is necessary, and all non-deleted elements are retained.  Vacuity is immediate: when no edits are needed, the empty set is valid and has cost zero, so no non-empty set can be cheaper.
+Success follows directly from the validity constraint in Definition~\ref{def:repair}: any repair returned by the solver satisfies the prescribed status.  Inclusion holds because elements not targeted by any deletion operation are preserved by the semantics of $\mathsf{apply}$; moreover, optimality ensures that every deletion in $\mathit{Ops}^*$ is necessary---removing an unnecessary $\mathsf{del\_arg}(a)$ would yield a valid repair of strictly lower cost ($\kappa>0$), contradicting optimality.  Vacuity is immediate: when no edits are needed, the empty set is valid and has cost zero, so no non-empty set can be cheaper.
 \end{proof}
 
 \begin{example}[Continuing Example~\ref{ex:running}]\label{ex:agm}
@@ -29,7 +29,7 @@ Inclusion: no original argument is removed---the repair only adds~$a_6$ and the 
 Among the eight classical AGM postulates~\cite{katsuno1992update}, \emph{consistency} and \emph{extensionality} also hold: consistency follows because every valid repair produces a framework with at least one $\sigma$-extension (under preferred semantics), and extensionality holds because the operator is defined purely over graph structure.
 \emph{Recovery} fails in our setting.  In Example~\ref{ex:running}, repairing $F_1$ yields $F_2$ by adding $a_6$ and $(a_6,a_5)$; if the evidence $a_5$ were subsequently retracted, $F_2$ would retain $a_6$ and its attack---the original framework $F_0$ is not recovered.  This asymmetry is fundamental: structural additions made during repair cannot be automatically unwound by evidence retraction, unlike classical belief revision where recovery ensures reversibility.
 \emph{Closure}, \emph{superexpansion}, and \emph{subexpansion} presuppose deductively closed belief sets---constructs without natural analogues in argumentation frameworks where ``beliefs'' are graph-structural elements rather than logical sentences.
-To our knowledge, this is the first formal bridge between AGM rationality criteria and argumentation-based explanation repair.  The challenge is non-trivial: unlike classical belief revision where the input is a sentence, our setting requires reasoning about graph-structural changes where inclusion and vacuity interact with the combinatorial structure of extensions; a full axiomatic characterization is a direction for future work.
+To the best of our knowledge, this is the first formal bridge between AGM rationality criteria and argumentation-based explanation repair for LLM self-explanations.  While individual postulates follow naturally from cost minimization, the contribution lies in identifying which AGM rationality criteria have meaningful argumentation analogues and establishing that our operator satisfies them; unlike classical belief revision where the input is a sentence, our setting requires reasoning about graph-structural changes where inclusion and vacuity interact with the combinatorial structure of extensions.  A full axiomatic characterization---a representation theorem connecting the adapted postulates to the class of minimum-cost repair operators---is a direction for future work.
 
 \subsection{Computational Complexity}
 
