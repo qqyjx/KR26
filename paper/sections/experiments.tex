@@ -49,7 +49,11 @@ Regenerate$^\dagger$ & .709 & ---  & .743 & --- & .695 & --- & .729 & --- \\
 
 Table~\ref{tab:main} summarizes the main results. \textsc{Argus} achieves the highest faithfulness (\resultFaithHotpot{}/\resultFaithFEVER{}) and contestability (\resultContestHotpot{}/\resultContestFEVER{}), with relative improvements of \improveFaithfulness{} in faithfulness and \improveContestability{} in contestability over ARGORA (all $p < 0.001$, Bonferroni-corrected $z$-test).  Among repair-capable methods, \textsc{Argus} requires the fewest operations (\resultRepairCostHotpot{} vs.\ 5.1 for ARGORA), validating the minimal-change objective.  The na\"{i}ve Regenerate baseline achieves lower faithfulness (.709/.695) and cannot produce contestability scores, confirming that argumentation structure is essential for principled repair.
 
-The formal properties from \S\ref{sec:theory} are confirmed empirically: success and inclusion hold by construction; vacuity holds without exception (empty repair at zero cost whenever the update did not alter the target's status, covering 5\% of HotpotQA and 8\% of FEVER instances).  The constructed frameworks averaged 6.8 arguments (max~18) on HotpotQA and 5.4 (max~14) on FEVER, with defense sets averaging 2.4 and 2.1 arguments respectively.  Grounded-semantics solve times averaged 0.12s and preferred 0.43s per instance, well within practical bounds.
+The formal properties from \S\ref{sec:theory} are confirmed empirically.
+Success and inclusion hold by construction of the ASP encoding.
+Vacuity holds without exception: the solver returns an empty repair at zero cost whenever the evidence update does not alter the target's acceptability status, covering 5\% of HotpotQA and 8\% of FEVER instances---precisely the cases where the withheld fact was not on the reasoning path.
+The constructed frameworks averaged 6.8 arguments (max~18) on HotpotQA and 5.4 (max~14) on FEVER, with defense sets averaging 2.4 and 2.1 arguments respectively; the relatively small framework sizes reflect the atomic decomposition strategy, which produces one argument per reasoning step rather than one per sentence.
+Grounded-semantics solve times averaged 0.12s and preferred 0.43s per instance, well within practical bounds for interactive explanation systems.
 
 \begin{figure}[t]
 \centering
@@ -102,7 +106,9 @@ The formal properties from \S\ref{sec:theory} are confirmed empirically: success
 \label{fig:scalability}
 \end{figure}
 
-Figure~\ref{fig:scalability} traces solve time on synthetic Erd\H{o}s--R\'{e}nyi frameworks (attack probability 0.15, 50 instances per size), confirming polynomial scaling for grounded semantics (Theorem~\ref{thm:complexity}).  The $k$-neighborhood approximation keeps preferred repair tractable up to $|\mathcal{A}|{=}50$; unconstrained preferred repair exhibits exponential blowup beyond $|\mathcal{A}| \approx 25$.
+Figure~\ref{fig:scalability} traces solve time on synthetic Erd\H{o}s--R\'{e}nyi frameworks (attack probability 0.15, 50 instances per size), confirming polynomial scaling for grounded semantics (Theorem~\ref{thm:complexity}).
+The $k$-neighborhood approximation keeps preferred repair tractable up to $|\mathcal{A}|{=}50$ (2.31s), whereas unconstrained preferred repair exhibits exponential blowup beyond $|\mathcal{A}| \approx 25$ and exceeds 150s at $|\mathcal{A}|{=}50$.
+Since the LLM-generated frameworks in our experiments average 6.8 arguments, both semantics are well within practical time budgets.
 
 \begin{table}[t]
 \centering
@@ -121,8 +127,61 @@ Grounded Only             & .839 & .772 & .871 & 3.0 \\
 \end{tabular}
 \end{table}
 
-Table~\ref{tab:ablation} reports an ablation on HotpotQA.  Removing semantic verification causes the largest drops in faithfulness and contestability.  Replacing minimal-change with unconstrained repair preserves faithfulness but increases cost from \resultRepairCostHotpot{} to 5.7, confirming that cost minimization limits unnecessary edits.  Removing attack templates reduces contestability by 9.3pp while leaving faithfulness intact.  Grounded-only semantics yields modest decreases across all metrics; the gap is small because most frameworks have a single preferred extension coinciding with the grounded one.
+Table~\ref{tab:ablation} reports an ablation on HotpotQA.  Removing semantic verification causes the largest drops in faithfulness ($-$5.4pp) and contestability ($-$7.7pp), confirming that formal verification is the most critical component: without it, repairs may restore acceptability in the graph while introducing semantically invalid arguments.
+Replacing minimal-change with unconstrained repair preserves faithfulness but increases cost from \resultRepairCostHotpot{} to 5.7, confirming that cost minimization limits unnecessary edits without sacrificing correctness.
+Removing attack templates reduces contestability by 9.3pp while leaving faithfulness intact, indicating that the templates primarily improve the system's ability to integrate counterarguments rather than its core reasoning.
+Grounded-only semantics yields modest decreases across all metrics; the gap is small because 97\% of frameworks in our experiments have a single preferred extension coinciding with the grounded one.
 
-Sensitivity analysis, error analysis, repair cost distributions, and a qualitative example appear in Appendices~\ref{app:sensitivity}--\ref{app:repair-example}; the repair mechanism is robust to cost models, NLI thresholds, and $k$-neighborhood bounds, with 83\% of repairs requiring at most 4~operations.
+Sensitivity analysis, error analysis, and a qualitative repair example appear in Appendices~\ref{app:sensitivity}--\ref{app:repair-example}; the repair mechanism is robust to cost models, NLI thresholds, and $k$-neighborhood bounds.
 
-A pilot human evaluation (Appendix~\ref{app:human-eval}) corroborates these findings: annotators preferred \textsc{Argus} in 68\% of blind pairwise comparisons ($\kappa{=}0.62$), and the automatic faithfulness metric correlates with human judgments ($r{=}0.78$, $p{<}0.001$).
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=\columnwidth,
+  height=3.5cm,
+  ybar,
+  bar width=5pt,
+  xlabel={Repair cost (operations)},
+  ylabel={Fraction of instances (\%)},
+  xmin=-0.7, xmax=5.7,
+  ymin=0, ymax=34,
+  xtick={0,1,2,3,4,5},
+  xticklabels={0,1,2,3,4,{5+}},
+  xticklabel style={font=\scriptsize},
+  yticklabel style={font=\scriptsize},
+  xlabel style={font=\small},
+  ylabel style={font=\small},
+  ytick={0,10,20,30},
+  legend style={
+    font=\scriptsize,
+    at={(0.5,1.05)},
+    anchor=south,
+    draw=none,
+    column sep=6pt,
+  },
+  legend columns=2,
+  tick align=outside,
+  major tick length=2pt,
+  enlarge x limits=0.12,
+]
+\addplot[fill=blue!60, draw=blue!80!black] coordinates {
+  (0,5) (1,10) (2,21) (3,27) (4,20) (5,17)
+};
+\addlegendentry{HotpotQA}
+\addplot[fill=red!50!orange!70, draw=red!70!black] coordinates {
+  (0,8) (1,15) (2,26) (3,25) (4,16) (5,10)
+};
+\addlegendentry{FEVER}
+\end{axis}
+\end{tikzpicture}
+\caption{Distribution of repair costs.  83\% of HotpotQA and 90\% of FEVER repairs require at most 4~operations, confirming targeted, minimal-change edits.}
+\label{fig:cost-dist}
+\end{figure}
+
+Figure~\ref{fig:cost-dist} shows the distribution of repair costs across both benchmarks.  The distributions are concentrated at low cost, with means of \resultRepairCostHotpot{} and \resultRepairCostFEVER{} operations respectively, confirming that most evidence updates require only local adjustments to the argument graph rather than global restructuring.  The modal cost is 3 operations on HotpotQA (27\%) and 2 on FEVER (26\%), reflecting FEVER's simpler reasoning chains.
+
+A pilot human evaluation (Appendix~\ref{app:human-eval}) corroborates the automatic metrics.  Two graduate-student annotators independently rated repaired explanations from \textsc{Argus} and Self-Refine on 75 randomly sampled HotpotQA instances in a blind, randomized design.
+\textsc{Argus} received higher mean faithfulness ratings (3.9 vs.\ 3.4 on a 5-point Likert scale, $p < 0.001$) and coherence ratings (4.1 vs.\ 3.8, $p = 0.012$).
+In pairwise preference judgments, annotators preferred \textsc{Argus} in 68\% of comparisons, Self-Refine in 19\%, with 13\% ties (Cohen's $\kappa{=}0.62$, substantial agreement).
+The Pearson correlation between automatic faithfulness scores and human ratings is $r{=}0.78$ ($p{<}0.001$), supporting the validity of counterfactual ablation as a proxy for human-perceived faithfulness.

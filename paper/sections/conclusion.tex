@@ -14,3 +14,8 @@ Third, while a pilot human evaluation (Appendix~\ref{app:human-eval}) confirms t
 Extending the approach to open-ended generation---where correctness is less well-defined and the target argument may lack a ground-truth referent---would require alternative acceptance criteria such as coherence-based semantics.
 Finally, while the framework supports multiple cost models, our experiments use uniform cost for simplicity; learning domain-specific cost functions from user feedback---including external calibration of the LLM's self-assessed confidence scores---is a promising direction for future work.
 
+Beyond these limitations, several avenues for future work emerge.
+First, composing \textsc{Argus} with sequence explanations~\cite{bengel2025sequence}---which trace \emph{why} an argument is accepted---would yield a bidirectional explanation infrastructure that both diagnoses and repairs acceptance verdicts.
+Second, integrating the repair operator into retrieval-augmented generation pipelines could provide continual explanation maintenance as knowledge bases evolve, particularly in high-stakes domains such as clinical decision support and legal reasoning where audit trails of explanation changes are legally mandated.
+Third, the representation theorem (Theorem~\ref{thm:representation}) opens the door to learning cost functions from human correction patterns, enabling the repair operator to adapt to domain-specific notions of minimality.
+
