@@ -8,8 +8,8 @@ Experiments on HotpotQA and FEVER yielded relative improvements of up to \improv
 
 Several limitations warrant discussion.
 First, the quality of the argumentation framework depends on the LLM's ability to decompose rationales into atomic argument units; extraction errors propagate through the entire pipeline.
+Relatedly, the $\mathsf{add\_arg}$ operation uses the same LLM to generate repair candidates, though the NLI and ASP verification stages serve as external checks that break self-referential bias; integrating retrieval-augmented verification for generated arguments is a natural extension.
 Second, while the $k$-neighborhood approximation handles the framework sizes encountered in our experiments, frameworks with hundreds of densely connected arguments may require more aggressive approximation strategies.
 Third, our evaluation relies on automatic metrics over fact-checking and multi-hop QA datasets, with evidence updates constructed by withholding gold supporting facts; a human evaluation of explanation quality and naturalistically occurring evidence updates would further strengthen the empirical validation, and extending the approach to open-ended generation where the notion of a ``correct'' explanation is less well-defined remains an open challenge.
-Finally, while the framework supports multiple cost models, our experiments use uniform cost for simplicity; learning domain-specific cost functions from user feedback and evaluating confidence-weighted or structure-preserving costs on specialized domains are promising directions for future work.
-Relatedly, the confidence-weighted cost model relies on the LLM's self-assessed confidence scores, whose calibration varies across models and domains; integrating external calibration signals could improve cost model fidelity.
+Finally, while the framework supports multiple cost models, our experiments use uniform cost for simplicity; learning domain-specific cost functions from user feedback---including external calibration of the LLM's self-assessed confidence scores---is a promising direction for future work.
 

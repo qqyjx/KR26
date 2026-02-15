@@ -21,7 +21,7 @@ We now define the key notion linking argumentation semantics to explanation.
 An argument $a \in \mathcal{A}$ is \emph{credulously accepted} under $\sigma$ if $a$ belongs to at least one extension in $\sigma(F)$, and \emph{skeptically accepted} if it belongs to every extension.
 
 \begin{definition}[Defense Set]\label{def:defense-set}
-Given an AF $F = (\mathcal{A}, \mathcal{R})$, semantics $\sigma$, and a skeptically accepted argument $t \in \mathcal{A}$, a \emph{defense set} for $t$ is a minimal admissible set $D \subseteq \mathcal{A}$ such that $t \in D$. We write $\mathit{Def}_\sigma(t)$ for the collection of all defense sets of $t$ under $\sigma$.
+Given an AF $F = (\mathcal{A}, \mathcal{R})$, semantics $\sigma$, and an argument $t \in \mathcal{A}$, a \emph{defense set} for $t$ is a minimal admissible set $D \subseteq \mathcal{A}$ such that $t \in D$. We write $\mathit{Def}_\sigma(t)$ for the collection of all defense sets of $t$ under $\sigma$.
 \end{definition}
 
 \begin{example}[Continuing Example~\ref{ex:running}]\label{ex:defense}
@@ -29,6 +29,7 @@ In~$F_0$ (Figure~\ref{fig:af-evolution}a), $D = \{a_3, a_4\}$ is a defense set f
 In~$F_1$, $D$~is no longer admissible because $a_3$ is attacked by~$a_5$ with no counterattack, so the defense of~$a_4$ collapses.
 \end{example}
 
+When $t$ is credulously but not skeptically accepted, defense sets exist only for the extensions containing~$t$; our repair targets the existence of at least one such set.
 Defense sets serve as formal explanations: each $D \in \mathit{Def}_\sigma(t)$ identifies the smallest self-defending coalition that sustains $t$, transforming opaque LLM rationales into objects whose validity can be checked against argumentation semantics~\cite{dunne2009complexity}.
 
 \subsection{Task Setting}
