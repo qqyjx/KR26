@@ -79,15 +79,14 @@ A minimal-change repair instead seeks the smallest edit---such as introducing $a
 
 We propose \textsc{Argus}, a framework that bridges this gap by unifying argumentation-based verification with minimal-change repair.
 Given an LLM-generated explanation, \textsc{Argus} decomposes it into atomic argument units, constructs an argumentation framework in the sense of Dung~\cite{dung1995acceptability}, and verifies whether the target claim is accepted under a chosen semantics.
-When new evidence renders the explanation inconsistent, \textsc{Argus} computes a minimum-cost sequence of edit operations---adding or removing arguments and attacks---that restores the desired acceptability status.
-The repair operator draws on two classical KR traditions: the AGM theory of belief revision~\cite{alchourron1985agm}, which supplies the minimal-change principle, and argumentation dynamics~\cite{cayrol2019argumentation}, which provides the formal machinery for reasoning about changes to attack structures.
+When new evidence renders the explanation inconsistent, \textsc{Argus} computes a minimum-cost set of edit operations---adding or removing arguments and attacks---that restores the desired acceptability status.
+The repair operator draws on two classical KR traditions: the AGM theory of belief revision~\cite{alchourron1985agm}, which supplies the minimal-change principle, and argumentation dynamics~\cite{cayrol2019argumentation}, which provides formal machinery for structural change.
+Because the repair operates on an explicit graph structure external to the LLM, it admits formal guarantees---AGM compliance, complexity bounds, provable preservation of unaffected reasoning---that are unattainable when editing model internals or regenerating from scratch.
 
 Our contributions are as follows:
 \begin{enumerate}
-    \item \textbf{(C1)} A framework that structures LLM self-explanations as Dung-style argumentation frameworks and verifies them under grounded and preferred semantics, producing defense-set certificates that make acceptance verdicts interpretable (\S\ref{sec:method}).
+    \item \textbf{(C1)} A framework that structures LLM self-explanations as Dung-style argumentation frameworks, verifies them under grounded and preferred semantics, and produces defense-set certificates for interpretable verdicts (\S\ref{sec:method}).
     \item \textbf{(C2)} A minimal-change repair operator that formulates explanation maintenance as a new optimization problem over argumentation frameworks, satisfying adapted AGM revision postulates with a complexity analysis placing the problem in P under grounded semantics and NP-complete under preferred and stable semantics (\S\ref{sec:repair}--\S\ref{sec:theory}).
-    \item \textbf{(C3)} A scalable ASP encoding with a $k$-neighborhood approximation that restricts the search space to arguments near the target, reducing solver grounding substantially while preserving repair quality (\S\ref{sec:method}).
+    \item \textbf{(C3)} A scalable ASP encoding with a $k$-neighborhood approximation that preserves repair quality while substantially reducing solver grounding (\S\ref{sec:method}).
     \item \textbf{(C4)} An empirical evaluation on HotpotQA and FEVER validating the formal properties and demonstrating improvements in faithfulness, contestability, and repair cost w.r.t.\ seven baselines (\S\ref{sec:experiments}).
 \end{enumerate}
-
-

@@ -69,7 +69,7 @@ We formalize this requirement below.
 
 \textbf{Repair Operations.}
 We define four elementary edit operations: $\mathsf{add\_arg}(a)$ and $\mathsf{del\_arg}(a)$ insert or remove an argument (deletions cascade to incident attacks), while $\mathsf{add\_att}(a_i,a_j)$ and $\mathsf{del\_att}(a_i,a_j)$ insert or remove attacks.
-A sequence of operations yields a repaired framework $\mathit{AF}'=(\mathcal{A}',\mathcal{R}')$.
+A set of operations yields a repaired framework $\mathit{AF}'=(\mathcal{A}',\mathcal{R}')$.
 
 \textbf{Cost Function.}
 Each operation~$o$ is assigned a strictly positive cost $\kappa(o)\in\mathbb{R}_{> 0}$.
@@ -78,11 +78,11 @@ Under \emph{uniform cost}, every operation costs~$1$, so the objective reduces t
 Under \emph{confidence-weighted cost}, argument deletions are weighted by the confidence of the removed argument, $\kappa(\mathsf{del\_arg}(a_i))=\gamma_i$ (recall $\gamma_i > 0$ for all extracted arguments), while additions retain unit cost $\kappa(\mathsf{add\_arg})=\kappa(\mathsf{add\_att})=1$, reflecting the intuition that highly confident claims should be more expensive to retract.
 Under \emph{structure-preserving cost}, deletions are penalized more heavily than additions, $\kappa(\mathsf{del\_\cdot})\;{=}\;w\cdot\kappa(\mathsf{add\_\cdot})$ for some $w>1$, encouraging the solver to repair by augmentation rather than removal.
 
-The repair problem is formalized in Definition~\ref{def:repair}. Given the cost function~$\kappa$ and evidence update~$\Delta$, the solver seeks an optimal repair---a sequence of edit operations of minimum total cost such that $a_t$ attains the desired status under~$\sigma$.
+The repair problem is formalized in Definition~\ref{def:repair}. Given the cost function~$\kappa$ and evidence update~$\Delta$, the solver seeks an optimal repair---a set of edit operations of minimum total cost such that $a_t$ attains the desired status under~$\sigma$.
 
 \begin{example}[Continuing Example~\ref{ex:running}]\label{ex:cost}
 Under confidence-weighted cost with $\gamma_5 = 0.90$ (a verified lab result) and $\gamma_3 = 0.75$ (a symptomatic inference), deleting~$a_5$ costs $\kappa(\mathsf{del\_arg}(a_5)) = 0.90$.
-The augmentation repair $\langle \mathsf{add\_arg}(a_6), \mathsf{add\_att}(a_6, a_5) \rangle$ avoids removing any high-confidence argument, yielding total cost $2\kappa(\mathsf{add\_\cdot})$; this repair is cheaper whenever $\kappa(\mathsf{add\_\cdot}) < 0.45$.
+The augmentation repair $\{\mathsf{add\_arg}(a_6), \mathsf{add\_att}(a_6, a_5)\}$ avoids removing any high-confidence argument, yielding total cost $2\kappa(\mathsf{add\_\cdot})$; this repair is cheaper whenever $\kappa(\mathsf{add\_\cdot}) < 0.45$.
 Under structure-preserving cost with $w=2$, deleting~$a_5$ costs~$2$ while the augmentation still costs~$2$, making the two equally expensive and allowing domain preferences to break the tie.
 \end{example}
 

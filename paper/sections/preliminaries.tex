@@ -21,7 +21,7 @@ We now define the key notion linking argumentation semantics to explanation.
 An argument $a \in \mathcal{A}$ is \emph{credulously accepted} under $\sigma$ if $a$ belongs to at least one extension in $\sigma(F)$, and \emph{skeptically accepted} if it belongs to every extension.
 
 \begin{definition}[Defense Set]\label{def:defense-set}
-Given an AF $F = (\mathcal{A}, \mathcal{R})$, semantics $\sigma$, and an argument $t \in \mathcal{A}$, a \emph{defense set} for $t$ is a minimal admissible set $D \subseteq \mathcal{A}$ such that $t \in D$. We write $\mathit{Def}_\sigma(t)$ for the collection of all defense sets of $t$ under $\sigma$.
+Given an AF $F = (\mathcal{A}, \mathcal{R})$, semantics $\sigma$, and an argument $t \in \mathcal{A}$, a \emph{defense set} for $t$ under $\sigma$ is a minimal admissible set $D \subseteq \mathcal{A}$ such that $t \in D$ and $D \subseteq E$ for some $E \in \sigma(F)$. We write $\mathit{Def}_\sigma(t)$ for the collection of all such sets.
 \end{definition}
 
 \begin{example}[Continuing Example~\ref{ex:running}]\label{ex:defense}
@@ -52,12 +52,12 @@ The target $a_t$ is \emph{accepted} under $\sigma$ if it belongs to at least one
 When an evidence update $\Delta$ renders the explanation inconsistent, the system must revise the argument graph following the principle of minimal change~\cite{alchourron1985agm}.
 
 \begin{definition}[Minimal-Change Repair Problem]\label{def:repair}
-Let $\mathit{AF} = (\mathcal{A}, \mathcal{R})$ be an AF, $\sigma$ a semantics, $a_t \in \mathcal{A}$ a target argument, $s \in \{\textsc{in}, \textsc{out}\}$ a desired status, $\Delta$ an evidence update, and $\kappa$ a strictly positive cost function ($\kappa(o) > 0$ for every operation~$o$). A \emph{repair} is a sequence of edit operations $\mathit{Ops} = \langle o_1, \ldots, o_m \rangle$ where each $o_i$ is one of $\mathsf{add\_arg}(a)$, $\mathsf{del\_arg}(a)$, $\mathsf{add\_att}(a,b)$, or $\mathsf{del\_att}(a,b)$ for arguments $a, b$. Let $\mathit{AF}' = \mathsf{apply}(\mathit{AF}, \Delta, \mathit{Ops})$ denote the framework obtained by first incorporating $\Delta$ and then executing $\mathit{Ops}$. A repair is \emph{valid} if $a_t$ has status $s$ under $\sigma$ in $\mathit{AF}'$, and an \emph{optimal repair} minimizes $\sum_{i=1}^{m} \kappa(o_i)$ over all valid repairs.
+Let $\mathit{AF} = (\mathcal{A}, \mathcal{R})$ be an AF, $\sigma$ a semantics, $a_t \in \mathcal{A}$ a target argument, $s \in \{\textsc{in}, \textsc{out}\}$ a desired status, $\Delta$ an evidence update, and $\kappa$ a strictly positive cost function ($\kappa(o) > 0$ for every operation~$o$). A \emph{repair} is a finite set of edit operations $\mathit{Ops} = \{o_1, \ldots, o_m\}$ where each $o_i$ is one of $\mathsf{add\_arg}(a)$ for $a \notin \mathcal{A}\cup\mathcal{A}^+$, $\mathsf{del\_arg}(a)$ for $a \in \mathcal{A}\cup\mathcal{A}^+$ (which also removes all attacks incident to~$a$), $\mathsf{add\_att}(a,b)$, or $\mathsf{del\_att}(a,b)$. Let $\mathit{AF}' = \mathsf{apply}(\mathit{AF}, \Delta, \mathit{Ops})$ denote the framework obtained by first incorporating $\Delta$ and then executing $\mathit{Ops}$. A repair is \emph{valid} if $a_t$ has status $s$ under $\sigma$ in $\mathit{AF}'$, and an \emph{optimal repair} minimizes $\sum_{i=1}^{m} \kappa(o_i)$ over all valid repairs.
 \end{definition}
 
 \begin{example}[Continuing Example~\ref{ex:running}]\label{ex:repair-ex}
-As shown in Figure~\ref{fig:af-evolution}(c), the repair $\mathit{Ops} = \langle \mathsf{add\_arg}(a_6), \mathsf{add\_att}(a_6, a_5) \rangle$ restores~$a_4$ at total cost~$2$ under uniform cost ($\kappa \equiv 1$).
-The alternative $\mathit{Ops}' = \langle \mathsf{del\_arg}(a_5) \rangle$ costs~$1$ but discards evidence; under structure-preserving cost with $\kappa(\mathsf{del\_\cdot}) = 2\kappa(\mathsf{add\_\cdot})$, both repairs cost~$2$, and domain preferences break the tie.
+As shown in Figure~\ref{fig:af-evolution}(c), the repair $\mathit{Ops} = \{\mathsf{add\_arg}(a_6), \mathsf{add\_att}(a_6, a_5)\}$ restores~$a_4$ at total cost~$2$ under uniform cost ($\kappa \equiv 1$).
+The alternative $\mathit{Ops}' = \{\mathsf{del\_arg}(a_5)\}$ costs~$1$ but discards evidence; under structure-preserving cost with $\kappa(\mathsf{del\_\cdot}) = 2\kappa(\mathsf{add\_\cdot})$, both repairs cost~$2$, and domain preferences break the tie.
 \end{example}
 
 The cost function $\kappa$ encodes domain-specific preferences (e.g., deletions costlier than additions), connecting to enforcement in abstract argumentation~\cite{baumann2010complexity,cayrol2019argumentation} while adding an explicit cost model for explanation maintenance.
