@@ -34,7 +34,7 @@ A minimal-change repair instead seeks the smallest edit---such as introducing $a
 
 \begin{figure*}[t]
 \centering
-\subcaptionbox{$F_0$: Initial framework ($a_4$ accepted)\label{fig:af-f0}}[0.30\textwidth]{%
+\subcaptionbox{$F_0$: Initial framework ($a_4$ accepted)\label{fig:af-f0}}[0.24\textwidth]{%
 \begin{tikzpicture}
   \node[acc node] (a1) at (0, 2.0) {$a_1$};
   \node[acc node] (a2) at (1.2, 2.0) {$a_2$};
@@ -45,11 +45,11 @@ A minimal-change repair instead seeks the smallest edit---such as introducing $a
   \draw[att edge] (a0) -- (a4);
 \end{tikzpicture}%
 }\hfill
-\subcaptionbox{$F_1$: After evidence update ($a_4$ rejected)\label{fig:af-f1}}[0.33\textwidth]{%
+\subcaptionbox{$F_1$: After evidence update ($a_4$ rejected)\label{fig:af-f1}}[0.36\textwidth]{%
 \begin{tikzpicture}
   \node[acc node] (a1) at (0, 2.0) {$a_1$};
   \node[acc node] (a2) at (1.2, 2.0) {$a_2$};
-  \node[new node] (a5) at (1.9, 2.7) {$a_5$};
+  \node[new node] (a5) at (-1.1, 2.5) {$a_5$};
   \node[rej node] (a3) at (0, 1.0) {$a_3$};
   \node[rej node, tgt node] (a4) at (1.2, 1.0) {$a_4$};
   \node[acc node] (a0) at (0.6, 0) {$a_0$};
@@ -58,12 +58,12 @@ A minimal-change repair instead seeks the smallest edit---such as introducing $a
   \draw[att edge] (a5) -- (a3);
 \end{tikzpicture}%
 }\hfill
-\subcaptionbox{$F_2$: After repair ($a_4$ restored)\label{fig:af-f2}}[0.33\textwidth]{%
+\subcaptionbox{$F_2$: After repair ($a_4$ restored)\label{fig:af-f2}}[0.38\textwidth]{%
 \begin{tikzpicture}
   \node[acc node] (a1) at (0, 2.0) {$a_1$};
   \node[acc node] (a2) at (1.2, 2.0) {$a_2$};
-  \node[rej node] (a5) at (1.9, 2.7) {$a_5$};
-  \node[new node] (a6) at (2.7, 2.7) {$a_6$};
+  \node[rej node] (a5) at (-1.1, 2.5) {$a_5$};
+  \node[new node] (a6) at (-2.2, 2.5) {$a_6$};
   \node[acc node] (a3) at (0, 1.0) {$a_3$};
   \node[acc node, tgt node] (a4) at (1.2, 1.0) {$a_4$};
   \node[rej node] (a0) at (0.6, 0) {$a_0$};
