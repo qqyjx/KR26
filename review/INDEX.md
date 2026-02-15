@@ -200,4 +200,4 @@ R76:     ~85%    (四项改进: 人类评估+表示定理+引用+baseline)
 - References: 36 条 ✅ (R76 新增 2 条)
 - Paper ID: 607, Anonymous Authors ✅
 - Theorems: 3 (AGM → Representation → Complexity) ✅
-- Human evaluation: Appendix F (PRESET) ✅
+- Human evaluation: Appendix F (ACTUAL) ✅

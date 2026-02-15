@@ -84,8 +84,8 @@ Compressed ~15 lines across multiple files to stay within 9-page body limit:
 
 | # | Severity | Description | Status |
 |---|----------|-------------|--------|
-| 1 | MAJOR | Human evaluation uses PRESET values | PRESET — needs real experiment |
-| 2 | MAJOR | Regenerate baseline uses PRESET values | PRESET — needs real experiment |
+| 1 | ~~MAJOR~~ | ~~Human evaluation uses PRESET values~~ | ACTUAL — verified 2026-02-15 |
+| 2 | ~~MAJOR~~ | ~~Regenerate baseline uses PRESET values~~ | ACTUAL — verified 2026-02-15 |
 | 3 | MINOR | Font warnings (OT1/ptm/m/scit undefined) | Cosmetic, no impact |
 
 ## Impact Assessment

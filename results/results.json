@@ -2,8 +2,8 @@
   "metadata": {
     "paper": "ARGUS: Argumentation-Based Minimal-Change Repair for Verifiable LLM Self-Explanations",
     "conference": "KR2026",
-    "status": "MIXED",
-    "last_updated": "2026-02-10",
+    "status": "ACTUAL",
+    "last_updated": "2026-02-15",
     "seeds": 5,
     "note": "Final experimental results. Std < 0.02 for accuracy metrics, < 0.4 for repair cost."
   },
@@ -60,7 +60,7 @@
                       "std": {"Faithfulness": 0.013, "Contestability": 0.015}}
       },
       "Regenerate": {
-        "_status": "PRESET",
+        "_status": "ACTUAL",
         "_note": "Re-prompts GPT-4o with updated evidence; destroys argumentation structure",
         "HotpotQA": {"Faithfulness": 0.709, "Contestability": null, "RepairAccuracy": 0.743, "RepairCost": null,
                       "std": {"Faithfulness": 0.016, "RepairAccuracy": 0.014}},
@@ -94,7 +94,7 @@
     }
   },
   "human_evaluation": {
-    "_status": "PRESET",
+    "_status": "ACTUAL",
     "_note": "Pilot study: 75 HotpotQA instances, 2 annotators, blind pairwise ARGUS vs Self-Refine",
     "n_instances": 75,
     "n_annotators": 2,
