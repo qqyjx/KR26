@@ -42,7 +42,7 @@ A repair operator~$\circ$ satisfies adapted success, inclusion, and vacuity for 
 
 \subsection{Computational Complexity}
 
-The complexity of the repair problem depends critically on the choice of argumentation semantics. Our results assume credulous acceptance (as defined in \S\ref{sec:preliminaries}), inheriting the corresponding complexity landscape~\cite{dunne2009complexity,dvorak2018computational}.
+The complexity of the repair problem depends critically on the choice of argumentation semantics.  Since the repair problem reduces to enforcement after incorporating~$\Delta$, it inherits the complexity landscape of extension enforcement~\cite{dunne2009complexity,dvorak2018computational}; the additional overhead of processing~$\Delta$ and evaluating heterogeneous cost functions is polynomial and does not alter the complexity class.  Our results assume credulous acceptance (as defined in \S\ref{sec:preliminaries}).
 
 \begin{theorem}[Repair Complexity]\label{thm:complexity}
 The decision version of the minimal-change repair problem---``does there exist a valid repair of cost at most $C$?''---has the following complexity under credulous acceptance:

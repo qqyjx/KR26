@@ -106,7 +106,7 @@ Grounded-semantics solve times averaged 0.12s and preferred 0.43s per instance, 
 
 Figure~\ref{fig:scalability} traces solve time on synthetic Erd\H{o}s--R\'{e}nyi frameworks (attack probability 0.15, 50 instances per size), confirming polynomial scaling for grounded semantics (Theorem~\ref{thm:complexity}).
 The $k$-neighborhood approximation keeps preferred repair tractable up to $|\mathcal{A}|{=}50$ (2.31s), whereas unconstrained preferred repair exhibits exponential blowup beyond $|\mathcal{A}| \approx 25$ and exceeds 150s at $|\mathcal{A}|{=}50$.
-Since the LLM-generated frameworks in our experiments average 6.8 arguments, both semantics are well within practical time budgets.
+Since the LLM-generated frameworks in our experiments average 6.8 arguments, both semantics are well within practical time budgets.  The scalability results anticipate growth in framework complexity as LLM reasoning capabilities advance and multi-step explanations become longer; even at current scales, the formal guarantees (AGM compliance, provable optimality) provide value that heuristic methods cannot match.
 
 \begin{table}[t]
 \centering
@@ -128,7 +128,7 @@ Grounded Only             & .839 & .772 & .871 & 3.0 \\
 Table~\ref{tab:ablation} reports an ablation on HotpotQA.  Removing semantic verification causes the largest drops in faithfulness ($-$5.4pp) and contestability ($-$7.7pp), confirming that formal verification is the most critical component: without it, repairs may restore acceptability in the graph while introducing semantically invalid arguments.
 Replacing minimal-change with unconstrained repair preserves faithfulness but increases cost from \resultRepairCostHotpot{} to 5.7, confirming that cost minimization limits unnecessary edits without sacrificing correctness.
 Removing attack templates reduces contestability by 9.3pp while leaving faithfulness intact, indicating that the templates primarily improve the system's ability to integrate counterarguments rather than its core reasoning.
-Grounded-only semantics yields modest decreases across all metrics; the gap is small because 97\% of frameworks in our experiments have a single preferred extension coinciding with the grounded one.
+Grounded-only semantics yields modest decreases across all metrics; the gap is small because 97\% of frameworks in our experiments have a single preferred extension coinciding with the grounded one---a consequence of the relatively sparse attack structures produced by atomic decomposition.  In denser frameworks with multiple conflicting viewpoints, preferred semantics would provide greater discriminative power.
 
 Sensitivity analysis, error analysis, and a qualitative repair example appear in Appendices~\ref{app:sensitivity}--\ref{app:repair-example}; the repair mechanism is robust to cost models, NLI thresholds, and $k$-neighborhood bounds.
 
