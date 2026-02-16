@@ -1,0 +1,159 @@
+{
+  "metadata": {
+    "project": "KR26",
+    "venue": "KR 2026 (KR Meets ML & Explanation track)",
+    "title": "ARGUS: Argumentation-Based Minimal-Change Repair for Verifiable LLM Self-Explanations",
+    "deadline": "2026-02-19",
+    "page_limit": 9,
+    "compile_cmd": "cd paper && latexmk -pdf main.tex",
+    "created": "2026-02-16",
+    "last_session": null
+  },
+  "phases": [
+    { "id": "P1", "name": "foundation", "label": "状态确认" },
+    { "id": "P2", "name": "writing", "label": "写作与修订" },
+    { "id": "P3", "name": "experiments", "label": "实验补充" },
+    { "id": "P4", "name": "review", "label": "审查与润色" },
+    { "id": "P5", "name": "submission", "label": "投稿/Camera-Ready" }
+  ],
+  "tasks": [
+    {
+      "id": "T001",
+      "phase": "P1",
+      "category": "assessment",
+      "priority": 1,
+      "title": "确认投稿状态与后续计划",
+      "description": "确认 KR26 论文当前状态（已投稿/待修订/camera-ready），确定下一步工作方向。",
+      "steps": [
+        "检查 review/INDEX.md 和最近的 review 文件，确认审稿进展",
+        "检查 git log 确认最后一次重大修改",
+        "确定当前阶段：等待审稿结果 / 需要 revision / camera-ready 准备"
+      ],
+      "verification": [
+        "当前状态已明确记录在 claude-progress.txt",
+        "后续任务方向已确定"
+      ],
+      "status": "pending",
+      "blocked_by": [],
+      "completed_at": null,
+      "session_id": null,
+      "notes": ""
+    },
+    {
+      "id": "T010",
+      "phase": "P2",
+      "category": "writing",
+      "priority": 10,
+      "title": "基于审稿意见修订论文",
+      "description": "根据 68 轮内部审稿的 OPEN issues 进行修订。",
+      "steps": [
+        "读取 review/INDEX.md 中所有未修复的 OPEN issues",
+        "按 CRITICAL > MAJOR > MINOR 优先级逐一修复",
+        "每次修改后编译验证页数 ≤9"
+      ],
+      "verification": [
+        "所有 CRITICAL issues 已修复",
+        "所有 MAJOR issues 已修复或有说明",
+        "编译成功且页数 ≤9"
+      ],
+      "status": "pending",
+      "blocked_by": ["T001"],
+      "completed_at": null,
+      "session_id": null,
+      "notes": ""
+    },
+    {
+      "id": "T020",
+      "phase": "P3",
+      "category": "experiments",
+      "priority": 20,
+      "title": "验证实验数据完整性",
+      "description": "确认 results.json 数据完整，与论文表格/图表一致。",
+      "steps": [
+        "检查 results.json status 是否为 ACTUAL",
+        "对比论文 Tables 1-2、Figures 3-5 的数据与 results.json",
+        "修复任何不一致"
+      ],
+      "verification": [
+        "results.json 数据与论文完全一致",
+        "编译成功"
+      ],
+      "status": "pending",
+      "blocked_by": ["T001"],
+      "completed_at": null,
+      "session_id": null,
+      "notes": ""
+    },
+    {
+      "id": "T040",
+      "phase": "P4",
+      "category": "review",
+      "priority": 40,
+      "title": "最终回归审查",
+      "description": "使用 /review-paper full 对修订后的论文做全面回归审查。",
+      "steps": [
+        "运行五维度审查（数据一致性/理论逻辑/写作规范/引用/格式）",
+        "生成审查报告到 review/ 目录",
+        "修复所有 CRITICAL 和 MAJOR 问题"
+      ],
+      "verification": [
+        "零 CRITICAL 问题",
+        "零 MAJOR 问题",
+        "编译成功且页数 ≤9",
+        "review/INDEX.md 已更新"
+      ],
+      "status": "pending",
+      "blocked_by": ["T010"],
+      "completed_at": null,
+      "session_id": null,
+      "notes": ""
+    },
+    {
+      "id": "T041",
+      "phase": "P4",
+      "category": "review",
+      "priority": 41,
+      "title": "学术润色",
+      "description": "对全文进行 KR 会议风格的学术润色。",
+      "steps": [
+        "检查段落密实化和叙述流畅性",
+        "检查 AGM/argumentation 术语使用一致性",
+        "控制括号使用（≤2 处/段）"
+      ],
+      "verification": [
+        "无碎片段落",
+        "术语使用一致",
+        "编译成功"
+      ],
+      "status": "pending",
+      "blocked_by": ["T040"],
+      "completed_at": null,
+      "session_id": null,
+      "notes": ""
+    },
+    {
+      "id": "T050",
+      "phase": "P5",
+      "category": "submission",
+      "priority": 50,
+      "title": "投稿/Camera-Ready 最终检查",
+      "description": "投稿前或 camera-ready 前的最终检查。",
+      "steps": [
+        "验证零 PLACEHOLDER/TODO",
+        "验证作者信息完整",
+        "验证所有图表正常渲染",
+        "页数 ≤9（不含 references）"
+      ],
+      "verification": [
+        "零 PLACEHOLDER/TODO",
+        "PDF 可正常打开",
+        "页数合规"
+      ],
+      "status": "pending",
+      "blocked_by": ["T041"],
+      "completed_at": null,
+      "session_id": null,
+      "notes": ""
+    }
+  ]
+}

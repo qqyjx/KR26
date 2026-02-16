@@ -573,3 +573,49 @@ Double-blind review: do NOT include author names, affiliations, or self-identify
 - Issue 在后续轮次被修复时，须在 INDEX.md 标注修复轮次
 - 最终回归轮使用 `R{原轮}.{序号}` 格式引用（如 R13.1, R13.2）
 - 非 FIXED 条目须标注状态（DEFERRED/WONTFIX/ACCEPTED/ACKNOWLEDGED）和理由
+
+---
+
+## Long-Running Agent Workflow
+
+本项目使用 agent harness 实现跨 session 持续工作。状态文件：
+- `task.json` — 结构化任务列表（JSON，防误改）
+- `claude-progress.txt` — session 日志
+- `init.sh` — 环境验证脚本
+
+### Session 启动（每次必须执行）
+
+1. `bash init.sh` — 验证环境可编译
+2. `tail -80 claude-progress.txt` — 读上次进度
+3. `git log --oneline -20` — 读 git 历史
+4. 解析 task.json → 选最高优先级的可执行任务
+5. 向用户报告选定任务，开始执行
+
+### 任务执行
+
+- 按 task.steps 逐步执行，不跳步
+- 每次改 .tex 后编译验证（页数 ≤9）
+- 所有 task.verification 通过才能标记 completed
+- 用 Conventional Commits 提交（feat/fix/docs/chore）
+
+### 障碍处理
+
+- 记录到 progress.txt（OBSTACLE-ID）
+- 记录到 task.json notes
+- 不标记为 completed
+- 切换到下一可用任务
+
+### task.json 修改规则
+
+可改：`status`, `completed_at`, `session_id`, `notes`
+禁改：`id`, `title`, `steps`, `verification`, `blocked_by`, `priority`
+
+### 命令映射
+
+| 任务类别 | 命令 |
+|---------|------|
+| writing | `/paper-write [section]` |
+| review | `/review-paper [mode]` |
+| formatting | `/academic-polish` |
+| submission | `/submit-check` |
+| 编译 | `/compile-paper` |

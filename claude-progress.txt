@@ -1,0 +1,24 @@
+# Claude Progress Log — KR26 (ARGUS)
+# ARGUS: Argumentation-Based Minimal-Change Repair for Verifiable LLM Self-Explanations
+# Auto-maintained by Claude Code agent sessions
+# Format: Chronological entries, newest at bottom
+# Read this file + git log at session start to understand current state
+
+========================================
+SESSION: session-000 (bootstrap)
+DATE: 2026-02-16
+========================================
+
+## Project Status at Bootstrap
+- Paper: KR 2026 submission (deadline was 2026-02-19)
+- Paper structure: complete (8 sections in paper/sections/)
+- results.json: exists (status: ACTUAL, 5 seeds, 2026-02-10)
+- Review history: 68 rounds of internal review (24 review files)
+- Review INDEX.md: exists
+- Harness files (init.sh, task.json, claude-progress.txt): created today
+- Previous review status: R68 final regression - ALL PASS
+
+## Notes
+- This is the first session with the long-running agent harness
+- Project is mature; likely in submission/revision/camera-ready phase
+- Need to confirm current submission status at session start
