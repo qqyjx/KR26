@@ -28,6 +28,9 @@ venv/
 .DS_Store
 Thumbs.db
 
+# XeLaTeX intermediate
+*.xdv
+
 # Temporary files
 *.tmp
 *.bak
