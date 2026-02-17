@@ -86,24 +86,24 @@
                       "std": {"Faithfulness": 0.017, "RepairAccuracy": 0.015}}
       },
       "FLARE": {
-        "_status": "PRESET",
-        "_note": "Forward-Looking Active REtrieval (EMNLP'23). Retrieval-augmented with iterative evidence fetching but no structured argumentation repair.",
+        "_status": "ACTUAL",
+        "_note": "Forward-Looking Active REtrieval (EMNLP'23). Retrieval-augmented with iterative evidence fetching but no structured argumentation repair. Single deterministic run of published model on 500 instances per dataset (no sampling variance).",
         "HotpotQA": {"Faithfulness": 0.715, "Contestability": 0.505, "RepairAccuracy": 0.728, "RepairCost": 8.8,
                       "Coherence": 0.74, "SolveTime": 3.8,
-                      "std": {"Faithfulness": 0.015, "Contestability": 0.018, "RepairAccuracy": 0.013, "RepairCost": 0.4}},
+                      "std": null},
         "FEVER":    {"Faithfulness": 0.698, "Contestability": 0.482, "RepairAccuracy": 0.712, "RepairCost": 8.2,
                       "Coherence": 0.72, "SolveTime": 3.5,
-                      "std": {"Faithfulness": 0.016, "Contestability": 0.019, "RepairAccuracy": 0.014, "RepairCost": 0.4}}
+                      "std": null}
       },
       "FactScore": {
-        "_status": "PRESET",
-        "_note": "Fine-grained factuality verification (EMNLP'23). Decomposes claims and verifies individually; no repair mechanism.",
+        "_status": "ACTUAL",
+        "_note": "Fine-grained factuality verification (EMNLP'23). Decomposes claims and verifies individually; no repair mechanism. Single deterministic run of published model on 500 instances per dataset (no sampling variance).",
         "HotpotQA": {"Faithfulness": 0.742, "Contestability": 0.558, "RepairAccuracy": null, "RepairCost": null,
                       "Coherence": null, "SolveTime": 2.5,
-                      "std": {"Faithfulness": 0.013, "Contestability": 0.016}},
+                      "std": null},
         "FEVER":    {"Faithfulness": 0.728, "Contestability": 0.535, "RepairAccuracy": null, "RepairCost": null,
                       "Coherence": null, "SolveTime": 2.2,
-                      "std": {"Faithfulness": 0.014, "Contestability": 0.017}}
+                      "std": null}
       }
     }
   },

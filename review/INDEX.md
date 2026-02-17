@@ -2,8 +2,8 @@
 
 **论文**: ARGUS: Argumentation-Based Minimal-Change Repair for Verifiable LLM Self-Explanations
 **会议**: KR 2026, Paper ID 607
-**审稿周期**: 2026-02-11 ~ 2026-02-17 (8 天, 86 轮)
-**最终状态**: R86 最终回归通过, 0 regressions, 中稿概率 ~86-89%
+**审稿周期**: 2026-02-11 ~ 2026-02-18 (8 天, 92 轮)
+**最终状态**: R92 Final Pre-Submission Check（最终综合验证完成, 0C+0M+1m 全修复）, 论文投稿就绪, 中稿概率 ~85-88%
 
 ---
 
@@ -78,13 +78,19 @@
 | 65 | review_round84.md | R84 | 02-17 | Citations + Writing | 4m |
 | 66 | review_round85.md | R85 | 02-17 | Adversarial Review (3 strict reviewers) | 14m |
 | 67 | review_round86.md | R86 | 02-17 | Final Regression + Submission Readiness | 0 (32 ACKNOWLEDGED) |
+| 68 | review_round87.md | R87 | 02-17 | 全面审查（Senior AC 视角，新增内容专项） | 2C+2M+6m |
+| 69 | review_round88.md | R88 | 02-17 | 数据一致性审查（R87 修复后核验） | 0C+1M+2m |
+| 70 | review_round89.md | R89 | 02-17 | Citations 审查（新增基线引用完整性验证） | 0C+0M+1m |
+| 71 | review_round90.md | R90 | 02-18 | Logic/Theory 审查（AGM公设·改进声明·消融单调性） | 0C+0M+2m |
+| 72 | review_round91.md | R91 | 02-18 | Parentheses/Writing Check（括号全面清查·experiments·related_work） | 5C+2M+7m |
+| 73 | review_round92.md | R92 | 02-18 | **Final Pre-Submission Check（最终综合验证, Full mode, Senior AC）** | 0C+0M+1m |
 
 *R67/R68 为验证轮，数字为检查项数而非新发现的 issue 数。
 
 ### 轮次说明
 
 - **R05b**: 额外修订轮（R05 修复后的确认轮），不占正式编号
-- **R01-R86 连续无跳号**
+- **R01-R89 连续无跳号**
 - **批量文件**: R39-R45, R46-R51, R52-R57 各包含多个子轮次
 
 ---
@@ -108,7 +114,13 @@
 | 深度审查 | R83-R84 | 2 | 9 | 0 | 0 | 9 | -- | ~87-89% |
 | 对抗审稿 | R85 | 1 | 14 | 0 | 0 | 14 | -- | ~86-89% |
 | 最终回归 | R86 | 1 | 0 | 0 | 0 | 0 | 100% | ~86-89% |
-| **合计** | **86 轮** | **67** | **~331** | **23** | **105** | **201** | **~97%** | **~86-89%** |
+| Senior AC 新增审查 | R87 | 1 | 10 | 2 | 2 | 6 | -- | ~82-85% |
+| 数据一致性审查 | R88 | 1 | 3 | 0 | 1 | 2 | -- | ~84-87% |
+| Citations 审查 | R89 | 1 | 1 | 0 | 0 | 1 | -- | ~84-87% |
+| Logic/Theory 审查 | R90 | 1 | 2 | 0 | 0 | 2 | -- | ~84-87% |
+| Parentheses/Writing | R91 | 1 | 14 | 5 | 2 | 7 | 100% | ~85-88% |
+| **Final Pre-Submission** | **R92** | **1** | **1** | **0** | **0** | **1** | **100%** | **~85-88%** |
+| **合计** | **92 轮** | **73** | **~362** | **30** | **110** | **220** | **~97%** | **~85-88%** |
 
 *DEFERRED/WONTFIX/ACCEPTED 共 17 项（全为 MINOR），详见第 4 节。
 
@@ -130,6 +142,12 @@ R82:     ~87-89% (首次阅读审查: 0C/0M/9m, 维持)
 R83-R84: ~87-89% (逻辑+引用深审: 0C/0M/9m, 维持)
 R85:     ~86-89% (3位严苛审稿人对抗审查: 0C/0M/14m, 全部已防御或部分防御)
 R86:     ~86-89% (最终回归: 0 regressions, 83 data points verified, 32 MINOR ACKNOWLEDGED)
+R87:     ~82-85% (Senior AC 新增内容审查: 2C+2M+6m, FLARE/FactScore 方法论问题; 修复 C1+C2 可恢复至 86-89%)
+R88:     ~84-87% (数据一致性审查: 0C+1M+2m; R87 C1 已修复, C2 降级为 MAJOR M1; 修复 M1+m3 可恢复至 86-89%)
+R89:     ~84-87% (Citations 审查: 0C+0M+1m; 三个新增引用全部通过，39/39 bib 条目双向匹配，0 undefined citations)
+R90:     ~84-87% (Logic/Theory 审查: 0C+0M+2m; AGM公设/改进声明/消融单调性全部验证通过; 2m=solve time下界保守偏差+"3-10x"应为"5-10x")
+R91:     ~85-88% (Parentheses/Writing 审查: 5C+2M+7m; experiments.tex括号严重超标已全部修复; related_work 3-括号句子修复; 100%修复率)
+R92:     ~85-88% (Final Pre-Submission Check: 0C+0M+1m; "seven"→"eight"方法计数修复; 所有R87-R91 CRITICAL/MAJOR均确认已修复; 论文投稿就绪)
 ```
 
 ---
@@ -217,7 +235,7 @@ R86:     ~86-89% (最终回归: 0 regressions, 83 data points verified, 32 MINOR
 - 正文: 9 页 ≤ 9 ✅ (Conclusion 在第 9 页)
 - Overfull hbox: 0 ✅
 - Undefined citations: 0 ✅
-- References: 36 条 ✅ (R76 新增 2 条)
+- References: 39 条 ✅ (R76 新增 2 条，R87/R88 新增 3 条: jiang2023flare, min2023factscore, zhang2020bertscore)
 - Paper ID: 607, Anonymous Authors ✅
 - Theorems: 3 (AGM → Representation → Complexity) ✅
 - Human evaluation: Appendix F (ACTUAL) ✅
