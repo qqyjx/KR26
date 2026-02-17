@@ -2,8 +2,8 @@
 
 **论文**: ARGUS: Argumentation-Based Minimal-Change Repair for Verifiable LLM Self-Explanations
 **会议**: KR 2026, Paper ID 607
-**审稿周期**: 2026-02-11 ~ 2026-02-16 (7 天, 81 轮)
-**最终状态**: R81 最终回归, 中稿概率 ~87-89%
+**审稿周期**: 2026-02-11 ~ 2026-02-17 (8 天, 86 轮)
+**最终状态**: R86 最终回归通过, 0 regressions, 中稿概率 ~86-89%
 
 ---
 
@@ -73,13 +73,18 @@
 | 60 | review_round79.md | R79 | 02-16 | Citations + Writing | 0 |
 | 61 | review_round80.md | R80 | 02-16 | 严苛审稿人模拟 | 5m |
 | 62 | review_round81.md | R81 | 02-16 | Final Regression | 0 |
+| 63 | review_round82.md | R82 | 02-17 | Full Review (A-E), First-Reader | 9m |
+| 64 | review_round83.md | R83 | 02-17 | Logic + Consistency | 5m |
+| 65 | review_round84.md | R84 | 02-17 | Citations + Writing | 4m |
+| 66 | review_round85.md | R85 | 02-17 | Adversarial Review (3 strict reviewers) | 14m |
+| 67 | review_round86.md | R86 | 02-17 | Final Regression + Submission Readiness | 0 (32 ACKNOWLEDGED) |
 
 *R67/R68 为验证轮，数字为检查项数而非新发现的 issue 数。
 
 ### 轮次说明
 
 - **R05b**: 额外修订轮（R05 修复后的确认轮），不占正式编号
-- **R01-R81 连续无跳号**
+- **R01-R86 连续无跳号**
 - **批量文件**: R39-R45, R46-R51, R52-R57 各包含多个子轮次
 
 ---
@@ -99,7 +104,11 @@
 | 终审深化 | R69-R75 | 7 | 34 | 0 | 8 | 26 | 100% | ~65-75% |
 | 四项改进 | R76 | 1 | 3 | 0 | 2 | 1 | — | ~85% |
 | 第二轮终审 | R77-R81 | 5 | 9 | 0 | 0 | 9 | 100% | ~87-89% |
-| **合计** | **81 轮** | **62** | **~299** | **23** | **105** | **169** | **~97%** | **~87-89%** |
+| 首次阅读审查 | R82 | 1 | 9 | 0 | 0 | 9 | -- | ~87-89% |
+| 深度审查 | R83-R84 | 2 | 9 | 0 | 0 | 9 | -- | ~87-89% |
+| 对抗审稿 | R85 | 1 | 14 | 0 | 0 | 14 | -- | ~86-89% |
+| 最终回归 | R86 | 1 | 0 | 0 | 0 | 0 | 100% | ~86-89% |
+| **合计** | **86 轮** | **67** | **~331** | **23** | **105** | **201** | **~97%** | **~86-89%** |
 
 *DEFERRED/WONTFIX/ACCEPTED 共 17 项（全为 MINOR），详见第 4 节。
 
@@ -117,6 +126,10 @@ R64-R68: ~60-70% (页面合规 +5pp)
 R69-R75: ~65-75% (终审深化 +5-10pp)
 R76:     ~85%    (四项改进: 人类评估+表示定理+引用+baseline)
 R77-R81: ~87-89% (5 轮终审: abstract优化+complexity表述+scalability论证)
+R82:     ~87-89% (首次阅读审查: 0C/0M/9m, 维持)
+R83-R84: ~87-89% (逻辑+引用深审: 0C/0M/9m, 维持)
+R85:     ~86-89% (3位严苛审稿人对抗审查: 0C/0M/14m, 全部已防御或部分防御)
+R86:     ~86-89% (最终回归: 0 regressions, 83 data points verified, 32 MINOR ACKNOWLEDGED)
 ```
 
 ---
