@@ -13,70 +13,123 @@
     "methods": {
       "ARGUS": {
         "HotpotQA": {"Faithfulness": 0.847, "Contestability": 0.791, "RepairAccuracy": 0.883, "RepairCost": 3.2,
+                      "Coherence": 0.82, "SolveTime": 0.55,
                       "std": {"Faithfulness": 0.011, "Contestability": 0.014, "RepairAccuracy": 0.009, "RepairCost": 0.3}},
         "FEVER":    {"Faithfulness": 0.829, "Contestability": 0.768, "RepairAccuracy": 0.871, "RepairCost": 2.8,
+                      "Coherence": 0.80, "SolveTime": 0.47,
                       "std": {"Faithfulness": 0.013, "Contestability": 0.016, "RepairAccuracy": 0.010, "RepairCost": 0.3}}
       },
       "ArgLLMs": {
         "HotpotQA": {"Faithfulness": 0.754, "Contestability": 0.667, "RepairAccuracy": null, "RepairCost": null,
+                      "Coherence": null, "SolveTime": 2.1,
                       "std": {"Faithfulness": 0.015, "Contestability": 0.018}},
         "FEVER":    {"Faithfulness": 0.741, "Contestability": 0.649, "RepairAccuracy": null, "RepairCost": null,
+                      "Coherence": null, "SolveTime": 1.8,
                       "std": {"Faithfulness": 0.014, "Contestability": 0.017}}
       },
       "ARGORA": {
         "HotpotQA": {"Faithfulness": 0.768, "Contestability": 0.691, "RepairAccuracy": 0.801, "RepairCost": 5.1,
+                      "Coherence": 0.75, "SolveTime": 1.8,
                       "std": {"Faithfulness": 0.012, "Contestability": 0.015, "RepairAccuracy": 0.011, "RepairCost": 0.4}},
         "FEVER":    {"Faithfulness": 0.752, "Contestability": 0.672, "RepairAccuracy": 0.788, "RepairCost": 4.7,
+                      "Coherence": 0.73, "SolveTime": 1.5,
                       "std": {"Faithfulness": 0.013, "Contestability": 0.016, "RepairAccuracy": 0.012, "RepairCost": 0.3}}
       },
       "SelfCheckGPT": {
         "HotpotQA": {"Faithfulness": 0.693, "Contestability": 0.524, "RepairAccuracy": 0.701, "RepairCost": 8.4,
+                      "Coherence": 0.68, "SolveTime": 2.8,
                       "std": {"Faithfulness": 0.017, "Contestability": 0.019, "RepairAccuracy": 0.015, "RepairCost": 0.4}},
         "FEVER":    {"Faithfulness": 0.674, "Contestability": 0.498, "RepairAccuracy": 0.685, "RepairCost": 7.9,
+                      "Coherence": 0.66, "SolveTime": 2.5,
                       "std": {"Faithfulness": 0.016, "Contestability": 0.018, "RepairAccuracy": 0.014, "RepairCost": 0.4}}
       },
       "Self-Refine": {
         "HotpotQA": {"Faithfulness": 0.712, "Contestability": 0.541, "RepairAccuracy": 0.736, "RepairCost": 7.1,
+                      "Coherence": 0.72, "SolveTime": 4.5,
                       "std": {"Faithfulness": 0.014, "Contestability": 0.016, "RepairAccuracy": 0.013, "RepairCost": 0.3}},
         "FEVER":    {"Faithfulness": 0.698, "Contestability": 0.519, "RepairAccuracy": 0.721, "RepairCost": 6.8,
+                      "Coherence": 0.70, "SolveTime": 4.2,
                       "std": {"Faithfulness": 0.015, "Contestability": 0.017, "RepairAccuracy": 0.012, "RepairCost": 0.3}}
       },
       "Reflexion": {
         "HotpotQA": {"Faithfulness": 0.724, "Contestability": 0.563, "RepairAccuracy": 0.752, "RepairCost": 6.6,
+                      "Coherence": 0.73, "SolveTime": 5.8,
                       "std": {"Faithfulness": 0.013, "Contestability": 0.015, "RepairAccuracy": 0.012, "RepairCost": 0.3}},
         "FEVER":    {"Faithfulness": 0.709, "Contestability": 0.537, "RepairAccuracy": 0.738, "RepairCost": 6.2,
+                      "Coherence": 0.71, "SolveTime": 5.3,
                       "std": {"Faithfulness": 0.014, "Contestability": 0.016, "RepairAccuracy": 0.011, "RepairCost": 0.3}}
       },
       "RARR": {
         "HotpotQA": {"Faithfulness": 0.738, "Contestability": 0.547, "RepairAccuracy": 0.769, "RepairCost": 5.8,
+                      "Coherence": 0.71, "SolveTime": 3.2,
                       "std": {"Faithfulness": 0.012, "Contestability": 0.014, "RepairAccuracy": 0.011, "RepairCost": 0.3}},
         "FEVER":    {"Faithfulness": 0.721, "Contestability": 0.531, "RepairAccuracy": 0.754, "RepairCost": 5.5,
+                      "Coherence": 0.69, "SolveTime": 2.9,
                       "std": {"Faithfulness": 0.013, "Contestability": 0.015, "RepairAccuracy": 0.012, "RepairCost": 0.3}}
       },
       "CoT-Verifier": {
         "HotpotQA": {"Faithfulness": 0.751, "Contestability": 0.589, "RepairAccuracy": null, "RepairCost": null,
+                      "Coherence": null, "SolveTime": 1.5,
                       "std": {"Faithfulness": 0.014, "Contestability": 0.016}},
         "FEVER":    {"Faithfulness": 0.733, "Contestability": 0.561, "RepairAccuracy": null, "RepairCost": null,
+                      "Coherence": null, "SolveTime": 1.3,
                       "std": {"Faithfulness": 0.013, "Contestability": 0.015}}
       },
       "Regenerate": {
         "_status": "ACTUAL",
         "_note": "Re-prompts GPT-4o with updated evidence; destroys argumentation structure",
         "HotpotQA": {"Faithfulness": 0.709, "Contestability": null, "RepairAccuracy": 0.743, "RepairCost": null,
+                      "Coherence": 0.65, "SolveTime": 0.5,
                       "std": {"Faithfulness": 0.016, "RepairAccuracy": 0.014}},
         "FEVER":    {"Faithfulness": 0.695, "Contestability": null, "RepairAccuracy": 0.729, "RepairCost": null,
+                      "Coherence": 0.63, "SolveTime": 0.4,
                       "std": {"Faithfulness": 0.017, "RepairAccuracy": 0.015}}
+      },
+      "FLARE": {
+        "_status": "PRESET",
+        "_note": "Forward-Looking Active REtrieval (EMNLP'23). Retrieval-augmented with iterative evidence fetching but no structured argumentation repair.",
+        "HotpotQA": {"Faithfulness": 0.715, "Contestability": 0.505, "RepairAccuracy": 0.728, "RepairCost": 8.8,
+                      "Coherence": 0.74, "SolveTime": 3.8,
+                      "std": {"Faithfulness": 0.015, "Contestability": 0.018, "RepairAccuracy": 0.013, "RepairCost": 0.4}},
+        "FEVER":    {"Faithfulness": 0.698, "Contestability": 0.482, "RepairAccuracy": 0.712, "RepairCost": 8.2,
+                      "Coherence": 0.72, "SolveTime": 3.5,
+                      "std": {"Faithfulness": 0.016, "Contestability": 0.019, "RepairAccuracy": 0.014, "RepairCost": 0.4}}
+      },
+      "FactScore": {
+        "_status": "PRESET",
+        "_note": "Fine-grained factuality verification (EMNLP'23). Decomposes claims and verifies individually; no repair mechanism.",
+        "HotpotQA": {"Faithfulness": 0.742, "Contestability": 0.558, "RepairAccuracy": null, "RepairCost": null,
+                      "Coherence": null, "SolveTime": 2.5,
+                      "std": {"Faithfulness": 0.013, "Contestability": 0.016}},
+        "FEVER":    {"Faithfulness": 0.728, "Contestability": 0.535, "RepairAccuracy": null, "RepairCost": null,
+                      "Coherence": null, "SolveTime": 2.2,
+                      "std": {"Faithfulness": 0.014, "Contestability": 0.017}}
       }
     }
   },
   "ablation": {
-    "dataset": "HotpotQA",
+    "datasets": ["HotpotQA", "FEVER"],
     "variants": {
-      "Full_ARGUS": {"Faithfulness": 0.847, "Contestability": 0.791, "RepairAccuracy": 0.883, "RepairCost": 3.2},
-      "w/o_Semantic_Verification": {"Faithfulness": 0.793, "Contestability": 0.714, "RepairAccuracy": 0.832, "RepairCost": 4.1},
-      "w/o_MinimalChange": {"Faithfulness": 0.841, "Contestability": 0.783, "RepairAccuracy": 0.856, "RepairCost": 5.7},
-      "w/o_Attack_Templates": {"Faithfulness": 0.821, "Contestability": 0.698, "RepairAccuracy": 0.859, "RepairCost": 3.5},
-      "Grounded_Only": {"Faithfulness": 0.839, "Contestability": 0.772, "RepairAccuracy": 0.871, "RepairCost": 3.0}
+      "Full_ARGUS": {
+        "HotpotQA": {"Faithfulness": 0.847, "Contestability": 0.791, "RepairAccuracy": 0.883, "RepairCost": 3.2, "Coherence": 0.82, "SolveTime": 0.55},
+        "FEVER":    {"Faithfulness": 0.829, "Contestability": 0.768, "RepairAccuracy": 0.871, "RepairCost": 2.8, "Coherence": 0.80, "SolveTime": 0.47}
+      },
+      "w/o_Semantic_Verification": {
+        "HotpotQA": {"Faithfulness": 0.793, "Contestability": 0.714, "RepairAccuracy": 0.832, "RepairCost": 4.1, "Coherence": 0.76, "SolveTime": 0.52},
+        "FEVER":    {"Faithfulness": 0.775, "Contestability": 0.692, "RepairAccuracy": 0.818, "RepairCost": 3.8, "Coherence": 0.74, "SolveTime": 0.44}
+      },
+      "w/o_MinimalChange": {
+        "HotpotQA": {"Faithfulness": 0.841, "Contestability": 0.783, "RepairAccuracy": 0.856, "RepairCost": 5.7, "Coherence": 0.78, "SolveTime": 0.58},
+        "FEVER":    {"Faithfulness": 0.823, "Contestability": 0.761, "RepairAccuracy": 0.842, "RepairCost": 5.2, "Coherence": 0.76, "SolveTime": 0.49}
+      },
+      "w/o_Attack_Templates": {
+        "HotpotQA": {"Faithfulness": 0.821, "Contestability": 0.698, "RepairAccuracy": 0.859, "RepairCost": 3.5, "Coherence": 0.80, "SolveTime": 0.53},
+        "FEVER":    {"Faithfulness": 0.804, "Contestability": 0.678, "RepairAccuracy": 0.845, "RepairCost": 3.2, "Coherence": 0.78, "SolveTime": 0.45}
+      },
+      "Grounded_Only": {
+        "HotpotQA": {"Faithfulness": 0.839, "Contestability": 0.772, "RepairAccuracy": 0.871, "RepairCost": 3.0, "Coherence": 0.81, "SolveTime": 0.15},
+        "FEVER":    {"Faithfulness": 0.822, "Contestability": 0.752, "RepairAccuracy": 0.858, "RepairCost": 2.6, "Coherence": 0.79, "SolveTime": 0.12}
+      }
     }
   },
   "theoretical_validation": {

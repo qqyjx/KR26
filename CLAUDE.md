@@ -278,6 +278,15 @@ Double-blind review: do NOT include author names, affiliations, or self-identify
 | Abstract | 100-180 words | 200-300 words |
 | Overclaiming | Very restrained | More common |
 
+### 实验与写作补充规范（跨项目通用经验）
+
+以下规则来自多个项目的审稿经验，适用于所有论文：
+
+1. **实验表格规模**：实验结果主表必须数据丰富，占半页以上、跨双栏，对比组（baseline）≥5个，指标维度≥4个。小而稀疏的表格会被审稿人视为实验不充分
+2. **图表顺序**：Figure 1 固定放系统架构图/整体框架图，实验结果图从 Figure 2 或更后开始。架构图是读者理解全文的入口，必须最先出现
+3. **Limitation 克制**：Limitation/局限性段落点到为止（2-3句），不深入展开。过度自我否定会削弱论文整体可信度，审稿人需要的是诚实而非自我拆台
+4. **括号控制（强化）**：每段正文括号≤2处，**写作时默认不用括号**，只在确实无法用从句、破折号或定语替代时才使用。写完一个 section 后必须回扫括号数量。这是反复出现的顽疾，必须在写作阶段主动控制
+
 ---
 
 ## 7. 常见审稿问题清单（所有项目汇总）
@@ -316,6 +325,10 @@ Double-blind review: do NOT include author names, affiliations, or self-identify
 - [ ] 正文超页数限制
 - [ ] 参考文献/附录顺序错误
 - [ ] 匿名化不合规（双盲审稿时泄露作者信息）
+- [ ] 实验主对比表≥半页双栏，baseline≥5个，指标≥4个
+- [ ] Figure 1 为系统架构图，实验结果图从 Figure 2+ 开始
+- [ ] Limitation 段落≤3句，无过度自我否定
+- [ ] 全文括号回扫：每段≤2处，无括号堆积段
 
 ### F. KR 风格专项（Major）
 - [ ] 是否有 running example 且贯穿全文（Introduction 引入，后续 section 复用）
