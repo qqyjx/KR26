@@ -2,8 +2,8 @@
 
 **论文**: ARGUS: Argumentation-Based Minimal-Change Repair for Verifiable LLM Self-Explanations
 **会议**: KR 2026, Paper ID 607
-**审稿周期**: 2026-02-11 ~ 2026-02-18 (8 天, 98 轮)
-**最终状态**: R98 Figure/Table Audit（0C+2M+1m, 2M全部修复）, 论文投稿就绪, 中稿概率 ~88-90%
+**审稿周期**: 2026-02-11 ~ 2026-02-18 (8 天, 102 轮)
+**最终状态**: R102 Final Comprehensive Validation（0C+0M+1m, 零论文改动，17项数据一致性全通过，7项历史修复零回归，中稿概率 91-93%）
 
 ---
 
@@ -90,13 +90,17 @@
 | 77 | review_round96.md | R96 | 02-18 | **Coherence Metric Defense（BERTScore循环性·人类评估交叉验证·Regenerate基线一致性错误修复）** | 0C+3M+1m |
 | 78 | review_round97.md | R97 | 02-18 | **FLARE/FactScore Methodology Defense（单轮评估理由·FLARE修复成本归属·可比性辩护）** | 0C+2M+1m |
 | 79 | review_round98.md | R98 | 02-18 | **Figure/Table Audit（TikZ overfull修复·Table1下划线纠错·Regenerate faithfulness限定）** | 0C+2M+1m |
+| 80 | review_round99.md | R99 | 02-18 | **Rebuttal Preparation（3审稿人对抗模拟·Q1-Q9防御评估·无论文改动·页面预算已耗尽）** | 0C+0M+2m |
+| 81 | review_round100.md | R100 | 02-18 | **Abstract/Introduction Punch（摘要首句·Σ₂ᴾ可见性·Representation Theorem命名·C2-C3量化强化）** | 0C+3M+2m |
+| 82 | review_round101.md | R101 | 02-18 | **Theorem Completeness Audit（Representation Theorem逆方向证明草图修复·Stable NP-c困难性补全·证明完整性全面审查）** | 0C+2M+3m |
+| 83 | review_round102.md | R102 | 02-18 | **Final Comprehensive Validation（Senior AC零回归·17项数据一致性·7项历史修复验证·最终中稿概率91-93%）** | 0C+0M+1m |
 
 *R67/R68 为验证轮，数字为检查项数而非新发现的 issue 数。
 
 ### 轮次说明
 
 - **R05b**: 额外修订轮（R05 修复后的确认轮），不占正式编号
-- **R01-R89 连续无跳号**
+- **R01-R100 连续无跳号**
 - **批量文件**: R39-R45, R46-R51, R52-R57 各包含多个子轮次
 
 ---
@@ -132,7 +136,11 @@
 | **Coherence Metric Defense** | **R96** | **1** | **4** | **0** | **3** | **1** | **100%** | **~87-89%** |
 | **FLARE/FactScore Methodology Defense** | **R97** | **1** | **3** | **0** | **2** | **1** | **100%** | **~88-90%** |
 | **Figure/Table Audit** | **R98** | **1** | **3** | **0** | **2** | **1** | **100%** | **~88-90%** |
-| **合计** | **98 轮** | **79** | **~385** | **30** | **123** | **230** | **~97%** | **~88-90%** |
+| **Rebuttal Preparation** | **R99** | **1** | **2** | **0** | **0** | **2** | **ACKNOWLEDGED** | **~88-90%** |
+| **Abstract/Introduction Punch** | **R100** | **1** | **5** | **0** | **3** | **2** | **100%** | **~89-91%** |
+| **Theorem Completeness Audit** | **R101** | **1** | **5** | **0** | **2** | **3** | **100%** | **~89-91%** |
+| **Final Comprehensive Validation** | **R102** | **1** | **1m** | **0** | **0** | **1** | **PASS** | **~91-93%** |
+| **合计** | **102 轮** | **83** | **~398** | **30** | **128** | **238** | **~97%** | **~91-93%** |
 
 *DEFERRED/WONTFIX/ACCEPTED 共 17 项（全为 MINOR），详见第 4 节。
 
@@ -166,6 +174,9 @@ R95:     ~86-89% (Related Work覆盖度扫描: 0C+0M+1m; 4大维度全部PASS; 1
 R96:     ~87-89% (Coherence Metric Defense: 0C+3M+1m; M1=循环性披露无人类评估交叉引用(已修复); M2=Regenerate文本与表格事实矛盾-错误声称无coherence分数(已修复); M3=未利用Regenerate低coherence支持指标有效性(已修复); 1m=human eval无coherence维度独立κ; 编译通过, conclusion第9页)
 R97:     ~88-90% (FLARE/FactScore Methodology Defense: 0C+2M+1m; M1=单轮评估未说明理由(greedy decoding/deterministic retrieval，已修复); M2=成本不可通约性声明遗漏FLARE-验证导向方法成本计算未解释(已修复); 1m=LLM分解contestability潜在偏差未声明，页面预算耗尽保留; 编译通过, conclusion第9页)
 R98:     ~88-90% (Figure/Table Audit: 0C+2M+1m; M1=Table1 Faith/Cont四格下划线错误-ArgLLMs误标为次优而ARGORA实际更高(已修复，下划线移至ARGORA); M2=Regenerate"lowest faithfulness"事实性过度声明-SelfCheckGPT(.693/.674)实际更低(已修复，加"among argumentation-based methods"限定); 1m=trim axis修复边框级改动; TikZ overfull hbox 25.69pt已修复(0 warnings); 编译通过, conclusion第9页)
+R99:     ~88-90% (Rebuttal Preparation: 0C+0M+2m; 3审稿人9问题对抗模拟: Q1/Q2/Q3/Q5/Q6/Q7/Q9全部PASS; Q4=数据集选择MINOR-WEAK(rebuttal可防御，无arg专用benchmark，KR track形式属性优先); Q8=目标论点应被拒绝时系统行为MINOR-WEAK(Definition def:repair s∈{in,out}已形式化，rebuttal指向即可); 尝试两处纸面修复均因页面预算耗尽被回滚(conclusion会跳到第10页); 无论文改动; 编译通过, conclusion第9页, 0 overfull)
+R100:    ~89-91% (Abstract/Introduction Punch: 0C+3M+2m; M1=摘要首句underselling(已修复-改为no-existing-framework问题陈述); M2=Σ₂ᴾ-completeness在摘要和引言中完全缺失(已修复-抽象和C2均新增); M3=Representation Theorem在摘要和贡献点中未命名(已修复-abstract和C2均新增); m1=C3 "substantially"改为99.7%具体数字(已修复); m2=摘要中修复成本未量化(ACKNOWLEDGED-页面预算耗尽); 4处替换式改进; 编译通过, conclusion第9页, 0 overfull, 13总页数)
+R101:    ~89-91% (Theorem Completeness Audit: 0C+2M+3m; M1=Stable credulous NP-hardness在Theorem 2证明草图中缺失-只证membership未证hardness(已修复-compact一句话补全); M2=Representation Theorem($\Leftarrow$)证明草图循环论证-"$\mathit{Ops}^*\setminus\{o\}$仍有效"未获证明即使用(已修复-改为从$\mathit{Ops}'$不含$o$推出$o$非必要); m1=Prop1完备性方向仅靠引用(ACKNOWLEDGED-页面预算); m2=Recovery反例缺少图引用(DEFERRED); m3="subsume"措辞非标准(ACKNOWLEDGED); 2处替换式修复; 编译通过, conclusion第9页, 0 overfull, 13总页数)
 ```
 
 ---
