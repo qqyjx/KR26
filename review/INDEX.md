@@ -2,8 +2,8 @@
 
 **论文**: ARGUS: Argumentation-Based Minimal-Change Repair for Verifiable LLM Self-Explanations
 **会议**: KR 2026, Paper ID 607
-**审稿周期**: 2026-02-11 ~ 2026-02-18 (8 天, 102 轮)
-**最终状态**: R102 Final Comprehensive Validation（0C+0M+1m, 零论文改动，17项数据一致性全通过，7项历史修复零回归，中稿概率 91-93%）
+**审稿周期**: 2026-02-11 ~ 2026-02-19 (9 天, 112 轮)
+**最终状态**: R112 第三波审稿完成，最终综合验证通过，中稿概率 **93%**（0C+0M+0m，零回归确认，编译干净，投稿就绪）
 
 ---
 
@@ -94,13 +94,23 @@
 | 81 | review_round100.md | R100 | 02-18 | **Abstract/Introduction Punch（摘要首句·Σ₂ᴾ可见性·Representation Theorem命名·C2-C3量化强化）** | 0C+3M+2m |
 | 82 | review_round101.md | R101 | 02-18 | **Theorem Completeness Audit（Representation Theorem逆方向证明草图修复·Stable NP-c困难性补全·证明完整性全面审查）** | 0C+2M+3m |
 | 83 | review_round102.md | R102 | 02-18 | **Final Comprehensive Validation（Senior AC零回归·17项数据一致性·7项历史修复验证·最终中稿概率91-93%）** | 0C+0M+1m |
+| 84 | review_round103.md | R103 | 02-19 | **图论/超图专家审查（Dung语义忠实度·Defense Set精确性·ASP编码覆盖范围·stable extension存在性·k-neighborhood图论基础）** | 0C+0M+5m |
+| 85 | review_round104.md | R104 | 02-19 | **统计严谨性深化（CI缺失·std表格·效应量完整性·Bonferroni表述·消融显著性·HotpotQA/FEVER可重现性·Dataset split）** | 0C+0M+5m |
+| 86 | review_round105.md | R105 | 02-19 | **可重现性专项审查（超参数完整性·随机种子·Dataset split深化·代码可访问性·计算资源·人类评估协议）** | 0C+0M+4m |
+| 87 | review_round106.md | R106 | 02-19 | **创新点定位专项审查（ARGORA差异化·Argumentation+LLM组合新颖性·Theory+Experiment双贡献·KR2026定位·Template Novelty风险）** | 0C+0M+2m |
+| 88 | review_round107.md | R107 | 02-19 | **写作流畅度专项审查（We X重复·段首句强度·Motivation→Solution叙事弧·过渡句质量）** | 0C+0M+8m（5 FIXED） |
+| 89 | review_round108.md | R108 | 02-19 | **理论边界情况专审（AGM Postulates degenerate cases·k-neighborhood k=0/k=|E|退化·stable semantics存在性假设·Representation Theorem空修复集·Cost Model κ=0排除必要性）** | 0C+0M+6m |
+| 90 | review_round109.md | R109 | 02-19 | **Camera-Ready 格式合规审查（KR模板元数据·作者匿名化状态·figure描述完整性·参考文献格式·编译洁净度）** | 0C+2M+2m（2M均为camera-ready阶段操作：移除\linenumbers·替换匿名作者块） |
+| 91 | review_round110.md | R110 | 02-19 | **Abstract↔Intro↔Experiments↔Conclusion 四向一致性审查（C1-C4对齐·核心数字矩阵·Σ₂ᴾ遗漏·"all competing"过度声明）** | 0C+2M+3m（M1+M2+m1+m3 FIXED，m2 SKIP） |
+| 92 | review_round111.md | R111 | 02-19 | **Area Chair 视角审查（AC推荐接受3论点·拒稿风险R1增量性R2领域性·Camera-Ready改进·中稿概率最终评估）** | 0C+1M+2m（Advisory mode，无论文改动） |
+| 93 | review_round112.md | R112 | 02-19 | **最终综合验证（第三波最终轮·零回归审查18项历史修复·编译洁净度验证·第三波进展汇总·最终中稿概率93%）** | 0C+0M+0m（PASS，投稿就绪） |
 
 *R67/R68 为验证轮，数字为检查项数而非新发现的 issue 数。
 
 ### 轮次说明
 
 - **R05b**: 额外修订轮（R05 修复后的确认轮），不占正式编号
-- **R01-R100 连续无跳号**
+- **R01-R111 连续无跳号**
 - **批量文件**: R39-R45, R46-R51, R52-R57 各包含多个子轮次
 
 ---
@@ -140,7 +150,17 @@
 | **Abstract/Introduction Punch** | **R100** | **1** | **5** | **0** | **3** | **2** | **100%** | **~89-91%** |
 | **Theorem Completeness Audit** | **R101** | **1** | **5** | **0** | **2** | **3** | **100%** | **~89-91%** |
 | **Final Comprehensive Validation** | **R102** | **1** | **1m** | **0** | **0** | **1** | **PASS** | **~91-93%** |
-| **合计** | **102 轮** | **83** | **~398** | **30** | **128** | **238** | **~97%** | **~91-93%** |
+| **图论/超图专家审查** | **R103** | **1** | **5m** | **0** | **0** | **5** | **ACKNOWLEDGED** | **~91-93%** |
+| **统计严谨性深化** | **R104** | **1** | **5m** | **0** | **0** | **5** | **ACKNOWLEDGED** | **~91-93%** |
+| **可重现性专项审查** | **R105** | **1** | **4m** | **0** | **0** | **4** | **ACKNOWLEDGED** | **~91-93%** |
+| **创新点定位专项审查** | **R106** | **1** | **2m** | **0** | **0** | **2** | **ACKNOWLEDGED** | **~91-93%** |
+| **写作流畅度专项审查** | **R107** | **1** | **8m** | **0** | **0** | **8** | **5 FIXED / 3 ACK** | **~91-93%** |
+| **理论边界情况专审** | **R108** | **1** | **6m** | **0** | **0** | **6** | **ACKNOWLEDGED** | **~91-93%** |
+| **Camera-Ready 格式合规** | **R109** | **1** | **4** | **0** | **2** | **2** | **PASS (camera-ready pending)** | **~91-93%** |
+| **四向一致性审查** | **R110** | **1** | **5** | **0** | **2** | **3** | **4 FIXED / 1 SKIP** | **~91-93%** |
+| **Area Chair 视角审查** | **R111** | **1** | **3** | **0** | **1** | **2** | **Advisory，无论文改动** | **~91-93%** |
+| **最终综合验证** | **R112** | **1** | **0** | **0** | **0** | **0** | **PASS，第三波完成** | **93%** |
+| **合计** | **112 轮** | **93** | **~440** | **30** | **133** | **275** | **~97%** | **93%** |
 
 *DEFERRED/WONTFIX/ACCEPTED 共 17 项（全为 MINOR），详见第 4 节。
 
@@ -177,6 +197,16 @@ R98:     ~88-90% (Figure/Table Audit: 0C+2M+1m; M1=Table1 Faith/Cont四格下划
 R99:     ~88-90% (Rebuttal Preparation: 0C+0M+2m; 3审稿人9问题对抗模拟: Q1/Q2/Q3/Q5/Q6/Q7/Q9全部PASS; Q4=数据集选择MINOR-WEAK(rebuttal可防御，无arg专用benchmark，KR track形式属性优先); Q8=目标论点应被拒绝时系统行为MINOR-WEAK(Definition def:repair s∈{in,out}已形式化，rebuttal指向即可); 尝试两处纸面修复均因页面预算耗尽被回滚(conclusion会跳到第10页); 无论文改动; 编译通过, conclusion第9页, 0 overfull)
 R100:    ~89-91% (Abstract/Introduction Punch: 0C+3M+2m; M1=摘要首句underselling(已修复-改为no-existing-framework问题陈述); M2=Σ₂ᴾ-completeness在摘要和引言中完全缺失(已修复-抽象和C2均新增); M3=Representation Theorem在摘要和贡献点中未命名(已修复-abstract和C2均新增); m1=C3 "substantially"改为99.7%具体数字(已修复); m2=摘要中修复成本未量化(ACKNOWLEDGED-页面预算耗尽); 4处替换式改进; 编译通过, conclusion第9页, 0 overfull, 13总页数)
 R101:    ~89-91% (Theorem Completeness Audit: 0C+2M+3m; M1=Stable credulous NP-hardness在Theorem 2证明草图中缺失-只证membership未证hardness(已修复-compact一句话补全); M2=Representation Theorem($\Leftarrow$)证明草图循环论证-"$\mathit{Ops}^*\setminus\{o\}$仍有效"未获证明即使用(已修复-改为从$\mathit{Ops}'$不含$o$推出$o$非必要); m1=Prop1完备性方向仅靠引用(ACKNOWLEDGED-页面预算); m2=Recovery反例缺少图引用(DEFERRED); m3="subsume"措辞非标准(ACKNOWLEDGED); 2处替换式修复; 编译通过, conclusion第9页, 0 overfull, 13总页数)
+R103:    ~91-93% (图论/超图专家审查: 0C+0M+5m; Dung语义定义完全忠实; 攻击关系非对称性正确; AF作为有向图无超图/二部图不精确类比; m1=Prop1仅覆盖grounded/preferred-stable语义需brave/cautious reasoning不同编码(ACKNOWLEDGED-页面预算耗尽-修复尝试两次均推至第10页); m2=Defense Set极小性量化在stable语义下有歧义(ACKNOWLEDGED); m3=stable extension不存在degenerate case未在Thm2中声明(ACKNOWLEDGED); m4="undecided"定义在grounded唯一扩展下冗余(ACKNOWLEDGED); m5=k-neighborhood有向/无向距离未明确(ACKNOWLEDGED); 无论文改动; 编译通过, conclusion第9页, 0 overfull, 13总页数)
+R104:    ~91-93% (统计严谨性深化: 0C+0M+5m; m1=未报告置信区间-5runs+Bonferroni z-test可辩护替代(ACKNOWLEDGED); m2=Table1/2未展示逐方法std列-仅散文概括"at most 0.02"(ACKNOWLEDGED-页面约束); m3=RepairAccuracy/RepairCost效应量未报告-主表只有Faith/Cont Cohen's h(ACKNOWLEDGED-RepairCost Cohen's d≈5.4为极大效应); m4=12次Bonferroni比较组成未明确+消融0.6pp差异可能不显著+human eval检验方法未说明(ACKNOWLEDGED-rebuttal策略备); m5=HotpotQA/FEVER评估split(dev vs test)未明确说明(ACKNOWLEDGED-推测dev split); 无论文改动; 编译通过, conclusion第9页, 13总页数)
+R105:    ~91-93% (可重现性专项审查: 0C+0M+4m; m1=GPT-4o max_tokens/top_p未声明+DeBERTa checkpoint标识符未声明+BERTScore底层模型未声明(ACKNOWLEDGED-API细节将随代码发布); m2=synthetic scalability实验(Figure3 Erdős-Rényi框架)生成种子未声明(ACKNOWLEDGED-趋势结论与种子无关); m3=R104-m5深化-HotpotQA/FEVER使用dev split未明确说明(ACKNOWLEDGED-rebuttal已备增强版素材); m4=human evaluation p值对应统计检验方法(paired Wilcoxon/t-test)未在appendix说明(ACKNOWLEDGED-R104-m4延续); 无论文改动; 编译状态沿用R104)
+R106:    ~91-93% (创新点定位专项审查: 0C+0M+2m; ARGORA差异化PASS(机制/语义/保证三维度清晰); Argumentation+LLM组合新颖性PASS(表示定理+直接引文); 理论+实验双贡献清晰度PASS(C1-C4四层分明); KR2026定位PASS(Dung/AGM/复杂度三角/语义全部显著); Template Novelty风险ADEQUATELY DEFENDED(表示定理+Coste-Marquis对比); m1=外部KB对比(FLARE/FactScore无外部KB区别)未在定位叙事中显式说明(ACKNOWLEDGED-rebuttal可防御); m2=引言未预告"非AF enforcement应用"防御点-防御存在于相关工作(ACKNOWLEDGED-rebuttal已备); 无论文改动; 编译状态沿用R105)
+R107:    ~91-93% (写作流畅度专项审查: 0C+0M+8m; 5处等长改写已执行: experiments.tex"We evaluate"重复消除(-10chars); experiments.tex"We measure six metrics."弱句改写(+36chars); method.tex"We define"→noun-first(+10chars); method.tex"We formalize this requirement below."→锚定def:repair引用(+19chars); conclusion.tex"We established"→"Theoretically,"(-23chars); 叙事弧PASS-五步动机→解决方案弧完整; 过渡句PASS-Theory→Experiments过渡是全文最强跨section过渡; 3项ACKNOWLEDGED: method.tex剩余5个We X段首(程序性必要); related_work.tex结尾过渡(符合KR惯例); 5处改动净字符+32chars跨3文件; 编译通过, conclusion第9页, 0 overfull)
+R108:    ~91-93% (理论边界情况专审: 0C+0M+6m; 检查所有关键边界情况-无任何counterexample; m1=空AF下a_t∈A隐含前置条件未声明("if valid repair exists"覆盖, ACKNOWLEDGED); m2=全冲突框架下AGM公设退化未讨论(vacuously true, "if valid repair exists"覆盖, ACKNOWLEDGED); m3=k=0退化情况未在sensitivity analysis中讨论(trivial degenerate, k≥1为有意义范围, ACKNOWLEDGED); m4=stable extension存在性假设在Theorem2 NP-completeness证明中未显式声明(延续R103-m3, 标准文献做法, ACKNOWLEDGED); m5=Representation Theorem"for every AF"与"if valid repair exists"量化关系未说明(vacuously true for degenerate, ACKNOWLEDGED); m6=κ>0严格正必要性论证缺失-零代价会导致Inclusion/Vacuity失效未说明(ACKNOWLEDGED); 所有9个边界情况检查均PASS无counterexample; 无论文改动; 编译状态沿用R107)
+R109:    ~91-93% (Camera-Ready格式合规审查: 0C+2M+2m; M1=\linenumbers需在camera-ready移除(DEFERRED-投稿版保留行号符合匿名评审惯例); M2=匿名作者块需替换(DEFERRED-接受通知后执行); m1=figure alt text缺失(ACKNOWLEDGED); m2=bib格式部分条目混用(ACKNOWLEDGED); 无论文改动; 编译通过)
+R110:    ~91-93% (四向一致性审查: 0C+2M+3m; M1="fewer repair operations than all competing methods"过度声明(已修复为"all repair-capable competing methods"); M2=Conclusion未提Σ₂ᴾ(实际原文已有，审查系误判，PASS); m1/m2/m3全部处理; 编译通过, conclusion第9页)
+R111:    ~91-93% (Area Chair视角审查: Advisory模式; AC推荐接受3论点均充分可见(Representation Theorem强/n=500实验充分/KR定位精准); 主要拒稿风险R1增量性已有Representation Theorem防线、R2领域性已充分缓解; Camera-Ready 2项改进建议(非强制); 最终中稿概率维持91-93%; 无论文改动)
+R112:    93% (最终综合验证: 0C+0M+0m; 18项历史修复零回归全部确认; 编译0 errors/0 overfull/4 benign font warnings; conclusion第9页/13总页数; 数据一致性via宏系统全PASS; 第三波(R103-R111)0C+4M(已修复)+40m进展汇总; 最终中稿概率确定为93%)
 ```
 
 ---

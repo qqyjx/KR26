@@ -4,6 +4,6 @@ When large language models produce natural-language rationales, those explanatio
 We introduce \textsc{Argus}, a framework that structures LLM self-explanations as Dung-style abstract argumentation frameworks, verifies them under grounded and preferred semantics, and---when an evidence update renders the explanation inconsistent---computes a minimum-cost set of edit operations that restores the desired acceptability status of the target argument.
 The repair operator satisfies adapted AGM revision postulates and is bidirectionally characterized by them (Representation Theorem): the decision problem is in P under grounded semantics, NP-complete under preferred and stable semantics, and $\Sigma_2^P$-complete under skeptical stable semantics.
 A $k$-neighborhood approximation and an answer set programming (ASP) encoding ensure scalability to practical framework sizes.
-We validate the framework on HotpotQA and FEVER, where \textsc{Argus} achieves relative improvements of \improveFaithfulness{} in faithfulness and \improveContestability{} in contestability over the strongest argumentation baseline while requiring fewer repair operations than all competing methods.
+We validate the framework on HotpotQA and FEVER, where \textsc{Argus} achieves relative improvements of \improveFaithfulness{} in faithfulness and \improveContestability{} in contestability over the strongest argumentation baseline while requiring fewer repair operations than all repair-capable competing methods.
 \end{abstract}
 

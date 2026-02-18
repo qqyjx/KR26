@@ -38,10 +38,10 @@ In either case, the solver also returns a \emph{defense set}~$D\subseteq\mathcal
 
 When new evidence contradicts the current explanation or the verification step detects a failure, \textsc{Argus} repairs the argumentation framework rather than regenerating the rationale from scratch.
 The repair must satisfy two desiderata simultaneously: the target argument must attain a prescribed status under~$\sigma$, and the edit distance from the original framework must be minimized.
-We formalize this requirement below.
+Definition~\ref{def:repair} formalizes this requirement.
 
 \textbf{Repair Operations.}
-We define four elementary edit operations: $\mathsf{add\_arg}(a)$ and $\mathsf{del\_arg}(a)$ insert or remove an argument (deletions cascade to incident attacks), while $\mathsf{add\_att}(a_i,a_j)$ and $\mathsf{del\_att}(a_i,a_j)$ insert or remove attacks.
+Four elementary edit operations underlie the repair: $\mathsf{add\_arg}(a)$ and $\mathsf{del\_arg}(a)$ insert or remove an argument (deletions cascade to incident attacks), while $\mathsf{add\_att}(a_i,a_j)$ and $\mathsf{del\_att}(a_i,a_j)$ insert or remove attacks.
 A set of operations yields a repaired framework $\mathit{AF}'=(\mathcal{A}',\mathcal{R}')$.
 
 \textbf{Cost Function.}

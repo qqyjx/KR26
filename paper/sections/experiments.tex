@@ -6,12 +6,12 @@ We evaluate \textsc{Argus} on two established benchmarks to answer three questio
 (Q2)~Does the minimal-change repair operator improve faithfulness and contestability w.r.t.\ existing baselines?
 (Q3)~What is the empirical cost of repair?
 
-We evaluate on 500 randomly sampled instances from HotpotQA~\cite{yang2018hotpotqa}, a multi-hop question-answering benchmark, and 500 from FEVER~\cite{thorne2018fever}, a fact-verification benchmark; instances are drawn with seed 42.
+Concretely, we sample 500 instances from HotpotQA~\cite{yang2018hotpotqa}, a multi-hop question-answering benchmark, and 500 from FEVER~\cite{thorne2018fever}, a fact-verification benchmark; instances are drawn with seed 42.
 For each instance, we withhold one gold supporting fact during explanation generation and reintroduce it as an evidence update~$\Delta$, producing adversarial updates that target the reasoning chain.
 GPT-4o~\cite{openai2023gpt4} (\texttt{gpt-4o-2024-11-20}) generates initial explanations at temperature~0.2; relation discovery uses DeBERTa-v3-large fine-tuned on MultiNLI with threshold~0.7; repairs are computed by clingo~5.6 with $k{=}3$ under uniform cost.
 Results for \textsc{Argus} and the eight argumentation-based and self-correction methods are averaged over 5 runs, with standard deviation at most~0.02 for accuracy metrics and at most~0.4 for cost; FLARE and FactScore use a single deterministic run (greedy decoding and fixed retrieval scoring, respectively, making repeated runs redundant).  Further details appear in Appendix~\ref{app:exp-details}.
 
-We measure six metrics.
+Six metrics quantify performance along distinct dimensions.
 \emph{Faithfulness} is the fraction of argument units whose removal via counterfactual ablation changes the answer; baselines without structured units undergo the same LLM-based decomposition before ablation (details in Appendix~\ref{app:exp-details}).
 \emph{Contestability} is the fraction of gold counterarguments correctly integrated as attacks; gold counterarguments are derived from the withheld supporting facts (Appendix~\ref{app:exp-details}). For methods that lack an explicit argumentation framework---specifically FLARE and FactScore---gold counterarguments are evaluated against their output decomposed into proposition units via the same LLM-based procedure used for faithfulness, enabling direct comparison.
 \emph{Repair accuracy} records answer correctness after repair, and \emph{repair cost} counts edit operations per Definition~\ref{def:repair}.
