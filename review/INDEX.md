@@ -2,8 +2,8 @@
 
 **论文**: ARGUS: Argumentation-Based Minimal-Change Repair for Verifiable LLM Self-Explanations
 **会议**: KR 2026, Paper ID 607
-**审稿周期**: 2026-02-11 ~ 2026-02-18 (8 天, 92 轮)
-**最终状态**: R92 Final Pre-Submission Check（最终综合验证完成, 0C+0M+1m 全修复）, 论文投稿就绪, 中稿概率 ~85-88%
+**审稿周期**: 2026-02-11 ~ 2026-02-18 (8 天, 98 轮)
+**最终状态**: R98 Figure/Table Audit（0C+2M+1m, 2M全部修复）, 论文投稿就绪, 中稿概率 ~88-90%
 
 ---
 
@@ -84,6 +84,12 @@
 | 71 | review_round90.md | R90 | 02-18 | Logic/Theory 审查（AGM公设·改进声明·消融单调性） | 0C+0M+2m |
 | 72 | review_round91.md | R91 | 02-18 | Parentheses/Writing Check（括号全面清查·experiments·related_work） | 5C+2M+7m |
 | 73 | review_round92.md | R92 | 02-18 | **Final Pre-Submission Check（最终综合验证, Full mode, Senior AC）** | 0C+0M+1m |
+| 74 | review_round93.md | R93 | 02-18 | **Adversarial Argumentation Theory Expert（AGM证明完备性·Σ₂ᴾ证明·k-neighborhood刻画）** | 0C+4M+2m |
+| 75 | review_round94.md | R94 | 02-18 | **Adversarial NLP Methodology Expert（SelfRAG/VerifyAndEdit排除理由·效应量Cohen's h·Bonferroni防御）** | 0C+2M+4m |
+| 76 | review_round95.md | R95 | 02-18 | **Related Work Completeness Scan（Argumentation+LLM·AGM新工作·形式化解释·KR社区2024-2025覆盖度）** | 0C+0M+1m |
+| 77 | review_round96.md | R96 | 02-18 | **Coherence Metric Defense（BERTScore循环性·人类评估交叉验证·Regenerate基线一致性错误修复）** | 0C+3M+1m |
+| 78 | review_round97.md | R97 | 02-18 | **FLARE/FactScore Methodology Defense（单轮评估理由·FLARE修复成本归属·可比性辩护）** | 0C+2M+1m |
+| 79 | review_round98.md | R98 | 02-18 | **Figure/Table Audit（TikZ overfull修复·Table1下划线纠错·Regenerate faithfulness限定）** | 0C+2M+1m |
 
 *R67/R68 为验证轮，数字为检查项数而非新发现的 issue 数。
 
@@ -120,7 +126,13 @@
 | Logic/Theory 审查 | R90 | 1 | 2 | 0 | 0 | 2 | -- | ~84-87% |
 | Parentheses/Writing | R91 | 1 | 14 | 5 | 2 | 7 | 100% | ~85-88% |
 | **Final Pre-Submission** | **R92** | **1** | **1** | **0** | **0** | **1** | **100%** | **~85-88%** |
-| **合计** | **92 轮** | **73** | **~362** | **30** | **110** | **220** | **~97%** | **~85-88%** |
+| **对抗性论证理论专家审查** | **R93** | **1** | **6** | **0** | **4** | **2** | **100%** | **~86-89%** |
+| **对抗性NLP方法论专家审查** | **R94** | **1** | **6** | **0** | **2** | **4** | **100%** | **~86-89%** |
+| **Related Work 覆盖度扫描** | **R95** | **1** | **1** | **0** | **0** | **1** | **ACKNOWLEDGED** | **~86-89%** |
+| **Coherence Metric Defense** | **R96** | **1** | **4** | **0** | **3** | **1** | **100%** | **~87-89%** |
+| **FLARE/FactScore Methodology Defense** | **R97** | **1** | **3** | **0** | **2** | **1** | **100%** | **~88-90%** |
+| **Figure/Table Audit** | **R98** | **1** | **3** | **0** | **2** | **1** | **100%** | **~88-90%** |
+| **合计** | **98 轮** | **79** | **~385** | **30** | **123** | **230** | **~97%** | **~88-90%** |
 
 *DEFERRED/WONTFIX/ACCEPTED 共 17 项（全为 MINOR），详见第 4 节。
 
@@ -148,6 +160,12 @@ R89:     ~84-87% (Citations 审查: 0C+0M+1m; 三个新增引用全部通过，3
 R90:     ~84-87% (Logic/Theory 审查: 0C+0M+2m; AGM公设/改进声明/消融单调性全部验证通过; 2m=solve time下界保守偏差+"3-10x"应为"5-10x")
 R91:     ~85-88% (Parentheses/Writing 审查: 5C+2M+7m; experiments.tex括号严重超标已全部修复; related_work 3-括号句子修复; 100%修复率)
 R92:     ~85-88% (Final Pre-Submission Check: 0C+0M+1m; "seven"→"eight"方法计数修复; 所有R87-R91 CRITICAL/MAJOR均确认已修复; 论文投稿就绪)
+R93:     ~86-89% (对抗性论证理论专家: 0C+4M+2m; 表示定理逆方向逻辑漏洞修复; Σ₂ᴾ完备性证明补全; 一致性/外延性条件限定; k-neighborhood形式完备性刻画; 100%修复率)
+R94:     ~86-89% (对抗性NLP方法论专家: 0C+2M+4m; SelfRAG/VerifyAndEdit排除理由补充; Cohen's h效应量新增; 4m=Bonferroni防御/z-test/人类评估规模/grounded时间句删除; 100%修复率; 2新引用)
+R95:     ~86-89% (Related Work覆盖度扫描: 0C+0M+1m; 4大维度全部PASS; 1m=argument mining scope未显式说明，但页面预算已耗尽无法添加，defensible from task definition; 无论文改动)
+R96:     ~87-89% (Coherence Metric Defense: 0C+3M+1m; M1=循环性披露无人类评估交叉引用(已修复); M2=Regenerate文本与表格事实矛盾-错误声称无coherence分数(已修复); M3=未利用Regenerate低coherence支持指标有效性(已修复); 1m=human eval无coherence维度独立κ; 编译通过, conclusion第9页)
+R97:     ~88-90% (FLARE/FactScore Methodology Defense: 0C+2M+1m; M1=单轮评估未说明理由(greedy decoding/deterministic retrieval，已修复); M2=成本不可通约性声明遗漏FLARE-验证导向方法成本计算未解释(已修复); 1m=LLM分解contestability潜在偏差未声明，页面预算耗尽保留; 编译通过, conclusion第9页)
+R98:     ~88-90% (Figure/Table Audit: 0C+2M+1m; M1=Table1 Faith/Cont四格下划线错误-ArgLLMs误标为次优而ARGORA实际更高(已修复，下划线移至ARGORA); M2=Regenerate"lowest faithfulness"事实性过度声明-SelfCheckGPT(.693/.674)实际更低(已修复，加"among argumentation-based methods"限定); 1m=trim axis修复边框级改动; TikZ overfull hbox 25.69pt已修复(0 warnings); 编译通过, conclusion第9页)
 ```
 
 ---
@@ -233,9 +251,9 @@ R92:     ~85-88% (Final Pre-Submission Check: 0C+0M+1m; "seven"→"eight"方法�
 
 - 总页数: 12 (9 正文 + ~1.5 refs + ~1.5 appendix)
 - 正文: 9 页 ≤ 9 ✅ (Conclusion 在第 9 页)
-- Overfull hbox: 0 ✅
+- Overfull hbox: 0 ✅ (R98 修复 TikZ scalability figure 25.69pt overflow)
 - Undefined citations: 0 ✅
-- References: 39 条 ✅ (R76 新增 2 条，R87/R88 新增 3 条: jiang2023flare, min2023factscore, zhang2020bertscore)
+- References: 43 条 ✅ (R76 新增 2 条，R87/R88 新增 3 条，R94 新增 2 条: asai2024selfrag, zhao2023verify; R95/R96/R97/R98 无新增)
 - Paper ID: 607, Anonymous Authors ✅
 - Theorems: 3 (AGM → Representation → Complexity) ✅
 - Human evaluation: Appendix F (ACTUAL) ✅
