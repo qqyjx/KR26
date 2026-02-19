@@ -2,8 +2,8 @@
 
 **论文**: ARGUS: Argumentation-Based Minimal-Change Repair for Verifiable LLM Self-Explanations
 **会议**: KR 2026, Paper ID 607
-**审稿周期**: 2026-02-11 ~ 2026-02-19 (9 天, 112 轮)
-**最终状态**: R112 第三波审稿完成，最终综合验证通过，中稿概率 **93%**（0C+0M+0m，零回归确认，编译干净，投稿就绪）
+**审稿周期**: 2026-02-11 ~ 2026-02-20 (10 天, 119 轮)
+**最终状态**: R119 形式符号一致性终审，apply()签名不一致修复（appendix.tex −39chars），1M FIXED+2m ACKNOWLEDGED，中稿概率 **93%**（论文改动：appendix.tex 3处函数调用格式统一，投稿就绪）
 
 ---
 
@@ -104,13 +104,20 @@
 | 91 | review_round110.md | R110 | 02-19 | **Abstract↔Intro↔Experiments↔Conclusion 四向一致性审查（C1-C4对齐·核心数字矩阵·Σ₂ᴾ遗漏·"all competing"过度声明）** | 0C+2M+3m（M1+M2+m1+m3 FIXED，m2 SKIP） |
 | 92 | review_round111.md | R111 | 02-19 | **Area Chair 视角审查（AC推荐接受3论点·拒稿风险R1增量性R2领域性·Camera-Ready改进·中稿概率最终评估）** | 0C+1M+2m（Advisory mode，无论文改动） |
 | 93 | review_round112.md | R112 | 02-19 | **最终综合验证（第三波最终轮·零回归审查18项历史修复·编译洁净度验证·第三波进展汇总·最终中稿概率93%）** | 0C+0M+0m（PASS，投稿就绪） |
+| 94 | review_round113.md | R113 | 02-19 | **附录证明完整性深度审查（第四波第1轮·AGM全8条逐条验证·Representation Theorem⟸方向证明质量·Complexity reduction链·证明链自洽性）** | 0C+0M+3m（全部ACKNOWLEDGED，无论文改动） |
+| 95 | review_round114.md | R114 | 02-19 | **R113-m2引用精度修复+2025-2026并行工作扫描（theory.tex:29 katsuno→alchourron等长替换·argumentation+LLM/AGM+neural/自修正/AF解释四方向扫描）** | 0C+0M+1m FIXED+2m ACKNOWLEDGED |
+| 96 | review_round115.md | R115 | 02-19 | **消融实验充分性审查（第四波第3轮·ASP选择/k=3邻域近似/NLI阈值/代价模型四维度·Table2消融完整性评估·sensitivity appendix充分性）** | 0C+0M+3m（全部ACKNOWLEDGED，无论文改动） |
+| 97 | review_round116.md | R116 | 02-19 | **Introduction句级冲击力審查（第四波第4轮·6维度逐句分析·动词力量审查·贡献句精确度·专业术语可及性·无outline段落结构最优）** | 0C+0M+2m（全部ACKNOWLEDGED，无论文改动） |
+| 98 | review_round117.md | R117 | 02-19 | **图表信息密度审查（第四波第5轮·Figure 1-5+Table 1-2逐一审查·caption独立可读性·色彩可分辨性·轴标签完整性·最佳值标注一致性）** | 0C+0M+2m（全部ACKNOWLEDGED，无论文改动） |
+| 99 | review_round118.md | R118 | 02-19 | **Rebuttal素材终极准备（第四波第6轮·Representation Theorem新颖性·n=75 Human Evaluation·Argumentation框架必要性·3×~200词英文草稿）** | 0C+0M+0m（纯素材文档，无论文改动） |
+| 100 | review_round119.md | R119 | 02-20 | 形式符号一致性终审（apply()签名修复·1M FIXED+2m ACKNOWLEDGED） | 0C+1M+2m |
 
 *R67/R68 为验证轮，数字为检查项数而非新发现的 issue 数。
 
 ### 轮次说明
 
 - **R05b**: 额外修订轮（R05 修复后的确认轮），不占正式编号
-- **R01-R111 连续无跳号**
+- **R01-R119 连续无跳号**
 - **批量文件**: R39-R45, R46-R51, R52-R57 各包含多个子轮次
 
 ---
@@ -160,7 +167,15 @@
 | **四向一致性审查** | **R110** | **1** | **5** | **0** | **2** | **3** | **4 FIXED / 1 SKIP** | **~91-93%** |
 | **Area Chair 视角审查** | **R111** | **1** | **3** | **0** | **1** | **2** | **Advisory，无论文改动** | **~91-93%** |
 | **最终综合验证** | **R112** | **1** | **0** | **0** | **0** | **0** | **PASS，第三波完成** | **93%** |
-| **合计** | **112 轮** | **93** | **~440** | **30** | **133** | **275** | **~97%** | **93%** |
+| **附录证明完整性深度审查** | **R113** | **1** | **3m** | **0** | **0** | **3** | **ACKNOWLEDGED，无论文改动** | **93%** |
+| **引用精度修复+并行工作扫描** | **R114** | **1** | **1m FIXED+2m ACK** | **0** | **0** | **3** | **1 FIXED / 2 ACKNOWLEDGED** | **93%** |
+| **消融实验充分性审查** | **R115** | **1** | **3m** | **0** | **0** | **3** | **ACKNOWLEDGED，无论文改动** | **93%** |
+| **Introduction句级冲击力审查** | **R116** | **1** | **2m** | **0** | **0** | **2** | **ACKNOWLEDGED，无论文改动** | **93%** |
+| **图表信息密度审查** | **R117** | **1** | **2m** | **0** | **0** | **2** | **ACKNOWLEDGED，无论文改动** | **93%** |
+| **图表信息密度审查** | **R117** | **1** | **2m** | **0** | **0** | **2** | **ACKNOWLEDGED，无论文改动** | **93%** |
+| **Rebuttal素材终极准备** | **R118** | **1** | **0** | **0** | **0** | **0** | **N/A（纯素材文档）** | **93%** |
+| 形式符号一致性终审 | R119 | 1 | 0 | 1 | 2 | 0 | appendix.tex −39chars | 93% |
+| **合计** | **117 轮** | **98** | **~451** | **30** | **133** | **286** | **~97%** | **93%** |
 
 *DEFERRED/WONTFIX/ACCEPTED 共 17 项（全为 MINOR），详见第 4 节。
 
@@ -207,6 +222,14 @@ R109:    ~91-93% (Camera-Ready格式合规审查: 0C+2M+2m; M1=\linenumbers需�
 R110:    ~91-93% (四向一致性审查: 0C+2M+3m; M1="fewer repair operations than all competing methods"过度声明(已修复为"all repair-capable competing methods"); M2=Conclusion未提Σ₂ᴾ(实际原文已有，审查系误判，PASS); m1/m2/m3全部处理; 编译通过, conclusion第9页)
 R111:    ~91-93% (Area Chair视角审查: Advisory模式; AC推荐接受3论点均充分可见(Representation Theorem强/n=500实验充分/KR定位精准); 主要拒稿风险R1增量性已有Representation Theorem防线、R2领域性已充分缓解; Camera-Ready 2项改进建议(非强制); 最终中稿概率维持91-93%; 无论文改动)
 R112:    93% (最终综合验证: 0C+0M+0m; 18项历史修复零回归全部确认; 编译0 errors/0 overfull/4 benign font warnings; conclusion第9页/13总页数; 数据一致性via宏系统全PASS; 第三波(R103-R111)0C+4M(已修复)+40m进展汇总; 最终中稿概率确定为93%)
+R113:    93% (附录证明完整性深度审查: 0C+0M+3m; AGM全8条逐条验证PASS(success/inclusion/vacuity已证明，consistency/extensionality条件满足，recovery反例存在，closure/superexpansion/subexpansion N/A有依据); Representation Theorem⟸方向证明质量PASS; Complexity reduction链完整PASS; 3m全部ACKNOWLEDGED; 无论文改动)
+R114:    93% (R113-m2引用精度修复+2025-2026并行工作扫描: 1m FIXED(theory.tex:29 katsuno1992update→alchourron1985agm，零字符净增量，结论仍在第9页，13总页数，0 overfull); argumentation+LLM/AGM+neural/自修正/AF解释四方向扫描无关键缺口; 2m=ECAI2025/IJCAI2025未覆盖AF论文(ACKNOWLEDGED); 中稿概率维持93%)
+R115:    93% (消融实验充分性审查第四波第3轮: 0C+0M+3m; ASP选择/k=3邻域/NLI阈值/代价模型四维度全覆盖; k=3邻域PASS(k-sweep+Fig1+error analysis+depth stats四线支撑); NLI阈值MINOR(0.5→0.9 pilot 100实例但单调行为可泛化); 代价模型MINOR(appendix pilot 100实例·主消融表覆盖组件必要性·参数敏感性在附录); ASP选择MINOR(KR社区规范+Egly引用+beam search备选+0.55s效率·rebuttal已备); 3m全部ACKNOWLEDGED; 无论文改动; 编译状态沿用R114)
+R116:    93% (Introduction句级冲击力审查第四波第4轮: 0C+0M+2m; 6维度逐句分析(hook/X→Y动机/动词力量/贡献精确度/outline可压缩性/术语可及性)全部PASS; P1开头hook强(9/10-LLM不忠实问题清晰可及); P3/P5动词强("silently discarded"/"cannot self-correct"/"computes"/"restores"); 无standalone outline段落(正确-节引用内嵌于贡献列表); m1="fall short"弱短语动词(-3chars替换"fail"有语义权衡，ACKNOWLEDGED); m2="defense-set certificates"首次出现于C1无前置定义(KR标准前向引用惯例，ACKNOWLEDGED); 无论文改动; 编译状态沿用R115)
+R117:    93% (图表信息密度审查第四波第5轮: 0C+0M+2m; Fig1(positioning-PDF)PASS(caption独立·3色可分辨·定性坐标无需量化); Fig2(AF-evolution-TikZ三子图)PASS+m1("target argument"无内联定义·+40chars不可修复·KR受众可理解); Fig3(pipeline-PDF)PASS(caption精简正确·外部PDF); Fig4(scalability-TikZ)PASS+m2(semi-log坐标"polynomial scaling"表述对非复杂度读者可能混淆·+20chars不可修复·Thm2形式支撑); Fig5(cost-dist-TikZ)PASS(累计83%/90%关键数字在caption·无需误差线); Tab1 PASS(caption含所有标注约定·bold+underline完整正确·11 baselines); Tab2 PASS(消融4组件完整覆盖·bold标注正确); 无论文改动; 编译: 0 overfull hbox, conclusion p.9)
+
+R118:    93% (Rebuttal素材终极准备第四波第6轮: 0C+0M+0m; 3大质疑rebuttal草稿: Q1=Representation Theorem新颖性(first AGM↔argumentation-repair bridge·Hase2024区分·双向if-and-only-if·~200词); Q2=n=75 Human Evaluation(实为75非60·1000主评估+Bonferroni为核心·κ=0.62+r=0.78交叉验证·~200词); Q3=Argumentation框架必要性(Table2消融直接证据·-5.4pp/-7.7pp·Huang2024权威引用·三独立论点·~200词); 三个草稿全部强可防御; 无论文改动; 编译状态沿用R117)
+R119:    93% (形式符号一致性终审: 0C+1M+2m; 5维度(框架符号/下标风格/定义引用/算法名/集合操作)全面检查; apply()签名不一致MAJOR已修复(appendix.tex:60,62,64三处\circ/\mathsf{apply}从expanded(\mathcal{A},\mathcal{R},...)改为\mathit{AF}，−39chars净减少); 定义/定理引用风格100%一致(Definition~/Theorem~无缩写混用); \textsc{Argus}命名15+处一致; \mathsf{}操作符无\texttt{}混用; \setminus无\backslash变体; 2m=Def3中G局部变量/Defs1-2的F与Def4的\mathit{AF}差异(均为有意设计，ACKNOWLEDGED); 编译通过，conclusion第9页，0 overfull)
 ```
 
 ---

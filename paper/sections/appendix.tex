@@ -57,11 +57,11 @@ We prove the $(\Leftarrow)$ direction of Theorem~\ref{thm:representation} for ge
 \begin{proof}
 Let $\circ$ be a repair operator satisfying adapted success, inclusion, and vacuity for every AF $(\mathcal{A},\mathcal{R})$, semantics $\sigma$, target $a_t$, status $s$, and evidence update $\Delta$.  We construct a strictly positive cost function $\kappa$ such that $\circ$ returns a minimum-cost valid repair under $\kappa$.
 
-\textbf{Construction.}  Fix an enumeration of all feasible operations $o_1, \ldots, o_m$ for the given AF and $\Delta$.  Define $\kappa(o_i) = 1$ for all $i$.  Let $\mathit{Ops} = \circ(\mathcal{A}, \mathcal{R}, \sigma, a_t, s, \Delta)$.
+\textbf{Construction.}  Fix an enumeration of all feasible operations $o_1, \ldots, o_m$ for the given AF and $\Delta$.  Define $\kappa(o_i) = 1$ for all $i$.  Let $\mathit{Ops} = \circ(\mathit{AF}, \sigma, a_t, s, \Delta)$.
 
-\textbf{Validity.}  By success, $a_t$ has status $s$ in $\mathsf{apply}(\mathcal{A}, \mathcal{R}, \Delta, \mathit{Ops})$ under $\sigma$, so $\mathit{Ops}$ is a valid repair.
+\textbf{Validity.}  By success, $a_t$ has status $s$ in $\mathsf{apply}(\mathit{AF}, \Delta, \mathit{Ops})$ under $\sigma$, so $\mathit{Ops}$ is a valid repair.
 
-\textbf{Vacuity case.}  If $a_t$ already has status $s$ in $\mathsf{apply}(\mathcal{A}, \mathcal{R}, \Delta, \emptyset)$, then by vacuity $\mathit{Ops} = \emptyset$ with cost $0$, which is trivially minimum.
+\textbf{Vacuity case.}  If $a_t$ already has status $s$ in $\mathsf{apply}(\mathit{AF}, \Delta, \emptyset)$, then by vacuity $\mathit{Ops} = \emptyset$ with cost $0$, which is trivially minimum.
 
 \textbf{Non-vacuity case.}  Suppose for contradiction that there exists a valid repair $\mathit{Ops}'$ with $|\mathit{Ops}'| < |\mathit{Ops}|$.  By inclusion, every operation in $\mathit{Ops}$ is necessary: for each $o \in \mathit{Ops}$, removing $o$ would either violate success (the resulting framework does not grant $a_t$ status $s$) or leave a valid repair of cardinality $|\mathit{Ops}| - 1$, contradicting the assumption that $\circ$ satisfies inclusion with respect to $\mathit{Ops}$.
 
