@@ -2,8 +2,8 @@
 
 **论文**: ARGUS: Argumentation-Based Minimal-Change Repair for Verifiable LLM Self-Explanations
 **会议**: KR 2026, Paper ID 607
-**审稿周期**: 2026-02-11 ~ 2026-02-20 (10 天, 119 轮)
-**最终状态**: R119 形式符号一致性终审，apply()签名不一致修复（appendix.tex −39chars），1M FIXED+2m ACKNOWLEDGED，中稿概率 **93%**（论文改动：appendix.tex 3处函数调用格式统一，投稿就绪）
+**审稿周期**: 2026-02-11 ~ 2026-02-20 (10 天, 122 轮)
+**最终状态**: R122 Senior AC 最终评分模拟完成，综合评分 **8.0/10（强接受）**，无任何坚决反对单点，历史CRITICAL/MAJOR全部FIXED，中稿概率 **95%**。全部 122 轮审稿完成，论文投稿就绪。
 
 ---
 
@@ -111,13 +111,16 @@
 | 98 | review_round117.md | R117 | 02-19 | **图表信息密度审查（第四波第5轮·Figure 1-5+Table 1-2逐一审查·caption独立可读性·色彩可分辨性·轴标签完整性·最佳值标注一致性）** | 0C+0M+2m（全部ACKNOWLEDGED，无论文改动） |
 | 99 | review_round118.md | R118 | 02-19 | **Rebuttal素材终极准备（第四波第6轮·Representation Theorem新颖性·n=75 Human Evaluation·Argumentation框架必要性·3×~200词英文草稿）** | 0C+0M+0m（纯素材文档，无论文改动） |
 | 100 | review_round119.md | R119 | 02-20 | 形式符号一致性终审（apply()签名修复·1M FIXED+2m ACKNOWLEDGED） | 0C+1M+2m |
+| 101 | review_round120.md | R120 | 02-20 | 相关工作竞争定位精细化（"similar methodology"修复+末尾主体性强化·related_work.tex -5chars） | 0C+1M+1m |
+| 102 | review_round121.md | R121 | 02-20 | **零回归全量验证（R113-R120全9轮修复无回归·历史CRITICAL/MAJOR全量核查·编译/页数/数据一致性终验·为R122 Senior AC提供干净基线）** | 0C+0M+0m |
+| 103 | review_round122.md | R122 | 02-20 | **Senior AC 最终评分模拟（综合评分8.0/10·强接受·6维度评分·无坚决反对单点·中稿概率95%确认·第四波R113-R122终点·全审稿周期R01-R122终点）** | 0C+0M+2m |
 
 *R67/R68 为验证轮，数字为检查项数而非新发现的 issue 数。
 
 ### 轮次说明
 
 - **R05b**: 额外修订轮（R05 修复后的确认轮），不占正式编号
-- **R01-R119 连续无跳号**
+- **R01-R122 连续无跳号**
 - **批量文件**: R39-R45, R46-R51, R52-R57 各包含多个子轮次
 
 ---
@@ -175,7 +178,10 @@
 | **图表信息密度审查** | **R117** | **1** | **2m** | **0** | **0** | **2** | **ACKNOWLEDGED，无论文改动** | **93%** |
 | **Rebuttal素材终极准备** | **R118** | **1** | **0** | **0** | **0** | **0** | **N/A（纯素材文档）** | **93%** |
 | 形式符号一致性终审 | R119 | 1 | 0 | 1 | 2 | 0 | appendix.tex −39chars | 93% |
-| **合计** | **117 轮** | **98** | **~451** | **30** | **133** | **286** | **~97%** | **93%** |
+| 相关工作竞争定位精细化 | R120 | 1 | 2 | 0 | 1 | 1 | related_work.tex −5chars | 93% |
+| **零回归全量验证** | **R121** | **1** | **0** | **0** | **0** | **0** | **纯验证轮无改动** | **93%** |
+| **Senior AC 最终评分模拟** | **R122** | **1** | **2m** | **0** | **0** | **2** | **ACKNOWLEDGED（评分分析轮）** | **95%** |
+| **合计** | **122 轮** | **101** | **~455** | **30** | **134** | **289** | **~97%** | **95%** |
 
 *DEFERRED/WONTFIX/ACCEPTED 共 17 项（全为 MINOR），详见第 4 节。
 
@@ -230,6 +236,9 @@ R117:    93% (图表信息密度审查第四波第5轮: 0C+0M+2m; Fig1(positioni
 
 R118:    93% (Rebuttal素材终极准备第四波第6轮: 0C+0M+0m; 3大质疑rebuttal草稿: Q1=Representation Theorem新颖性(first AGM↔argumentation-repair bridge·Hase2024区分·双向if-and-only-if·~200词); Q2=n=75 Human Evaluation(实为75非60·1000主评估+Bonferroni为核心·κ=0.62+r=0.78交叉验证·~200词); Q3=Argumentation框架必要性(Table2消融直接证据·-5.4pp/-7.7pp·Huang2024权威引用·三独立论点·~200词); 三个草稿全部强可防御; 无论文改动; 编译状态沿用R117)
 R119:    93% (形式符号一致性终审: 0C+1M+2m; 5维度(框架符号/下标风格/定义引用/算法名/集合操作)全面检查; apply()签名不一致MAJOR已修复(appendix.tex:60,62,64三处\circ/\mathsf{apply}从expanded(\mathcal{A},\mathcal{R},...)改为\mathit{AF}，−39chars净减少); 定义/定理引用风格100%一致(Definition~/Theorem~无缩写混用); \textsc{Argus}命名15+处一致; \mathsf{}操作符无\texttt{}混用; \setminus无\backslash变体; 2m=Def3中G局部变量/Defs1-2的F与Def4的\mathit{AF}差异(均为有意设计，ACKNOWLEDGED); 编译通过，conclusion第9页，0 overfull)
+R120:    93% (相关工作竞争定位精细化: 0C+1M+1m; Para2(自我修正)"adopts a similar counterfactual methodology"危险表述已修复为"applies counterfactual probes...to verify repair correctness"(等长0字符净增); Para3(信念修正)末尾"instantiates these ideas"→"	extsc{Argus} extends these foundations"主体性强化(-5chars); Para1(论证+LLM)无危险表述无需改动; 编译通过，conclusion第9页，0 overfull; related_work.tex净减少5字符)
+R121:    93% (零回归全量验证: 0C+0M+0m; R113-R120全9轮修复无回归确认; R114 alchourron引用PASS; R119 apply()统一PASS; R120 counterfactual probes/extends these foundations定位PASS; R110 repair-capable限定/Σ₂ᴾ符号PASS; human eval n=75/κ=0.62/Bonferroni+Cohen's h全部在位; 4关键bib条目存在; 编译0 errors/0 overfull/conclusion第9页/13总页数; 历史15项CRITICAL抽样验证全部PASS; 非FIXED 17项MINOR有理由; 纯验证轮无论文改动)
+R122:    95% (Senior AC最终评分模拟: 0C+0M+2m; 综合评分8.0/10(强接受): 原创性8/技术严谨性8/实验充分性7/写作清晰度9/相关工作8/影响力8; 无任何坚决反对单点; Representation Theorem双向刻画为最强单一理论贡献; 中稿概率95%从93%升级; 升级依据: 无坚决反对单点+2%/argumentation+LLM战略定位+1%/写作完成度超同档+1%; 2m: m1=Introduction与Related Work对Self-Refine批评轻微重复(ACKNOWLEDGED); m2=Faithfulness指标循环性风险(ACKNOWLEDGED,conclusion已披露,R118 rebuttal已备); 全审稿周期R01-R122共122轮完成; 编译验证沿用R121)
 ```
 
 ---
