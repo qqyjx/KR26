@@ -17,7 +17,7 @@ Self-Refine~\cite{madaan2023selfrefine} and Reflexion~\cite{shinn2023reflexion} 
 Huang et al.~\cite{huang2024selfcorrect} demonstrate that LLMs cannot self-correct without external feedback.
 RARR~\cite{gao2023rarr} retrieves evidence for revision but targets surface-level attribution; SelfCheckGPT~\cite{manakul2023selfcheckgpt} detects hallucinations but provides no repair mechanism.
 Chain-of-Verification~\cite{dhuliawala2024cove} and CRITIC~\cite{gou2024critic} improve factual accuracy but lack formal preservation guarantees.
-Matton et al.~\cite{matton2025walk} measure faithfulness through counterfactual interventions and Bayesian causal models, demonstrating that instruction-tuned models produce more faithful explanations; our evaluation adopts a similar counterfactual methodology but applies it to argumentation-structured explanations.
+Matton et al.~\cite{matton2025walk} measure faithfulness through counterfactual interventions and Bayesian causal models, demonstrating that instruction-tuned models produce more faithful explanations; our evaluation applies counterfactual probes to argumentation-structured explanations to verify repair correctness.
 In contrast, \textsc{Argus} formalizes the repair search space as edits to an argumentation framework, bounds the cost of change, and guarantees that unaffected reasoning steps are preserved.
 
 \textbf{Belief Revision and Argumentation Dynamics.}
@@ -28,6 +28,6 @@ In argumentation, Cayrol et al.~\cite{cayrol2020argumentation} and Baumann and B
 Mailly~\cite{mailly2024constrained} extends enforcement to constrained incomplete argumentation frameworks, where structural constraints limit the set of completions available for reasoning; our $k$-neighborhood approximation similarly constrains the search space, though we target a different problem---repair under evidence updates rather than enforcement under uncertainty.
 Alfano et al.~\cite{alfano2024counterfactual} develop counterfactual explanations for abstract argumentation via weak-constrained ASP encodings; their approach identifies minimal changes that would \emph{reverse} an acceptance verdict, whereas \textsc{Argus} computes minimal changes that \emph{restore} a verdict disrupted by external evidence.
 In particular, Coste-Marquis et al.\ enforce a desired extension through minimum structural modifications, whereas our formulation targets a single argument's status, incorporates evidence updates as a first-class input, and supports heterogeneous cost functions that reflect argument-level confidence.
-Our repair operator instantiates these ideas for LLM explanation maintenance, introducing a weighted cost model tailored to argument confidence and structural role.
+\textsc{Argus} extends these foundations to LLM explanation maintenance, introducing a weighted cost model tailored to argument confidence and structural role.
 We now formalize the core concepts underlying the \textsc{Argus} framework.
 
