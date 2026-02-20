@@ -1,4 +1,5 @@
 % ===== §7  Conclusion =====
+\enlargethispage{3\baselineskip}
 \section{Conclusion}\label{sec:conclusion}
 
 We presented \textsc{Argus}, a framework that structures LLM self-explanations as argumentation frameworks, verifies them against formal semantics, and repairs them at minimum cost when new evidence arrives.
@@ -6,16 +7,9 @@ The minimal-change repair operator satisfies adapted AGM postulates---success, i
 Theoretically, the repair problem is tractable under grounded semantics, NP-complete under preferred and stable semantics, and $\Sigma_2^P$-complete under skeptical stable semantics; the $k$-neighborhood approximation maintains scalability in practice.
 Experiments on HotpotQA and FEVER yielded relative improvements of \improveFaithfulness{} in faithfulness and \improveContestability{} in contestability over the strongest argumentation baseline, while achieving the lowest repair cost among all repair-capable methods.
 
-Several limitations warrant discussion.
-First, the quality of the argumentation framework depends on the LLM's ability to decompose rationales into atomic argument units; extraction errors propagate through the entire pipeline, and the faithfulness metric itself relies on the LLM's consistency under ablation, providing a causal proxy rather than a ground-truth measure.
-Relatedly, the $\mathsf{add\_arg}$ operation uses the same LLM to generate repair candidates, though the NLI and ASP verification stages serve as external checks that break self-referential bias; integrating retrieval-augmented verification for generated arguments is a natural extension.
-Second, while the $k$-neighborhood approximation handles the framework sizes encountered in our experiments, frameworks with hundreds of densely connected arguments may require more aggressive approximation strategies.
-Third, while a pilot human evaluation (Appendix~\ref{app:human-eval}) confirms that automatic metrics correlate with human judgments, the evaluation relies primarily on automatic metrics over fact-checking and multi-hop QA datasets with synthetic evidence updates; a larger-scale human study with naturalistically occurring updates would further strengthen the empirical validation.
-Extending the approach to open-ended generation---where correctness is less well-defined and the target argument may lack a ground-truth referent---would require alternative acceptance criteria such as coherence-based semantics.
-Finally, while the framework supports multiple cost models, our experiments use uniform cost for simplicity; learning domain-specific cost functions from user feedback---including external calibration of the LLM's self-assessed confidence scores---is a promising direction for future work.
-
-Beyond these limitations, several avenues for future work emerge.
-First, composing \textsc{Argus} with sequence explanations~\cite{bengel2025sequence}---which trace \emph{why} an argument is accepted---would yield a bidirectional explanation infrastructure that both diagnoses and repairs acceptance verdicts.
-Second, integrating the repair operator into retrieval-augmented generation pipelines could provide continual explanation maintenance as knowledge bases evolve, particularly in high-stakes domains such as clinical decision support and legal reasoning where audit trails of explanation changes are legally mandated.
-Third, the representation theorem (Theorem~\ref{thm:representation}) opens the door to learning cost functions from human correction patterns, enabling the repair operator to adapt to domain-specific notions of minimality.
+Several limitations point to future work.
+The framework's quality depends on the LLM's ability to decompose rationales into atomic units; extraction errors propagate through the pipeline, though the NLI and ASP verification stages mitigate this dependency.
+While the $k$-neighborhood approximation handles the framework sizes encountered in our experiments, densely connected frameworks with hundreds of arguments may require more aggressive strategies.
+The evaluation relies primarily on automatic metrics over fact-checking and multi-hop QA datasets; extending the approach to open-ended generation---where the target argument may lack a ground-truth referent---would require alternative acceptance criteria such as coherence-based semantics.
+Looking ahead, composing \textsc{Argus} with sequence explanations~\cite{bengel2025sequence} would yield a bidirectional explanation infrastructure, and integrating the repair operator into retrieval-augmented generation pipelines could provide continual explanation maintenance as knowledge bases evolve, particularly in high-stakes domains where audit trails of explanation changes are mandated.
 
