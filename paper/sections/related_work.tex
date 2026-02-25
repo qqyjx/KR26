@@ -1,33 +1,25 @@
 % ===== §6  Related Work =====
 \section{Related Work}\label{sec:related}
 
-Our work connects three lines of research: argumentation-based approaches to LLM reasoning, self-correction methods for language models, and formal theories of belief change in argumentation.
+Our work connects three lines of research: argumentation-based approaches to LLM reasoning, self-correction methods, and formal theories of belief change.
 
 \textbf{Argumentation and LLMs.}
-Vassiliades et al.~\cite{vassiliades2021argumentation} survey argumentation for explainable AI; our work instantiates this vision with a concrete repair operator for LLM self-explanations.
-ArgLLMs~\cite{freedman2025arglm} constructs Dung-style graphs from LLM claims but treats verification as terminal, with no update mechanism.
-ARGORA~\cite{argora2026} orchestrates multi-agent argumentation-mediated dialogue with causal semantics, but its correction operates through re-deliberation rather than a formally defined repair operator.
-MQArgEng~\cite{mqargeng2024} demonstrates that modular argumentation engines improve LLM reasoning but does not address explanation maintenance.
-\textsc{Argus} differs from all three by providing a minimal-change repair operator with AGM-compliant guarantees.
-Bengel and Thimm~\cite{bengel2025sequence} introduce \emph{sequence explanations} tracing why arguments are accepted; \textsc{Argus} addresses the dual question of \emph{how to restore} acceptance, and the two could be composed.
-We adopt Dung-style abstract argumentation rather than ASPIC$^+$~\cite{modgil2014aspic} because the complexity bounds we exploit (Theorem~\ref{thm:complexity}) are established for this setting.
+\citet{vassiliades2021argumentation} survey argumentation for explainable AI.
+ArgLLMs~\citep{freedman2025arglm} constructs Dung-style graphs from LLM claims but treats verification as terminal; ARGORA~\citep{argora2026} orchestrates multi-agent argumentation but corrects through re-deliberation rather than formal repair; MQArgEng~\citep{mqargeng2024} improves LLM reasoning with modular engines but does not address explanation maintenance.
+\textsc{Argus} differs by providing a minimal-change repair operator with AGM-compliant guarantees.
+\citet{bengel2025sequence} introduce sequence explanations tracing why arguments are accepted; \textsc{Argus} addresses the dual question of how to restore acceptance.
+We adopt Dung-style argumentation rather than ASPIC$^+$~\citep{modgil2014aspic} because the complexity bounds we exploit are established for this setting.
 
 \textbf{Self-Correction and Revision.}
-Self-Refine~\cite{madaan2023selfrefine} and Reflexion~\cite{shinn2023reflexion} iteratively rewrite LLM outputs but without formal minimality guarantees---previously correct reasoning may be silently discarded.
-Huang et al.~\cite{huang2024selfcorrect} demonstrate that LLMs cannot self-correct without external feedback.
-RARR~\cite{gao2023rarr} retrieves evidence for revision but targets surface-level attribution; SelfCheckGPT~\cite{manakul2023selfcheckgpt} detects hallucinations but provides no repair mechanism.
-Chain-of-Verification~\cite{dhuliawala2024cove} and CRITIC~\cite{gou2024critic} improve factual accuracy but lack formal preservation guarantees.
-Matton et al.~\cite{matton2025walk} measure faithfulness through counterfactual interventions and Bayesian causal models, demonstrating that instruction-tuned models produce more faithful explanations; our evaluation applies counterfactual probes to argumentation-structured explanations to verify repair correctness.
-In contrast, \textsc{Argus} formalizes the repair search space as edits to an argumentation framework, bounds the cost of change, and guarantees that unaffected reasoning steps are preserved.
+Self-Refine~\citep{madaan2023selfrefine} and Reflexion~\citep{shinn2023reflexion} iteratively rewrite LLM outputs without formal minimality guarantees; \citet{huang2024selfcorrect} show that LLMs cannot self-correct without external feedback.
+RARR~\citep{gao2023rarr} targets surface-level attribution; SelfCheckGPT~\citep{manakul2023selfcheckgpt} detects hallucinations without repair; Chain-of-Verification~\citep{dhuliawala2024cove} and CRITIC~\citep{gou2024critic} improve accuracy but lack preservation guarantees.
+\citet{matton2025walk} measure faithfulness through counterfactual interventions; our evaluation applies similar probes to argumentation-structured explanations.
+\textsc{Argus} formalizes the repair search space, bounds change cost, and guarantees preservation of unaffected reasoning.
 
 \textbf{Belief Revision and Argumentation Dynamics.}
-The AGM theory~\cite{alchourron1985agm} and the revision/update distinction~\cite{katsuno1992update} provide the classical foundations for principled belief change.
-Hase et al.~\cite{hase2024fundamental} argue that model editing in LLMs is fundamentally a belief revision problem and identify challenges in applying AGM rationality criteria to neural knowledge stores; our work sidesteps these challenges by operating on an \emph{external} argumentation structure rather than on model parameters, making the AGM postulates directly applicable.
-Our evidence update~$\Delta$ is closer to the Katsuno--Mendelzon notion of \emph{update}---adapting beliefs to a changed world---than to \emph{revision}, which incorporates new information about a static world, since each~$\Delta$ reflects genuinely new evidence rather than a correction of prior beliefs. Nonetheless, we adopt the AGM postulates as rationality criteria because the minimal-change desiderata they formalize are independent of this distinction.
-In argumentation, Cayrol et al.~\cite{cayrol2020argumentation} and Baumann and Brewka~\cite{baumann2010complexity} study how structural modifications affect extensions and the complexity of enforcement; Coste-Marquis et al.~\cite{costemarquis2014enforcement}, Wallner et al.~\cite{wallner2017complexity}, and Bisquert et al.~\cite{bisquert2013repair} formalize argumentation revision as minimal status or structural change.
-Mailly~\cite{mailly2024constrained} extends enforcement to constrained incomplete argumentation frameworks, where structural constraints limit the set of completions available for reasoning; our $k$-neighborhood approximation similarly constrains the search space, though we target a different problem---repair under evidence updates rather than enforcement under uncertainty.
-Alfano et al.~\cite{alfano2024counterfactual} develop counterfactual explanations for abstract argumentation via weak-constrained ASP encodings; their approach identifies minimal changes that would \emph{reverse} an acceptance verdict, whereas \textsc{Argus} computes minimal changes that \emph{restore} a verdict disrupted by external evidence.
-In particular, Coste-Marquis et al.\ enforce a desired extension through minimum structural modifications, whereas our formulation targets a single argument's status, incorporates evidence updates as a first-class input, and supports heterogeneous cost functions that reflect argument-level confidence.
-\textsc{Argus} extends these foundations to LLM explanation maintenance, introducing a weighted cost model tailored to argument confidence and structural role.
-We now formalize the core concepts underlying the \textsc{Argus} framework.
+The AGM theory~\citep{alchourron1985agm} and the revision/update distinction~\citep{katsuno1992update} provide classical foundations.
+\citet{hase2024fundamental} argue that model editing is fundamentally a belief revision problem; our work sidesteps neural-level challenges by operating on an external argumentation structure.
+In argumentation, \citet{cayrol2020argumentation} and \citet{baumann2010complexity} study how structural modifications affect extensions; \citet{costemarquis2014enforcement}, \citet{wallner2017complexity}, and \citet{bisquert2013repair} formalize argumentation revision as minimal structural change.
+\citet{mailly2024constrained} extends enforcement to constrained incomplete frameworks; \citet{alfano2024counterfactual} develop counterfactual explanations via ASP, identifying minimal changes that reverse verdicts, whereas \textsc{Argus} restores verdicts disrupted by external evidence.
+\textsc{Argus} extends these foundations to LLM explanation maintenance with a weighted cost model tailored to argument confidence.
 

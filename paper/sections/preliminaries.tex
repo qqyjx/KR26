@@ -2,7 +2,7 @@
 
 \subsection{Abstract Argumentation Frameworks}
 
-We adopt the foundational model of \cite{dung1995acceptability} as the backbone of our verification and repair pipeline.
+We adopt the foundational model of \citet{dung1995acceptability} as the backbone of our verification and repair pipeline.
 
 \begin{definition}[Abstract Argumentation Framework]\label{def:af}
 An \emph{abstract argumentation framework} (AF) is a pair $F = (\mathcal{A}, \mathcal{R})$ where $\mathcal{A}$ is a finite set of arguments and $\mathcal{R} \subseteq \mathcal{A} \times \mathcal{A}$ is a binary attack relation. We write $a \rightsquigarrow b$ whenever $(a,b) \in \mathcal{R}$, meaning $a$ attacks $b$.
@@ -13,7 +13,7 @@ The initial AF is $F_0 = (\{a_0, a_1, a_2, a_3, a_4\}, \{(a_0, a_4), (a_3, a_0)\
 \end{example}
 
 Intuitively, an argument is accepted if every objection against it can be countered; different semantics formalize this intuition with varying degrees of caution.
-Given an AF $F = (\mathcal{A}, \mathcal{R})$, a set $S \subseteq \mathcal{A}$ is \emph{conflict-free} if no two arguments in $S$ attack each other. An argument $a$ is \emph{defended} by $S$ if every attacker of $a$ is attacked by some member of $S$. A conflict-free set $S$ is \emph{admissible} if it defends all its elements. The principal semantics we employ are the \emph{grounded} extension, which is the unique minimal complete extension obtained as the least fixed point of the characteristic function; the \emph{preferred} extensions, which are maximal admissible sets; and \emph{stable} extensions, which are conflict-free sets that attack every argument outside themselves~\cite{baroni2018handbook}. Throughout this paper we write $\sigma(F)$ to denote the set of extensions of $F$ under semantics $\sigma \in \{\mathit{gr}, \mathit{pr}, \mathit{st}\}$.
+Given an AF $F = (\mathcal{A}, \mathcal{R})$, a set $S \subseteq \mathcal{A}$ is \emph{conflict-free} if no two arguments in $S$ attack each other. An argument $a$ is \emph{defended} by $S$ if every attacker of $a$ is attacked by some member of $S$. A conflict-free set $S$ is \emph{admissible} if it defends all its elements. The principal semantics we employ are the \emph{grounded} extension, which is the unique minimal complete extension obtained as the least fixed point of the characteristic function; the \emph{preferred} extensions, which are maximal admissible sets; and \emph{stable} extensions, which are conflict-free sets that attack every argument outside themselves~\citep{baroni2018handbook}. Throughout this paper we write $\sigma(F)$ to denote the set of extensions of $F$ under semantics $\sigma \in \{\mathit{gr}, \mathit{pr}, \mathit{st}\}$.
 
 \subsection{Argumentation Semantics for Explanation}
 
@@ -30,7 +30,7 @@ In~$F_1$, $D$~is no longer admissible because $a_3$ is attacked by~$a_5$ with no
 \end{example}
 
 When $t$ is credulously but not skeptically accepted, defense sets exist only for the extensions containing~$t$; our repair targets the existence of at least one such set.
-Defense sets serve as formal explanations: each $D \in \mathit{Def}_\sigma(t)$ identifies the smallest self-defending coalition that sustains $t$, transforming opaque LLM rationales into objects whose validity can be checked against argumentation semantics~\cite{dunne2009complexity}.
+Defense sets serve as formal explanations: each $D \in \mathit{Def}_\sigma(t)$ identifies the smallest self-defending coalition that sustains $t$, transforming opaque LLM rationales into objects whose validity can be checked against argumentation semantics~\citep{dunne2009complexity}.
 
 \subsection{Task Setting}
 
@@ -49,7 +49,7 @@ The target $a_t$ is \emph{accepted} under $\sigma$ if it belongs to at least one
 
 \subsection{Explanation Repair Problem}
 
-When an evidence update $\Delta$ renders the explanation inconsistent, the system must revise the argument graph following the principle of minimal change~\cite{alchourron1985agm}.
+When an evidence update $\Delta$ renders the explanation inconsistent, the system must revise the argument graph following the principle of minimal change~\citep{alchourron1985agm}.
 
 \begin{definition}[Minimal-Change Repair Problem]\label{def:repair}
 Let $\mathit{AF} = (\mathcal{A}, \mathcal{R})$ be an AF, $\sigma$ a semantics, $a_t \in \mathcal{A}$ a target argument, $s \in \{\textsc{in}, \textsc{out}\}$ a desired status, $\Delta$ an evidence update, and $\kappa$ a strictly positive cost function ($\kappa(o) > 0$ for every operation~$o$). A \emph{repair} is a finite set of edit operations $\mathit{Ops} = \{o_1, \ldots, o_m\}$ where each $o_i$ is one of $\mathsf{add\_arg}(a)$ for $a \notin \mathcal{A}\cup\mathcal{A}^+$, $\mathsf{del\_arg}(a)$ for $a \in \mathcal{A}\cup\mathcal{A}^+$ (which also removes all attacks incident to~$a$), $\mathsf{add\_att}(a,b)$, or $\mathsf{del\_att}(a,b)$. Let $\mathit{AF}' = \mathsf{apply}(\mathit{AF}, \Delta, \mathit{Ops})$ denote the framework obtained by first incorporating $\Delta$ and then executing $\mathit{Ops}$. A repair is \emph{valid} if $a_t$ has status $s$ under $\sigma$ in $\mathit{AF}'$, and an \emph{optimal repair} minimizes $\sum_{i=1}^{m} \kappa(o_i)$ over all valid repairs.
@@ -60,5 +60,5 @@ As shown in Figure~\ref{fig:af-evolution}(c), the repair $\mathit{Ops} = \{\math
 The alternative $\mathit{Ops}' = \{\mathsf{del\_arg}(a_5)\}$ costs~$1$ but discards evidence; under structure-preserving cost with $\kappa(\mathsf{del\_\cdot}) = 2\kappa(\mathsf{add\_\cdot})$, both repairs cost~$2$, and domain preferences break the tie.
 \end{example}
 
-The cost function $\kappa$ encodes domain-specific preferences (e.g., deletions costlier than additions), connecting to enforcement in abstract argumentation~\cite{baumann2010complexity,cayrol2020argumentation} while adding an explicit cost model for explanation maintenance.
+The cost function $\kappa$ encodes domain-specific preferences (e.g., deletions costlier than additions), connecting to enforcement in abstract argumentation~\citep{baumann2010complexity,cayrol2020argumentation} while adding an explicit cost model for explanation maintenance.
 

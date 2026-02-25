@@ -1,5 +1,4 @@
 % ===== §7  Conclusion =====
-\enlargethispage{3\baselineskip}
 \section{Conclusion}\label{sec:conclusion}
 
 We presented \textsc{Argus}, a framework that structures LLM self-explanations as argumentation frameworks, verifies them against formal semantics, and repairs them at minimum cost when new evidence arrives.
@@ -11,5 +10,5 @@ Several limitations point to future work.
 The framework's quality depends on the LLM's ability to decompose rationales into atomic units; extraction errors propagate through the pipeline, though the NLI and ASP verification stages mitigate this dependency.
 While the $k$-neighborhood approximation handles the framework sizes encountered in our experiments, densely connected frameworks with hundreds of arguments may require more aggressive strategies.
 The evaluation relies primarily on automatic metrics over fact-checking and multi-hop QA datasets; extending the approach to open-ended generation---where the target argument may lack a ground-truth referent---would require alternative acceptance criteria such as coherence-based semantics.
-Looking ahead, composing \textsc{Argus} with sequence explanations~\cite{bengel2025sequence} would yield a bidirectional explanation infrastructure, and integrating the repair operator into retrieval-augmented generation pipelines could provide continual explanation maintenance as knowledge bases evolve, particularly in high-stakes domains where audit trails of explanation changes are mandated.
+Looking ahead, composing \textsc{Argus} with sequence explanations~\citep{bengel2025sequence} would yield a bidirectional explanation infrastructure, and integrating the repair operator into retrieval-augmented generation pipelines could provide continual explanation maintenance as knowledge bases evolve, particularly in high-stakes domains where audit trails of explanation changes are mandated.
 
