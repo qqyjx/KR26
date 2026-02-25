@@ -28,15 +28,39 @@ cd paper && latexmk -pdf -g main.tex    # Force recompile
 
 ### Page Limit Check
 
-**重要教训**：压缩论文时必须验证实际页数，不能假设压缩已足够。
+> **⚠️ 惨痛教训（2026-02-25 desk rejection）**：论文经过 68 轮审查后被 desk reject，根因是 **附录页数未计入页数限制**。
+> `\appendix` 写在 `.tex` 文件里 = 计入页数限制！必须用 supplementary material（单独上传）才能不计入。
+
+**KR 2026 要求**：正文 ≤ 9 页（含 abstract、figures、**appendices**；不含 references 和 acknowledgements）
+
+**关键区分**：
+- **In-paper appendix**（`\appendix` 在 `.tex` 中）→ **计入**页数限制
+- **Supplementary material**（单独 PDF/ZIP 上传到投稿系统）→ **不计入**页数限制
+- ❌ 绝对禁止：把正文内容移到 `\appendix` 来"压缩页数"——这是假压缩，附录仍然计入！
+- ✅ 正确做法：超出页数限制的内容移到单独上传的 supplementary material
 
 ```bash
-# 检查正文页数（通过 aux 文件查看 section 起始页）
-grep -E "newlabel\\{(sec:conclusion|app:)" main.aux
-# Conclusion 应在第 9 页或之前结束
+# 【投稿前必须执行】验证实际 PDF 页数
+cd paper && latexmk -pdf main.tex
+
+# 1. 查看 PDF 总页数
+pdfinfo main.pdf | grep Pages
+
+# 2. 找到 references 起始页（此页之后不计入限制）
+grep -n "\\\\bibliography" main.tex
+
+# 3. 找到 appendix 起始页（appendix 计入限制！）
+grep -n "\\\\appendix" main.tex
+
+# 4. 计算可数页数 = 总页数 - references 页数
+#    如果 appendix 在 references 之后，appendix 页数也要加回来！
+
+# 5. 检查模板版本是否为最新
+head -1 styles/kr.sty
+# 必须与会议官方 authors kit 版本一致
 ```
 
-**KR 2026 要求**：正文 ≤ 9 页（含 abstract、figures、appendices；不含 references 和 acknowledgements）
+**页数计算公式**：`可数页数 = body 页数 + appendix 页数`（不含 references/acknowledgements 页数）
 
 ---
 
@@ -339,6 +363,19 @@ Double-blind review: do NOT include author names, affiliations, or self-identify
 - [ ] 实验是否以验证形式属性为主（而非单纯追求 SOTA 数值）
 - [ ] Abstract 是否在 100-180 词范围内
 
+### G. 格式合规（CRITICAL — 所有审查之前必须首先检查！！）
+
+> **铁律**：68 轮内容审查在格式不合规面前毫无意义。格式检查必须在任何内容审查之前完成。
+
+- [ ] **PDF 实际页数验证**：用 `pdfinfo main.pdf | grep Pages` 验证，禁止估算
+- [ ] **可数页数 ≤ 限制**：body + appendix 页数之和（不含 references/acknowledgements）≤ 页数限制
+- [ ] **Appendix 页数已计入限制**：`\appendix` 写在 `.tex` 文件中 = 计入页数限制！
+- [ ] **超限内容处理**：超出限制的内容移到 supplementary material（单独上传），绝不移到 `\appendix`
+- [ ] **模板版本验证**：`head -1 styles/kr.sty` 输出的版本号必须与会议官方 authors kit 一致
+- [ ] **匿名化完整**：无作者名、无机构、无基金项目名、无自引暴露
+- [ ] **PDF 编译无错误**：0 errors, 0 undefined references
+- [ ] **投稿系统 ready for review 勾选**
+
 ---
 
 ## 8. Result Macros（数值单一真相源）
@@ -465,17 +502,19 @@ Double-blind review: do NOT include author names, affiliations, or self-identify
 
 ## 14. 当前项目状态
 
-**状态**: 投稿就绪（R68 最终回归 ALL PASS，2026-02-15）
+**状态**: ❌ **DESK REJECTED**（2026-02-25 收到通知，论文格式不合规）
+
+> **根因**：论文 body 9 页 + appendix ~2-3 页 = ~11-12 可数页，超出 9 页限制。`\appendix` 内容被错误地当作不计入限制的 supplementary material。68 轮审查全部聚焦内容质量，**从未真正验证过 PDF 可数页数是否 ≤ 9**。
 
 | 维度 | 状态 |
 |------|------|
-| 论文内容 | ✅ 完成，9 正文 + ~1.5 refs + ~1 appendix = 11 页，0 编译错误 |
-| 数据一致性 | ✅ 118 项检查全部通过（10 宏 + 48+20 表格 + 15 定义 + 7 百分比 + 5 交叉引用 + 7 匿名 + 6 附录） |
+| 论文内容 | ✅ 内容质量已通过 68 轮审查 |
+| **格式合规** | ❌ **DESK REJECTED — 可数页数超限（~11-12 页 vs 限制 9 页）** |
+| 数据一致性 | ✅ 118 项检查全部通过 |
 | 匿名化 | ✅ 双盲合规（Paper ID 607） |
-| 格式 | ✅ KR2026 模板，正文 ≤9 页，0 overfull hbox |
+| 模板版本 | ⚠️ kr.sty v1.2 (Feb 2020)，可能与 KR2026 authors kit 版本不一致 |
 | 引用 | ✅ 34 条引用，0 undefined references |
 | 审查轮次 | ✅ 68 轮完成（R01-R68），160+ issues found and addressed |
-| 中稿概率 | ~60-70%（综合评分 7.5-8.0/10） |
 
 ### 审查历程
 
@@ -586,6 +625,85 @@ Double-blind review: do NOT include author names, affiliations, or self-identify
 - Issue 在后续轮次被修复时，须在 INDEX.md 标注修复轮次
 - 最终回归轮使用 `R{原轮}.{序号}` 格式引用（如 R13.1, R13.2）
 - 非 FIXED 条目须标注状态（DEFERRED/WONTFIX/ACCEPTED/ACKNOWLEDGED）和理由
+
+---
+
+## 17. Desk Rejection 惨痛教训（2026-02-25）
+
+> **案例**：ARGUS 论文 (Paper #607) 经过 68 轮审查、修复 160+ issues 后被 KR 2026 ML&E Track desk reject。
+> 原因：格式不合规（页数超限）。所有内容审查在格式不合规面前 = 白费。
+
+### 17.1 根因分析
+
+**直接原因：Appendix 页数未计入 9 页限制**
+
+论文结构：
+```
+body (abstract → conclusion)  = ~9 页    ← 以为这就是"正文"
+references                    = ~1.5 页   ← 不计入（正确）
+\appendix (5 sections)        = ~2-3 页   ← 错误地以为不计入！
+```
+
+实际可数页数 = 9 + 2-3 = **~11-12 页**，超出 9 页限制 2-3 页。
+
+**根本原因：R64 的"压缩"是假压缩**
+
+R64 将正文从 ~9.5 页压缩到 ~9 页的做法是：把 Figure 5/6 + Sensitivity Analysis + Error Analysis **移到 `\appendix`**。但 KR 2026 规则明确规定 appendix 计入页数限制！这不是压缩，是自欺欺人。
+
+正确做法应该是：
+1. 将附录内容做成单独的 PDF 作为 **supplementary material** 上传（不计入限制）
+2. 或者真正删减正文+附录到 ≤ 9 页
+
+**可能的次要原因：模板版本过旧**
+
+使用的 `kr.sty` 是 v1.2 (2020-02-27)，KR2026 的 authors kit 可能包含更新版本。使用错误版本可能触发"wrong format adopted"。
+
+### 17.2 核心教训
+
+1. **格式合规 > 内容质量**：desk rejection 不看内容。68 轮内容审查在格式不合规面前毫无价值。格式检查必须在第一轮审查就完成，不能留到最后。
+
+2. **`\appendix` ≠ supplementary material**：
+   - `\appendix`（写在 `.tex` 中，出现在最终 PDF 里）→ **计入页数限制**
+   - Supplementary material（单独文件上传到投稿系统）→ **不计入页数限制**
+   - 绝对禁止把内容从 body 移到 `\appendix` 来"省页数"
+
+3. **必须验证 PDF 实际页数**：不能靠估算、不能靠"Conclusion 在第 9 页所以没超"。必须用 `pdfinfo` 计算实际可数页数。
+
+4. **模板版本必须核实**：投稿前必须从会议官网下载最新 authors kit，diff 比较 `.sty` 和 `.bst` 文件。
+
+### 17.3 投稿前铁律清单（必须 100% 通过才能投稿）
+
+```
+□ 1. 下载会议最新 authors kit，diff 比较 .sty/.bst 版本
+□ 2. 编译 PDF：cd paper && latexmk -pdf main.tex
+□ 3. 验证 PDF 页数：pdfinfo main.pdf | grep Pages
+□ 4. 计算可数页数 = 总页数 - references 页数 - acknowledgements 页数
+     注意：appendix 页数计入！！
+□ 5. 确认可数页数 ≤ 会议限制
+□ 6. 如有 \appendix 内容，确认已计入可数页数
+□ 7. 如超限，将多余内容移到 supplementary material（单独上传），不是移到 \appendix
+□ 8. 验证匿名化：grep -ri "author_name\|affiliation\|funding_source" *.tex
+□ 9. 验证 0 编译错误、0 undefined references
+□ 10. 投稿系统中勾选 "ready for review"
+```
+
+### 17.4 Appendix vs Supplementary Material 对照表
+
+| 特征 | In-paper Appendix | Supplementary Material |
+|------|-------------------|----------------------|
+| 位置 | `.tex` 文件中的 `\appendix` | 单独 PDF/ZIP 上传 |
+| 出现在最终 PDF 中 | ✅ 是 | ❌ 否（独立文件） |
+| 计入页数限制 | ✅ **是！** | ❌ 否 |
+| 审稿人必须看 | ✅ 是 | ❌ 否（可选） |
+| 适合放什么 | 简短补充（如果页数允许） | 详细证明、额外实验、代码、数据 |
+| 要求 | 论文必须 self-contained | 论文必须 self-contained |
+
+### 17.5 防止再犯的工作流改进
+
+1. **审查顺序改为**：格式合规（Section 7.G）→ 创新点（Section 11）→ 内容审查（Section 10）
+2. **每次 `/review-paper` 必须首先执行格式合规检查**，不通过则中止所有后续审查
+3. **`/submit-check` 命令必须包含完整的铁律清单验证**
+4. **禁止在未验证格式的情况下声称"投稿就绪"**
 
 ---
 
