@@ -1,5 +1,116 @@
 % ===== Appendix =====
 
+\section{Ablation Study and Cost Distribution}\label{app:ablation}
+
+\begin{table}[h]
+\caption{Ablation study on HotpotQA and FEVER.  Each row removes one component from the full \textsc{Argus} pipeline. Best in \textbf{bold}.}\label{tab:ablation}
+\centering
+\small
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+& \multicolumn{6}{c}{\textbf{HotpotQA / FEVER}} \\
+\textbf{Variant} & Faith & Cont & RAcc & RCost & Coher & Time \\
+\midrule
+Full \textsc{Argus} & \textbf{.847/.829} & \textbf{.791/.768} & \textbf{.883/.871} & \textbf{3.2/2.8} & \textbf{.82/.80} & .55/.47 \\
+w/o Sem.\ Verif. & .793/.775 & .714/.692 & .832/.818 & 4.1/3.8 & .76/.74 & .52/.44 \\
+w/o Min.-Change  & .841/.823 & .783/.761 & .856/.842 & 5.7/5.2 & .78/.76 & .58/.49 \\
+w/o Att.\ Templ. & .821/.804 & .698/.678 & .859/.845 & 3.5/3.2 & .80/.78 & .53/.45 \\
+Grounded Only    & .839/.822 & .772/.752 & .871/.858 & \textbf{3.0/2.6} & .81/.79 & \textbf{.15/.12} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Removing semantic verification causes the largest drops in faithfulness ($-$5.4pp) and contestability ($-$7.7pp), confirming it as the most critical component. Replacing minimal-change with unconstrained repair preserves faithfulness but increases cost to 5.7/5.2. Removing attack templates reduces contestability by 9.3pp while reducing faithfulness by only 2.6pp. Grounded-only semantics yields the fastest solve time at the expense of modest drops; 97\% of frameworks have a single preferred extension coinciding with the grounded one.
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.7\textwidth,
+  height=5cm,
+  ybar,
+  bar width=8pt,
+  xlabel={Repair cost (operations)},
+  ylabel={Fraction of instances (\%)},
+  xmin=-0.7, xmax=5.7,
+  ymin=0, ymax=34,
+  xtick={0,1,2,3,4,5},
+  xticklabels={0,1,2,3,4,{5+}},
+  ytick={0,10,20,30},
+  legend style={
+    font=\small,
+    at={(0.5,1.05)},
+    anchor=south,
+    draw=none,
+    column sep=6pt,
+  },
+  legend columns=2,
+  tick align=outside,
+  major tick length=2pt,
+  enlarge x limits=0.12,
+]
+\addplot[fill=blue!60, draw=blue!80!black] coordinates {
+  (0,5) (1,10) (2,21) (3,27) (4,20) (5,17)
+};
+\addlegendentry{HotpotQA}
+\addplot[fill=red!50!orange!70, draw=red!70!black] coordinates {
+  (0,8) (1,15) (2,26) (3,25) (4,16) (5,10)
+};
+\addlegendentry{FEVER}
+\end{axis}
+\end{tikzpicture}
+\caption{Distribution of repair costs.  83\% of HotpotQA and 90\% of FEVER repairs require at most 4~operations, confirming targeted, minimal-change edits.}
+\label{fig:cost-dist}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[trim axis left, trim axis right]
+\begin{axis}[
+  width=0.7\textwidth,
+  height=5cm,
+  xlabel={Framework size $|\mathcal{A}|$},
+  ylabel={Solve time (s)},
+  ymode=log,
+  xmin=3, xmax=52,
+  ymin=0.003, ymax=300,
+  xtick={10,20,30,40,50},
+  legend style={
+    font=\small,
+    at={(0.5,1.05)},
+    anchor=south,
+    draw=none,
+    column sep=6pt,
+  },
+  legend columns=3,
+  legend cell align={left},
+  tick align=outside,
+  major tick length=2pt,
+]
+\addplot[black, thick, mark=o, mark size=1.2pt] coordinates {
+  (5,0.005) (10,0.018) (15,0.042) (20,0.078) (25,0.12)
+  (30,0.17) (35,0.23) (40,0.30) (45,0.36) (50,0.42)
+};
+\addlegendentry{Grounded}
+\addplot[blue!80!black, thick, mark=square*, mark size=1.2pt] coordinates {
+  (5,0.012) (10,0.065) (15,0.18) (20,0.38) (25,0.62)
+  (30,0.93) (35,1.28) (40,1.65) (45,1.96) (50,2.31)
+};
+\addlegendentry{Preferred ($k{=}3$)}
+\addplot[red!80!black, thick, dashed, mark=triangle*, mark size=1.4pt] coordinates {
+  (5,0.015) (10,0.11) (15,0.52) (20,1.8) (25,4.7)
+  (30,11.2) (35,24.5) (40,48.3) (45,89.7) (50,158.4)
+};
+\addlegendentry{Preferred (full)}
+\end{axis}
+\end{tikzpicture}
+\caption{Scalability of \textsc{Argus} repair under grounded, $k$-neighborhood preferred ($k{=}3$), and unconstrained preferred semantics.  Grounded repair scales polynomially (Theorem~\ref{thm:complexity}).}
+\label{fig:scalability}
+\end{figure}
+
+Sensitivity analysis and a qualitative repair example appear in the following sections.
+
 \section{Qualitative Repair Example}\label{app:repair-example}
 
 \begin{figure}[h]

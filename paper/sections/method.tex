@@ -23,7 +23,7 @@ We designate one distinguished unit~$a_t\in\mathcal{A}$ as the \emph{target argu
 
 Given the argument units~$\mathcal{A}$, we construct an argumentation framework $\mathit{AF}=(\mathcal{A},\mathcal{R})$ as defined in Definition~\ref{def:af}.
 For every ordered pair $(a_i,a_j)$ with $i\neq j$, we query a natural language inference (NLI) model---a neural classifier trained to determine entailment, contradiction, or neutrality between text pairs---to classify the relationship between~$c_i$ and~$c_j$.
-A \emph{contradiction} verdict yields an attack $(a_i,a_j)\in\mathcal{R}$, while an \emph{entailment} verdict records a support link used for downstream analysis but not encoded in~$\mathcal{R}$, since Dung-style frameworks model attacks only~\cite{dung1995acceptability}.
+A \emph{contradiction} verdict yields an attack $(a_i,a_j)\in\mathcal{R}$, while an \emph{entailment} verdict records a support link used for downstream analysis but not encoded in~$\mathcal{R}$, since Dung-style frameworks model attacks only~\citep{dung1995acceptability}.
 To improve recall on domain-specific rebuttals, we maintain an \emph{attack template library}---a curated set of negation patterns, common exceptions, and defeasible-rule conflicts.
 Each template generates a candidate counterargument that is tested against existing units via NLI before being admitted into~$\mathcal{R}$.
 
@@ -60,10 +60,10 @@ Under structure-preserving cost with $w=2$, deleting~$a_5$ costs~$2$ while the a
 \end{example}
 
 \textbf{ASP Encoding.}
-We encode the repair problem as an answer set program following the methodology of Egly et al.~\cite{egly2010asparg} for argumentation reasoning and extending it with choice rules for repair operations.
+We encode the repair problem as an answer set program following the methodology of \citet{egly2010asparg} for argumentation reasoning and extending it with choice rules for repair operations.
 The encoding consists of three components; at a high level, it mirrors an integer linear program where binary variables select edits, constraints enforce semantics, and the objective minimizes cost.
 First, \emph{generate rules} introduce choice atoms for each candidate operation: the solver may optionally add or delete any argument or attack within the neighborhood subgraph.
-Second, \emph{semantics constraints} enforce that the repaired framework satisfies~$\sigma$; for grounded semantics, these follow the characteristic-function fixed-point semantics of Egly~et~al.~\cite{egly2010asparg}.
+Second, \emph{semantics constraints} enforce that the repaired framework satisfies~$\sigma$; for grounded semantics, these follow the characteristic-function fixed-point semantics of \citet{egly2010asparg}.
 Third, a \emph{weak constraint} minimizes the weighted sum of selected operations:
 \[
   \mathsf{\#minimize}\bigl\{\kappa(o) : \mathsf{selected}(o)\bigr\}.
@@ -87,7 +87,7 @@ When the solver selects $\mathsf{add\_arg}(a)$, the natural-language claim for t
 \end{algorithm}
 
 \textbf{Approximation for Scalability.}
-Even under preferred semantics the repair problem is NP-complete (Theorem~\ref{thm:complexity}), rising to $\Sigma_2^P$-completeness under skeptical stable semantics~\cite{dvorak2018computational}, so we introduce two approximation strategies.
+Even under preferred semantics the repair problem is NP-complete (Theorem~\ref{thm:complexity}), rising to $\Sigma_2^P$-completeness under skeptical stable semantics~\citep{dvorak2018computational}, so we introduce two approximation strategies.
 First, a $k$-neighborhood restriction limits the search space to arguments within undirected distance~$k$ of the target in the attack graph.  The approximation is \emph{complete} for optimal repairs whose support set lies entirely within the $k$-neighborhood: if the unique optimal repair modifies only arguments at distance $\leq k$ from $a_t$, then the neighborhood-restricted problem has the same optimum.  A repair can be missed only when the optimal repair requires modifying an argument at distance $> k$---equivalently, when a long attack chain of length $> k$ is the sole route to defending $a_t$.  In our experiments, setting $k{=}3$ recovered optimal repairs in 99.7\% of cases while substantially reducing solver grounding, consistent with the shallow graph structure (median depth~3, maximum~7).
 Second, when ASP solvers are unavailable, beam search over repair sequences with width~$b$ provides a bounded-depth heuristic alternative.
 In principle, a repair valid for the subgraph may not preserve validity in the full framework if distant arguments influence the target's status; for deeper domains, $k$ should be increased accordingly.
@@ -124,22 +124,3 @@ Regenerate$^\dagger$ & .709 & ---  & .743 & --- & .65 & \textbf{0.5} & .695 & --
 \end{tabular}
 \end{table*}
 
-\begin{table*}[t]
-\caption{Ablation study on HotpotQA and FEVER.  Each row removes one component from the full \textsc{Argus} pipeline. Best in \textbf{bold}.}\label{tab:ablation}
-\centering
-\footnotesize
-\setlength{\tabcolsep}{3.2pt}
-\renewcommand{\arraystretch}{1.05}
-\begin{tabular}{@{}l|cccccc|cccccc@{}}
-\toprule
-& \multicolumn{6}{c|}{\textbf{HotpotQA}} & \multicolumn{6}{c}{\textbf{FEVER}} \\
-\textbf{Variant} & Faith$\uparrow$ & Cont$\uparrow$ & RAcc$\uparrow$ & RCost$\downarrow$ & Coher$\uparrow$ & Time$\downarrow$ & Faith$\uparrow$ & Cont$\uparrow$ & RAcc$\uparrow$ & RCost$\downarrow$ & Coher$\uparrow$ & Time$\downarrow$ \\
-\midrule
-Full \textsc{Argus}       & \textbf{\resultFaithHotpot} & \textbf{\resultContestHotpot} & \textbf{\resultRepairAccHotpot} & \textbf{\resultRepairCostHotpot} & \textbf{.82} & .55 & \textbf{\resultFaithFEVER} & \textbf{\resultContestFEVER} & \textbf{\resultRepairAccFEVER} & \textbf{\resultRepairCostFEVER} & \textbf{.80} & .47 \\
-w/o Semantic Verif. & .793 & .714 & .832 & 4.1 & .76 & .52 & .775 & .692 & .818 & 3.8 & .74 & .44 \\
-w/o Minimal-Change  & .841 & .783 & .856 & 5.7 & .78 & .58 & .823 & .761 & .842 & 5.2 & .76 & .49 \\
-w/o Attack Templ.   & .821 & .698 & .859 & 3.5 & .80 & .53 & .804 & .678 & .845 & 3.2 & .78 & .45 \\
-Grounded Only       & .839 & .772 & .871 & \textbf{3.0} & .81 & \textbf{.15} & .822 & .752 & .858 & \textbf{2.6} & .79 & \textbf{.12} \\
-\bottomrule
-\end{tabular}
-\end{table*}

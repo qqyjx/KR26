@@ -35,3 +35,5 @@ Thumbs.db
 *.tmp
 *.bak
 *~
+paper/main.synctex(busy)
+*.synctex(busy)

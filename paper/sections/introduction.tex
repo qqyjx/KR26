@@ -2,7 +2,7 @@
 \section{Introduction}\label{sec:intro}
 
 Large language models generate natural-language explanations for their outputs, yet mounting evidence indicates that these self-explanations are frequently unfaithful to the model's internal reasoning process.
-Recent studies demonstrate that LLM rationales can be inconsistent with the computations that actually produce the answer~\cite{ye2024selfexplanation}, and that chain-of-thought traces are often post-hoc rationalizations rather than faithful accounts of inference~\cite{lanham2023measuring}.
+Recent studies demonstrate that LLM rationales can be inconsistent with the computations that actually produce the answer~\citep{ye2024selfexplanation}, and that chain-of-thought traces are often post-hoc rationalizations rather than faithful accounts of inference~\citep{lanham2023measuring}.
 The gap between \emph{apparent} and \emph{actual} reasoning makes the verification and maintenance of explanations a central knowledge representation challenge, particularly in domains such as medical diagnosis and legal reasoning where explanation correctness is critical.
 
 \begin{figure}[t]
@@ -13,8 +13,8 @@ The gap between \emph{apparent} and \emph{actual} reasoning makes the verificati
 \end{figure}
 
 As illustrated in Figure~\ref{fig:positioning}, current approaches fall short along two complementary dimensions.
-Self-correction methods~\cite{madaan2023selfrefine,shinn2023reflexion,gao2023rarr} iteratively rewrite explanations but without formal guarantees---edits are unconstrained and previously valid reasoning may be silently discarded; indeed, recent work shows that LLMs cannot self-correct reasoning without external feedback~\cite{huang2024selfcorrect}.
-Argumentation-based approaches~\cite{freedman2025arglm,argora2026} verify explanations against formal semantics but treat verification as terminal: when new evidence arrives, they offer no principled way to update the explanation while preserving consistency.
+Self-correction methods~\citep{madaan2023selfrefine,shinn2023reflexion,gao2023rarr} iteratively rewrite explanations but without formal guarantees---edits are unconstrained and previously valid reasoning may be silently discarded; indeed, recent work shows that LLMs cannot self-correct reasoning without external feedback~\citep{huang2024selfcorrect}.
+Argumentation-based approaches~\citep{freedman2025arglm,argora2026} verify explanations against formal semantics but treat verification as terminal: when new evidence arrives, they offer no principled way to update the explanation while preserving consistency.
 No existing framework provides a formal notion of \emph{minimal change} for maintaining LLM explanations under evolving evidence.
 
 The following example, revisited throughout the paper, illustrates the problem concretely.
@@ -78,9 +78,9 @@ A minimal-change repair instead seeks the smallest edit---such as introducing $a
 \end{figure*}
 
 We propose \textsc{Argus}, a framework that bridges this gap by unifying argumentation-based verification with minimal-change repair.
-Given an LLM-generated explanation, \textsc{Argus} decomposes it into atomic argument units, constructs an argumentation framework in the sense of Dung~\cite{dung1995acceptability}, and verifies whether the target claim is accepted under a chosen semantics.
+Given an LLM-generated explanation, \textsc{Argus} decomposes it into atomic argument units, constructs an argumentation framework in the sense of \citet{dung1995acceptability}, and verifies whether the target claim is accepted under a chosen semantics.
 When new evidence renders the explanation inconsistent, \textsc{Argus} computes a minimum-cost set of edit operations---adding or removing arguments and attacks---that restores the desired acceptability status.
-The repair operator draws on two classical KR traditions: the AGM theory of belief revision~\cite{alchourron1985agm}, which supplies the minimal-change principle, and argumentation dynamics~\cite{cayrol2020argumentation}, which provides formal machinery for structural change.
+The repair operator draws on two classical KR traditions: the AGM theory of belief revision~\citep{alchourron1985agm}, which supplies the minimal-change principle, and argumentation dynamics~\citep{cayrol2020argumentation}, which provides formal machinery for structural change.
 Because the repair operates on an explicit graph structure external to the LLM, it admits formal guarantees---AGM compliance, complexity bounds, provable preservation of unaffected reasoning---that are unattainable when editing model internals or regenerating from scratch.
 
 Our contributions are as follows:
