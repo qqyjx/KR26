@@ -1,16 +1,17 @@
-# Claude Code 论文写作配置 -- KR2026 ARGUS
+# Claude Code 论文写作配置 -- UAI2026 ARGUS
 
 ## 1. Project Overview
 
 | Item | Detail |
 |------|--------|
 | **Paper Title** | ARGUS: Argumentation-Based Minimal-Change Repair for Verifiable LLM Self-Explanations |
-| **Conference** | KR 2026 (23rd Int. Conference on Principles of Knowledge Representation and Reasoning) |
-| **Track** | KR Meets ML & Explanation |
-| **Deadline** | Abstract: February 12, 2026; Paper: February 19, 2026 |
-| **Author Response** | March 24--28, 2026 |
-| **Notification** | April 13, 2026 |
-| **Camera-ready** | May 3, 2026 |
+| **Conference** | UAI 2026 (42nd Conference on Uncertainty in Artificial Intelligence) |
+| **Location** | Amsterdam, the Netherlands |
+| **Deadline** | Paper: February 25, 2026 (23:59 AoE) |
+| **Reviewer Bidding** | March 2--9, 2026 |
+| **Reviews** | March 21--April 11, 2026 |
+| **Conference** | August 17--21, 2026 |
+| **Previous Submission** | ❌ KR 2026 desk rejected (Feb 25, 2026) — page limit violation |
 
 **Core Idea**: LLM self-explanations (rationales) are unverifiable and non-repairable. ARGUS structures explanations as argument graphs, applies argumentation semantics for formal verification, and performs minimal-change repair when new evidence arrives---ensuring explanations remain synchronized with answers at minimum edit cost.
 
@@ -28,16 +29,16 @@ cd paper && latexmk -pdf -g main.tex    # Force recompile
 
 ### Page Limit Check
 
-> **⚠️ 惨痛教训（2026-02-25 desk rejection）**：论文经过 68 轮审查后被 desk reject，根因是 **附录页数未计入页数限制**。
-> `\appendix` 写在 `.tex` 文件里 = 计入页数限制！必须用 supplementary material（单独上传）才能不计入。
+**UAI 2026 要求**：正文 ≤ 8 页（不含 references 和 appendix）；references 和 appendix 无页数限制，均放在同一 PDF 中。
 
-**KR 2026 要求**：正文 ≤ 9 页（含 abstract、figures、**appendices**；不含 references 和 acknowledgements）
+> **与 KR 2026 的关键区别**：UAI 允许 appendix 放在同一 PDF 中且**不计入**页数限制（在 references 之后）。KR 则把 in-paper appendix 计入限制——这正是 KR desk rejection 的根因。
 
-**关键区分**：
-- **In-paper appendix**（`\appendix` 在 `.tex` 中）→ **计入**页数限制
-- **Supplementary material**（单独 PDF/ZIP 上传到投稿系统）→ **不计入**页数限制
-- ❌ 绝对禁止：把正文内容移到 `\appendix` 来"压缩页数"——这是假压缩，附录仍然计入！
-- ✅ 正确做法：超出页数限制的内容移到单独上传的 supplementary material
+**UAI PDF 结构**（正确顺序）：
+```
+正文 (abstract → conclusion)  ≤ 8 页   ← 计入页数限制
+references                     无限制   ← 不计入
+\appendix (supplementary)      无限制   ← 不计入（同一 PDF 中！）
+```
 
 ```bash
 # 【投稿前必须执行】验证实际 PDF 页数
@@ -46,21 +47,15 @@ cd paper && latexmk -pdf main.tex
 # 1. 查看 PDF 总页数
 pdfinfo main.pdf | grep Pages
 
-# 2. 找到 references 起始页（此页之后不计入限制）
-grep -n "\\\\bibliography" main.tex
+# 2. 确认正文部分（第 1 页到 references 起始前）≤ 8 页
+# references 之后的内容（含 appendix）不计入限制
 
-# 3. 找到 appendix 起始页（appendix 计入限制！）
-grep -n "\\\\appendix" main.tex
-
-# 4. 计算可数页数 = 总页数 - references 页数
-#    如果 appendix 在 references 之后，appendix 页数也要加回来！
-
-# 5. 检查模板版本是否为最新
-head -1 styles/kr.sty
+# 3. 检查模板 cls 文件
+head -5 uai2026.cls
 # 必须与会议官方 authors kit 版本一致
 ```
 
-**页数计算公式**：`可数页数 = body 页数 + appendix 页数`（不含 references/acknowledgements 页数）
+**页数计算公式**：`可数页数 = body 页数`（从 abstract 到 conclusion 结尾，不含 references 和 appendix）
 
 ---
 
@@ -73,36 +68,33 @@ KR26/
 ├── placeholders.md        # 占位符追踪清单（图表/数值/同步状态）
 ├── .gitignore             # LaTeX artifacts, IDE files, Python cache, OS files
 ├── paper/                 # LaTeX 论文源文件
-│   ├── main.tex           # 主文件（宏定义 + section includes）
+│   ├── main.tex           # 主文件（UAI 2026 格式，宏定义 + section includes）
+│   ├── uai2026.cls        # UAI 2026 LaTeX 文档类（根目录副本，编译需要）
 │   ├── .latexmkrc         # latexmk 构建配置（pdflatex, BibTeX）
-│   ├── references.bib     # 参考文献（26 条被引用条目）
-│   ├── sections/          # 章节文件（8 个 .tex 文件，共 ~604 行）
+│   ├── references.bib     # 参考文献（natbib/plainnat 格式）
+│   ├── sections/          # 章节文件（9 个 .tex 文件）
 │   │   ├── abstract.tex        # §0 Abstract (~127 词)
 │   │   ├── introduction.tex    # §1 Introduction + Running Example + C1-C4
-│   │   ├── related_work.tex    # §2 Related Work（KR 惯例：紧跟 Introduction）
+│   │   ├── related_work.tex    # §2 Related Work
 │   │   ├── preliminaries.tex   # §3 Preliminaries (Def 1-4 + Examples)
 │   │   ├── method.tex          # §4 Method (§4.1-4.4, Algorithm 1, ASP encoding)
 │   │   ├── theory.tex          # §5 Theory (Theorem 1-2, Proposition 1)
-│   │   ├── experiments.tex     # §6 Experiments (Tables 1-2, Figures 3-5)
-│   │   └── conclusion.tex      # §7 Conclusion + 4 limitations
-│   └── styles/            # KR2026 模板样式文件
-│       ├── kr.sty         # KR 2026 LaTeX 样式
-│       └── kr.bst         # KR 2026 BibTeX 样式
+│   │   ├── experiments.tex     # §6 Experiments (Table 1, Figures 3-4)
+│   │   ├── conclusion.tex      # §7 Conclusion + 4 limitations
+│   │   └── appendix.tex        # Supplementary Material（附录，不计入页数）
+│   └── styles/            # 模板样式文件（历史 + 当前）
+│       ├── uai2026.cls    # UAI 2026 LaTeX 文档类（备份）
+│       ├── kr.sty         # KR 2026 LaTeX 样式（历史，不再使用）
+│       └── kr.bst         # KR 2026 BibTeX 样式（历史，不再使用）
 ├── results/               # 实验结果数据
 │   └── results.json       # 结构化结果（status: ACTUAL, 5 seeds, 2026-02-10）
-└── review/                # 审稿意见存档（49 个文件，68 轮审查）
+└── review/                # 审稿意见存档（49 个文件，68 轮审查，KR 投稿期间）
     ├── review-20260211-R01-R05-initial.md    # R01-R05: 初始全面审查
-    ├── review-20260212-R05b-revision.md      # R05b: 修订轮
-    ├── review-20260212-R06-titleabstract.md  # R06: 标题摘要审查
-    ├── review-20260212-R07-fixes.md          # R07: 修复确认
-    ├── review-20260212-R08-theory.md         # R08: KR 理论专家审查
-    ├── ...                                    # R09-R57: 多轮深度审稿
-    ├── review-20260215-R58-theory-depth.md   # R58: AGM 理论深化
-    ├── ...                                    # R59-R67: 统计/引用/形式化/清晰度/对抗/数据一致性
+    ├── ...                                    # R06-R67: 多轮审稿
     └── review-20260215-R68-final-regression.md  # R68: 最终回归（ALL PASS）
 ```
 
-**注意**：论文中的 TikZ 图表（Figures 1-5）内联定义在 `.tex` 文件中，无独立 `figures/` 目录。实验代码在外部服务器运行，本仓库仅含论文源文件和结构化结果数据。
+**注意**：论文中的 TikZ 图表内联定义在 `.tex` 文件中。实验代码在外部服务器运行，本仓库仅含论文源文件和结构化结果数据。UAI 版本的 appendix（含消融表、图表等）放在 `appendix.tex` 中，随同一 PDF 提交，不计入 8 页限制。
 
 ### Section 文件详细信息
 
@@ -114,27 +106,40 @@ KR26/
 | `preliminaries.tex` | Definitions 1-4 + Examples | AF, Defense Set, 验证任务, 修复问题 |
 | `method.tex` | §4.1-4.4 核心方法 | Algorithm 1, ASP encoding, k-neighborhood |
 | `theory.tex` | 形式化理论结果 | Theorem 1 (AGM), Theorem 2 (复杂度), Prop 1 |
-| `experiments.tex` | 实验评测 | Table 1-2, Fig 3-5, 7 baselines, 消融 |
+| `experiments.tex` | 实验评测（精简版） | Table 1, Figures 3-4, 7 baselines |
 | `conclusion.tex` | 总结 + 局限 | 4 具体技术局限 |
+| `appendix.tex` | Supplementary Material | 消融表 (Table 2), 成本分布图, 可扩展性图, 证明, 敏感性分析 |
 
 ---
 
-## 4. KR2026 Format Notes
+## 4. UAI 2026 Format Notes
 
 | Item | Requirement |
 |------|-------------|
-| **Template** | `\documentclass{article}` + `\usepackage{kr}` |
-| **Page limit** | Long paper: ≤ 9 pages; Short paper: ≤ 4 pages (incl. abstract, figures, appendices; excl. references & acknowledgements) |
+| **Template** | `\documentclass{uai2026}` (自定义文档类) |
+| **Page limit** | ≤ 8 pages main body；references + appendix 无限制，同一 PDF |
 | **Review** | Double-blind anonymous peer review |
-| **Bibliography** | `\bibliographystyle{kr}` with `kr.bst` |
-| **Citations** | `\cite{}` and `\shortcite{}` |
-| **Submission** | https://submissions.floc26.org/kr/ |
-| **Supplementary** | Up to 100 MB allowed, but paper must be self-contained |
+| **Bibliography** | `\bibliographystyle{plainnat}` with `natbib` 包 |
+| **Citations** | `\citep{}` (括号引用) 和 `\citet{}` (文本引用) |
+| **Submission** | OpenReview (UAI 2026) |
+| **Supplementary** | Appendix 放在同一 PDF 中 references 之后；也可额外上传文件 |
 | **AI Policy** | AI cannot serve as author; if used, authors bear full responsibility |
+| **Layout** | Two-column, 10pt, `\parskip=0.5\baselineskip`, `\parindent=0em` |
 
 ### Anonymization
 
-Double-blind review: do NOT include author names, affiliations, or self-identifying references in the submitted version. Avoid "we previously showed [OurWork2024]" patterns.
+Double-blind review: do NOT include author names, affiliations, or self-identifying references in the submitted version. Avoid "we previously showed [OurWork2024]" patterns. 使用 `\documentclass{uai2026}` 为 submission 模式（匿名）；camera-ready 使用 `\documentclass[accepted]{uai2026}`。
+
+### UAI vs KR 格式对比
+
+| 维度 | UAI 2026 | KR 2026 |
+|------|----------|---------|
+| 正文页数 | ≤ 8 页 | ≤ 9 页 |
+| Appendix | 同一 PDF，不计入限制 | `\appendix` 计入限制！ |
+| 引用格式 | natbib (`\citep{}`/`\citet{}`) | `\cite{}`/`\shortcite{}` |
+| 文档类 | `uai2026` (cls) | `article` + `kr` (sty) |
+| Bib 样式 | `plainnat` | `kr` |
+| 排版 | Two-column, 10pt, 无段落缩进 | Two-column, 10pt, 有段落缩进 |
 
 ---
 
@@ -204,14 +209,14 @@ Double-blind review: do NOT include author names, affiliations, or self-identify
 
 ### 约束条件
 
-- 保持所有 `\cite{...}` 引用、定量数据、公式不变
+- 保持所有 `\citep{...}`/`\citet{...}` 引用、定量数据、公式不变（注意：已从 KR 的 `\cite{}` 迁移到 natbib 格式）
 - 维护 LaTeX 语法有效性
 
 ---
 
-## 6. KR 会议写作风格指南（基于 KR2024-2025 论文分析）
+## 6. 写作风格指南（KR 风格 → UAI 适配）
 
-以下规范基于对 5 篇 KR 2024-2025 录用论文的系统分析，总结 KR 社区特有的写作惯例。与 NeurIPS/ICML 等 ML 会议有显著差异，务必严格遵守。
+以下规范基于对 KR 2024-2025 录用论文的系统分析。论文内容保持 KR 社区的论证风格（definition-theorem 链、running example），但已适配 UAI 格式。UAI 作为 Bayesian/uncertainty/reasoning 会议，接受形式化论证论文，但审稿人可能更偏好概率/不确定性视角。写作风格在 KR 严谨性和 UAI 可读性之间平衡。
 
 ### Abstract（KR 风格）
 
@@ -354,24 +359,24 @@ Double-blind review: do NOT include author names, affiliations, or self-identify
 - [ ] Limitation 段落≤3句，无过度自我否定
 - [ ] 全文括号回扫：每段≤2处，无括号堆积段
 
-### F. KR 风格专项（Major）
+### F. 论证/形式化风格专项（Major）
 - [ ] 是否有 running example 且贯穿全文（Introduction 引入，后续 section 复用）
 - [ ] 每个 Definition 后是否紧跟 Example
 - [ ] Related Work 是否在 Section 2（Introduction 之后）
-- [ ] 是否使用 KR 过渡短语（"Continuing with Example X...", "Observe that...", "The following theorem establishes..."）
+- [ ] 是否使用过渡短语（"Continuing with Example X...", "Observe that...", "The following theorem establishes..."）
 - [ ] 是否避免 ML 推销性语言（禁止 "dramatically improve", "In the era of AI"）
 - [ ] 实验是否以验证形式属性为主（而非单纯追求 SOTA 数值）
 - [ ] Abstract 是否在 100-180 词范围内
 
-### G. 格式合规（CRITICAL — 所有审查之前必须首先检查！！）
+### G. 格式合规 — UAI 2026（CRITICAL — 所有审查之前必须首先检查！！）
 
-> **铁律**：68 轮内容审查在格式不合规面前毫无意义。格式检查必须在任何内容审查之前完成。
+> **铁律**：68 轮内容审查在格式不合规面前毫无意义（KR desk rejection 教训）。格式检查必须在任何内容审查之前完成。
 
 - [ ] **PDF 实际页数验证**：用 `pdfinfo main.pdf | grep Pages` 验证，禁止估算
-- [ ] **可数页数 ≤ 限制**：body + appendix 页数之和（不含 references/acknowledgements）≤ 页数限制
-- [ ] **Appendix 页数已计入限制**：`\appendix` 写在 `.tex` 文件中 = 计入页数限制！
-- [ ] **超限内容处理**：超出限制的内容移到 supplementary material（单独上传），绝不移到 `\appendix`
-- [ ] **模板版本验证**：`head -1 styles/kr.sty` 输出的版本号必须与会议官方 authors kit 一致
+- [ ] **正文 ≤ 8 页**：从 abstract 到 conclusion 结尾（不含 references 和 appendix）
+- [ ] **引用格式正确**：使用 `\citep{}` 和 `\citet{}`（natbib），非 `\cite{}`
+- [ ] **模板版本验证**：`uai2026.cls` 与会议官方 authors kit 一致
+- [ ] **Appendix 在 references 之后**：`\bibliography{references}` → `\newpage\onecolumn\appendix`
 - [ ] **匿名化完整**：无作者名、无机构、无基金项目名、无自引暴露
 - [ ] **PDF 编译无错误**：0 errors, 0 undefined references
 - [ ] **投稿系统 ready for review 勾选**
@@ -502,21 +507,38 @@ Double-blind review: do NOT include author names, affiliations, or self-identify
 
 ## 14. 当前项目状态
 
-**状态**: ❌ **DESK REJECTED**（2026-02-25 收到通知，论文格式不合规）
+**状态**: 📤 **已提交 UAI 2026**（2026-02-25 改投）
 
-> **根因**：论文 body 9 页 + appendix ~2-3 页 = ~11-12 可数页，超出 9 页限制。`\appendix` 内容被错误地当作不计入限制的 supplementary material。68 轮审查全部聚焦内容质量，**从未真正验证过 PDF 可数页数是否 ≤ 9**。
+> **背景**：论文在 KR 2026 被 desk reject（页数超限）后，当天改投 UAI 2026。从 KR 格式（9 页正文 + 附录计入限制）转换为 UAI 格式（8 页正文 + 附录不计入限制）。
+
+### 投稿历史
+
+| 会议 | 状态 | 日期 | 备注 |
+|------|------|------|------|
+| KR 2026 (Paper #607) | ❌ Desk Rejected | 2026-02-25 | 页数超限（appendix 计入限制未注意） |
+| **UAI 2026** | 📤 **已提交** | 2026-02-25 | 改投，UAI 格式（8 页 + 无限 appendix） |
+
+### UAI 版本状态
 
 | 维度 | 状态 |
 |------|------|
-| 论文内容 | ✅ 内容质量已通过 68 轮审查 |
-| **格式合规** | ❌ **DESK REJECTED — 可数页数超限（~11-12 页 vs 限制 9 页）** |
+| 论文内容 | ✅ 内容质量已通过 KR 68 轮审查 |
+| **格式合规** | ✅ UAI 2026 格式（`uai2026.cls`，8 页正文 + appendix） |
+| 引用格式 | ✅ natbib（`\citep{}`/`\citet{}`），`plainnat` bib style |
 | 数据一致性 | ✅ 118 项检查全部通过 |
-| 匿名化 | ✅ 双盲合规（Paper ID 607） |
-| 模板版本 | ⚠️ kr.sty v1.2 (Feb 2020)，可能与 KR2026 authors kit 版本不一致 |
-| 引用 | ✅ 34 条引用，0 undefined references |
-| 审查轮次 | ✅ 68 轮完成（R01-R68），160+ issues found and addressed |
+| 匿名化 | ✅ 双盲合规 |
+| 编译 | ✅ 0 errors, 0 undefined references |
+| 页数 | ✅ 正文 8 页 + references + appendix（同一 PDF） |
 
-### 审查历程
+### UAI 格式转换变更
+
+- 文档类：`article` + `kr.sty` → `uai2026.cls`
+- 引用：`\cite{}`/`\shortcite{}` → `\citep{}`/`\citet{}`（natbib）
+- 页数压缩：9 页 → 8 页（消融表 Table 2、成本分布图、可扩展性图移至 appendix）
+- Related Work 精简，Experiments 讨论压缩
+- Appendix 从 KR 格式（计入限制）改为 UAI 格式（references 之后，不计入限制）
+
+### KR 审查历程（历史记录）
 
 共进行 68 轮审查（R01-R68），分 6 个阶段：
 
@@ -525,17 +547,9 @@ Double-blind review: do NOT include author names, affiliations, or self-identify
 | 初始审查 | R01-R07 | 02-11~12 | 全面初审 + 标题/摘要/修复 |
 | 专家审查 | R08-R12 | 02-12 | 理论/实验/写作/对抗/终审 |
 | 深度打磨 | R13-R33 | 02-13~14 | 形式化/引用/可复现性/ML Track/竞争定位/匿名化 |
-| 批量审稿 | R34-R57 | 02-15 | 风格/交叉引用/相关工作/可复现性/camera-ready + 3 批量轮 |
-| 理论深化 | R58-R63 | 02-15 | AGM 深化/统计/引用补充/形式化精确/清晰度/对抗 |
+| 批量审稿 | R34-R57 | 02-15 | 风格/交叉引用/相关工作/可复现性/camera-ready |
+| 理论深化 | R58-R63 | 02-15 | AGM 深化/统计/引用补充/形式化精确/清晰度 |
 | 最终验证 | R64-R68 | 02-15 | 页面压缩/可读性/对抗/数据一致性/最终回归 |
-
-关键修复（CRITICAL/MAJOR）：
-- **R08**: Stable credulous 复杂度应为 NP-complete（非 Σ₂ᴾ），已修正 Theorem 2
-- **R13**: Running example AF 攻击关系错误，已重构为 reinstatement 模式
-- **R58**: AGM 只讨论 3/8 公设——添加 recovery 失败反例 + 5 个公设完整讨论
-- **R59**: Bonferroni 校正 + error analysis + framework 统计
-- **R60**: 补充 Bengel & Thimm / Hase et al. / Alfano et al. 三篇引用
-- **R64**: 正文从 ~9.5 页压缩到 ≤9 页（移出 Figure 5/6 + Sensitivity/Error Analysis 到 appendix）
 
 ### 形式化元素清单
 
@@ -628,10 +642,11 @@ Double-blind review: do NOT include author names, affiliations, or self-identify
 
 ---
 
-## 17. Desk Rejection 惨痛教训（2026-02-25）
+## 17. Desk Rejection 惨痛教训（2026-02-25 KR → UAI 改投）
 
 > **案例**：ARGUS 论文 (Paper #607) 经过 68 轮审查、修复 160+ issues 后被 KR 2026 ML&E Track desk reject。
 > 原因：格式不合规（页数超限）。所有内容审查在格式不合规面前 = 白费。
+> **后续**：当天改投 UAI 2026。UAI 的 appendix 规则更宽松（不计入限制），避免了同类问题。
 
 ### 17.1 根因分析
 
@@ -671,20 +686,30 @@ R64 将正文从 ~9.5 页压缩到 ~9 页的做法是：把 Figure 5/6 + Sensiti
 
 4. **模板版本必须核实**：投稿前必须从会议官网下载最新 authors kit，diff 比较 `.sty` 和 `.bst` 文件。
 
-### 17.3 投稿前铁律清单（必须 100% 通过才能投稿）
+### 17.3 投稿前铁律清单
+
+**通用版（适用于所有会议，必须 100% 通过才能投稿）**：
 
 ```
-□ 1. 下载会议最新 authors kit，diff 比较 .sty/.bst 版本
+□ 1. 下载会议最新 authors kit，diff 比较模板版本
 □ 2. 编译 PDF：cd paper && latexmk -pdf main.tex
 □ 3. 验证 PDF 页数：pdfinfo main.pdf | grep Pages
-□ 4. 计算可数页数 = 总页数 - references 页数 - acknowledgements 页数
-     注意：appendix 页数计入！！
-□ 5. 确认可数页数 ≤ 会议限制
-□ 6. 如有 \appendix 内容，确认已计入可数页数
-□ 7. 如超限，将多余内容移到 supplementary material（单独上传），不是移到 \appendix
-□ 8. 验证匿名化：grep -ri "author_name\|affiliation\|funding_source" *.tex
-□ 9. 验证 0 编译错误、0 undefined references
-□ 10. 投稿系统中勾选 "ready for review"
+□ 4. 仔细阅读会议 CFP 中 appendix 的页数规则：
+     - 有的会议 appendix 计入限制（如 KR）
+     - 有的会议 appendix 不计入限制（如 UAI、NeurIPS）
+□ 5. 按规则计算可数页数，确认 ≤ 限制
+□ 6. 验证匿名化：grep -ri "author_name\|affiliation\|funding_source" *.tex
+□ 7. 验证 0 编译错误、0 undefined references
+□ 8. 投稿系统中勾选 "ready for review"
+```
+
+**UAI 2026 专项**：
+```
+□ 正文 ≤ 8 页（abstract → conclusion）
+□ References 在正文之后，appendix 在 references 之后
+□ 使用 \citep{}/\citet{}（natbib），非 \cite{}
+□ 使用 uai2026.cls（submission 模式，匿名）
+□ Appendix 使用 \newpage\onecolumn\appendix 切换格式
 ```
 
 ### 17.4 Appendix vs Supplementary Material 对照表
@@ -704,6 +729,7 @@ R64 将正文从 ~9.5 页压缩到 ~9 页的做法是：把 Figure 5/6 + Sensiti
 2. **每次 `/review-paper` 必须首先执行格式合规检查**，不通过则中止所有后续审查
 3. **`/submit-check` 命令必须包含完整的铁律清单验证**
 4. **禁止在未验证格式的情况下声称"投稿就绪"**
+5. **改投时必须仔细阅读新会议的格式规则**，尤其是 appendix 是否计入页数限制——不同会议规则不同
 
 ---
 
