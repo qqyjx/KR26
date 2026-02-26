@@ -2,13 +2,8 @@
 \section{Conclusion}\label{sec:conclusion}
 
 We presented \textsc{Argus}, a framework that structures LLM self-explanations as argumentation frameworks, verifies them against formal semantics, and repairs them at minimum cost when new evidence arrives.
-The minimal-change repair operator satisfies adapted AGM postulates---success, inclusion, and vacuity---and a representation theorem shows that these three postulates \emph{bidirectionally characterize} the class of minimum-cost repair operators under positive costs, providing formal guarantees absent from existing approaches.
-Theoretically, the repair problem is tractable under grounded semantics, NP-complete under preferred and stable semantics, and $\Sigma_2^P$-complete under skeptical stable semantics; the $k$-neighborhood approximation maintains scalability in practice.
-Experiments on HotpotQA and FEVER yielded relative improvements of \improveFaithfulness{} in faithfulness and \improveContestability{} in contestability over the strongest argumentation baseline, while achieving the lowest repair cost among all repair-capable methods.
-
-Several limitations point to future work.
-The framework's quality depends on the LLM's ability to decompose rationales into atomic units; extraction errors propagate through the pipeline, though the NLI and ASP verification stages mitigate this dependency.
-While the $k$-neighborhood approximation handles the framework sizes encountered in our experiments, densely connected frameworks with hundreds of arguments may require more aggressive strategies.
-The evaluation relies primarily on automatic metrics over fact-checking and multi-hop QA datasets; extending the approach to open-ended generation---where the target argument may lack a ground-truth referent---would require alternative acceptance criteria such as coherence-based semantics.
-Looking ahead, composing \textsc{Argus} with sequence explanations~\citep{bengel2025sequence} would yield a bidirectional explanation infrastructure, and integrating the repair operator into retrieval-augmented generation pipelines could provide continual explanation maintenance as knowledge bases evolve, particularly in high-stakes domains where audit trails of explanation changes are mandated.
+The minimal-change repair operator satisfies adapted AGM postulates---success, inclusion, and vacuity---and a representation theorem \emph{bidirectionally characterizes} the class of minimum-cost repair operators under positive costs.
+The repair problem is tractable under grounded semantics, NP-complete under preferred/stable semantics, and $\Sigma_2^P$-complete under skeptical stable semantics; the $k$-neighborhood approximation maintains scalability.
+Experiments on HotpotQA and FEVER yielded relative improvements of \improveFaithfulness{} in faithfulness and \improveContestability{} in contestability over the strongest argumentation baseline with the lowest repair cost.
+Current limitations include dependence on LLM extraction quality and scalability to densely connected frameworks; future work targets open-ended generation with coherence-based acceptance, composition with sequence explanations~\citep{bengel2025sequence}, and integration into retrieval-augmented pipelines.
 

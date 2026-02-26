@@ -161,6 +161,14 @@ Using Llama-3-70B-Instruct as the extraction backbone yields faithfulness 0.813 
 Among the 0.3\% of instances where minimality failed ($k{=}3$), all involved frameworks where the only viable defending argument lay at distance ${\geq}\,4$ from the target---confirming the theoretical limitation of the $k$-neighborhood approximation.
 Repair accuracy below 1.0 arises when the LLM-generated explanation has structural errors that propagate through extraction: even after restoring the target argument's acceptability, the underlying answer may remain incorrect if the original decomposition was flawed.
 
+\section{Extended AGM Analysis}\label{app:agm-extended}
+
+Among the eight classical AGM postulates~\citep{alchourron1985agm}, \emph{consistency} and \emph{extensionality} also hold when a valid repair exists.  Consistency follows because validity requires $a_t$ to belong to at least one $\sigma$-extension of the repaired framework.  Extensionality holds because the operator is defined purely over graph structure: two evidence updates yielding identical updated frameworks produce identical repair search spaces, so the optimal repair is the same for both.
+
+\emph{Recovery} fails in our setting.  In Example~\ref{ex:running}, repairing $F_1$ yields $F_2$ by adding $a_6$ and $(a_6,a_5)$; if the evidence $a_5$ were subsequently retracted, $F_2$ would retain $a_6$ and its attack---the original framework $F_0$ is not recovered.  This asymmetry is fundamental: structural additions made during repair cannot be automatically unwound by evidence retraction, unlike classical belief revision where recovery ensures reversibility.
+
+\emph{Closure}, \emph{superexpansion}, and \emph{subexpansion} presuppose deductively closed belief sets---constructs without natural analogues in argumentation frameworks where ``beliefs'' are graph-structural elements rather than logical sentences.
+
 \section{Representation Theorem Proof}\label{app:representation}
 
 We prove the $(\Leftarrow)$ direction of Theorem~\ref{thm:representation} for general cost functions.
@@ -189,9 +197,11 @@ Under mixed or benign updates, repair costs would likely be lower and vacuity ra
 While these updates are derived from existing annotations, the repair mechanism is agnostic to the evidence source and would apply unchanged to naturally occurring updates.
 
 \textbf{Metric details.}
-Faithfulness is measured via counterfactual ablation: each argument unit is replaced with a semantically neutral sentence (``This claim is omitted.'') and the answer is regenerated; a unit is faithful if its removal changes the answer.
+\emph{Faithfulness} is the fraction of argument units whose counterfactual removal changes the answer.  Each unit is replaced with a semantically neutral sentence (``This claim is omitted.'') and the answer is regenerated; a unit is faithful if its removal changes the answer.
 For baselines that do not produce structured units, we apply the same LLM-based decomposition to their final output before computing the ablation, ensuring a uniform evaluation protocol.
-Gold counterarguments for contestability are derived from the withheld supporting facts by expressing each as an argument and annotating the expected attack relationships, providing a ground truth independent of the repair mechanism.
+\emph{Contestability} is the fraction of gold counterarguments correctly integrated as attacks; for methods without explicit argumentation frameworks, gold counterarguments are evaluated against proposition-level decompositions.
+Gold counterarguments are derived from the withheld supporting facts by expressing each as an argument and annotating the expected attack relationships, providing a ground truth independent of the repair mechanism.
+\emph{Repair accuracy} records answer correctness after repair.  \emph{Repair cost} counts the number of edit operations per Definition~\ref{def:repair}.  \emph{Coherence} measures semantic consistency via BERTScore between repaired and original explanations.  \emph{Solve time} is wall-clock time per instance.
 
 \textbf{Baseline cost commensurability.}
 \textsc{Argus} operations are structural graph edits (adding/removing arguments and attacks), whereas baseline costs count surface-level text replacements.

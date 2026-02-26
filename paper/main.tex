@@ -80,15 +80,26 @@
 \newcommand{\improveFaithfulness}{10.3\%}
 \newcommand{\improveContestability}{14.5\%}
 
+% ===== Layout Adjustments =====
+% Reduce title block height (cls hardcodes 2.375in, too tall with anonymous authors)
+\renewcommand{\maketitlehooka}{\vbox to 1.5in\bgroup}
+
+% Show "Anonymous Authors" instead of blank author area
+\makeatletter
+\AtBeginDocument{%
+  \renewcommand{\@author}{\textbf{Anonymous Authors}}%
+}
+\makeatother
+
+% Tighten float spacing
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{2pt}
+
 % ===== Title =====
 \title{ARGUS: Argumentation-Based Minimal-Change Repair\\for Verifiable LLM Self-Explanations}
-
-% Author information (automatically hidden for anonymous submission)
-\author[1]{Anonymous Author 1}
-\author[1]{Anonymous Author 2}
-\affil[1]{%
-    Anonymous Institution
-}
 
 \begin{document}
 
@@ -106,13 +117,9 @@
 % References
 \bibliography{references}
 
-% ===== Supplementary Material =====
+% ===== Appendix =====
 \newpage
 \onecolumn
-
-\title{ARGUS: Argumentation-Based Minimal-Change Repair\\for Verifiable LLM Self-Explanations\\(Supplementary Material)}
-\maketitle
-
 \appendix
 \input{sections/appendix}
 

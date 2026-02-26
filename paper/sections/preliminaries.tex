@@ -40,14 +40,7 @@ We consider a setting in which an LLM receives a question $q$ and produces an an
 Given a question $q$, an LLM-generated answer $a$, and an explanation $e$, the \emph{explanation verification task} produces a tuple $(G, v, \rho)$ where $G = (\mathcal{A}, \mathcal{R})$ is an argument graph constructed from $e$, $v \in \{\mathit{accepted}, \mathit{rejected}, \mathit{undecided}\}$ is the verification verdict for the target argument $a_t$ representing $a$ under semantics $\sigma$, and $\rho$ is an optional repair operator applied when $v \neq \mathit{accepted}$. An \emph{evidence update} $\Delta = (\mathcal{A}^+, \mathcal{R}^+, \mathcal{A}^-, \mathcal{R}^-)$ specifies new arguments and attacks to be added or removed, reflecting newly available facts or counterarguments.
 \end{definition}
 
-\begin{example}[Continuing Example~\ref{ex:running}]\label{ex:verify}
-In~$F_0$, the verification task produces $v = \mathit{accepted}$ for~$a_4$ under grounded semantics: $a_3$ defeats the differential~$a_0$, so the grounded extension is $\{a_1, a_2, a_3, a_4\}$.
-After incorporating the evidence update $\Delta = (\{a_5\}, \{(a_5, a_3)\}, \emptyset, \emptyset)$, $a_5$ defeats~$a_3$, reinstating~$a_0$, and the verdict becomes $v = \mathit{rejected}$, triggering the repair operator~$\rho$.
-\end{example}
-
-The target $a_t$ is \emph{accepted} under $\sigma$ if it belongs to at least one $\sigma$-extension (credulous acceptance), and \emph{rejected} if it belongs to no extension. Under grounded semantics, an argument may also be \emph{undecided}---belonging to no extension yet not attacked by the grounded extension---and credulous and skeptical acceptance coincide.
-
-\subsection{Explanation Repair Problem}
+Credulous acceptance reduces to skeptical acceptance under grounded semantics, where the unique extension determines every argument's status.
 
 When an evidence update $\Delta$ renders the explanation inconsistent, the system must revise the argument graph following the principle of minimal change~\citep{alchourron1985agm}.
 
