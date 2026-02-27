@@ -2,7 +2,7 @@
 
 \section{Ablation Study and Cost Distribution}\label{app:ablation}
 
-\begin{table}[h]
+\begin{table}[ht]
 \caption{Ablation study on HotpotQA and FEVER.  Each row removes one component from the full \textsc{Argus} pipeline. Best in \textbf{bold}.}\label{tab:ablation}
 \centering
 \small
@@ -22,7 +22,7 @@ Grounded Only    & .839/.822 & .772/.752 & .871/.858 & \textbf{3.0/2.6} & .81/.7
 
 Removing semantic verification causes the largest drops in faithfulness ($-$5.4pp) and contestability ($-$7.7pp), confirming it as the most critical component. Replacing minimal-change with unconstrained repair preserves faithfulness but increases cost to 5.7/5.2. Removing attack templates reduces contestability by 9.3pp while reducing faithfulness by only 2.6pp. Grounded-only semantics yields the fastest solve time at the expense of modest drops; 97\% of frameworks have a single preferred extension coinciding with the grounded one.
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \begin{tikzpicture}
 \begin{axis}[
@@ -64,7 +64,7 @@ Removing semantic verification causes the largest drops in faithfulness ($-$5.4p
 \end{figure}
 
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \begin{tikzpicture}[trim axis left, trim axis right]
 \begin{axis}[
@@ -113,7 +113,7 @@ Sensitivity analysis and a qualitative repair example appear in the following se
 
 \section{Qualitative Repair Example}\label{app:repair-example}
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
 \begin{tikzpicture}[node distance=0.8cm and 0.8cm,
   lbl/.style={font=\small\bfseries, anchor=south}]
@@ -225,7 +225,7 @@ Annotators rated each explanation on a 5-point Likert scale for:
 (2)~\emph{Coherence}: Is the explanation internally consistent and logically structured?
 They also provided a \emph{Preference} judgment (A better / B better / Tie).
 
-\begin{table}[h]
+\begin{table}[ht]
 \centering
 \caption{Human evaluation results (75 HotpotQA instances).}
 \label{tab:human-eval}

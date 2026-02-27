@@ -15,7 +15,7 @@ The first three stages serve as preprocessing; the repair stage constitutes the 
 \subsection{Structured Extraction}\label{sec:extraction}
 
 We prompt the LLM to decompose its rationale~$e$ into a set of argument units $\mathcal{A}=\{a_1,\dots,a_n\}$.
-Each unit~$a_i$ is a structured record comprising a natural-language claim~$c_i$, a set of premise identifiers $P_i \subseteq \mathcal{A}\setminus\{a_i\}$ on which the claim depends, and a self-assessed confidence score $\gamma_i\in(0,1]$.
+Each unit~$a_i$ is a structured record comprising a natural-language claim~$c_i$, a set of premise identifiers $P_i \subseteq \mathcal{A}\setminus\{a_i\}$ on which the claim depends, and a self-assessed confidence score $\gamma_i\in(0,1]$ that serves as an epistemic uncertainty proxy for the claim.
 The prompt constrains the LLM to produce a JSON array of objects, each with fields \texttt{claim}, \texttt{premises}, and \texttt{confidence}, ensuring that every claim is atomic---that is, it asserts exactly one proposition that can be independently verified or rebutted.
 We designate one distinguished unit~$a_t\in\mathcal{A}$ as the \emph{target argument}, whose claim directly supports the answer~$a$.
 

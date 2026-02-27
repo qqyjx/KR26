@@ -8,7 +8,7 @@ Our work connects three lines of research: argumentation-based approaches to LLM
 ArgLLMs~\citep{freedman2025arglm} constructs Dung-style graphs from LLM claims but treats verification as terminal; ARGORA~\citep{argora2026} orchestrates multi-agent argumentation but corrects through re-deliberation rather than formal repair; MQArgEng~\citep{mqargeng2024} improves LLM reasoning with modular engines but does not address explanation maintenance.
 \textsc{Argus} differs by providing a minimal-change repair operator with AGM-compliant guarantees.
 \citet{bengel2025sequence} introduce sequence explanations tracing why arguments are accepted; \textsc{Argus} addresses the dual question of how to restore acceptance.
-We adopt Dung-style argumentation rather than ASPIC$^+$~\citep{modgil2014aspic} because the complexity bounds we exploit are established for this setting.
+Probabilistic extensions~\citep{hunter2013probabilistic} model graded argument strength under uncertainty; we adopt classical Dung-style argumentation to exploit established complexity bounds and leave probabilistic repair to future work.
 
 \textbf{Self-Correction and Revision.}
 Self-Refine~\citep{madaan2023selfrefine} and Reflexion~\citep{shinn2023reflexion} iteratively rewrite LLM outputs without formal minimality guarantees; \citet{huang2024selfcorrect} show that LLMs cannot self-correct without external feedback.
