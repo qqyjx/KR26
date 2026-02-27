@@ -410,3 +410,69 @@ R132:    95% (第五波零回归全量验证【第五波终点·第五波R123-R1
 | 当前版本 (正文 9 页) | 0% (desk reject) |
 | 修复页数限制后 | 55-65% |
 | 修复页数 + UAI 定位后 | 70-78% |
+
+---
+
+## UAI 2026 第二波审稿 (R143-R152)
+
+**日期**: 2026-02-27
+**前提**: R133-R142 已修复页数限制（正文 8 页）和 UAI 基础定位
+**本波焦点**: 系统性 10 轮审稿 — 格式合规、数据一致性、UAI 深度定位、理论严谨、实验规范、写作质量、引用完整性、回归验证、PC 模拟、最终编译
+
+### 轮次映射表
+
+| # | 文件 | 轮次 | 日期 | 焦点 | Issues |
+|---|------|------|------|------|--------|
+| 124 | review_round143.md | R143 | 02-27 | **格式合规** — float specifiers [h]→[ht], arXiv @article→@misc (2条), 编译验证 | 0C+2M+3m |
+| 125 | review_round144.md | R144 | 02-27 | **数据一致性** — 8 macros, Table 1 全 48 cells, improvement 计算, "83% of HotpotQA (90% FEVER)" 精确化 | 0C+1M+1m |
+| 126 | review_round145.md | R145 | 02-27 | **UAI 定位（最高影响轮）** — 5 处 uncertainty 添加: abstract, intro, method §3.1 epistemic proxy, related work Hunter 2013, conclusion future work | 0C+5M+0m |
+| 127 | review_round146.md | R146 | 02-27 | **理论严谨** — Representation Theorem proof sketch 逻辑精确化, Π₂P lower bound note | 0C+2M+0m |
+| 128 | review_round147.md | R147 | 02-27 | **实验规范** — Bonferroni 12 comparisons 分解, CRITIC/Self-RAG 排除说明, limitations sentence | 0C+3M+0m |
+| 129 | review_round148.md | R148 | 02-27 | **写作质量** — 5× \citet→\citep 修复, §1→§2 过渡句 | 0C+1M+1m |
+| 130 | review_round149.md | R149 | 02-27 | **引用完整性** — lanham2023, openai2023 @article→@misc, 新引用验证 | 0C+2M+0m |
+| 131 | review_round150.md | R150 | 02-27 | **全量回归验证** — 34 issues tracked, 全部 C/M 已修复, 编译 14pp/conclusion p8 | 0C+0M+0m |
+| 132 | review_round151.md | R151 | 02-27 | **UAI Senior PC 模拟冷读** — Weak Accept 6/10, 5 strengths/6 weaknesses, 无 actionable fix | 0C+0M+6 NOTE |
+| 133 | review_round152.md | R152 | 02-27 | **最终清洁编译验证** — 14pp, body 8pp, 0 errors, 0 undefined refs | 0C+0M+0m |
+
+### 第二波统计
+
+| 类型 | 总数 | 说明 |
+|------|------|------|
+| CRITICAL | 0 | — |
+| MAJOR | 16 | UAI定位(5) + 引用修复(4) + 实验精确化(3) + 理论精确化(2) + 写作(1) + 数据(1) |
+| MINOR | 5 | float specifiers(3) + 过渡句(1) + 83% precision(1) |
+| NOTE | 6 | R151 PC 模拟发现的信息性问题（无需改动） |
+
+### 文件修改清单
+
+1. **appendix.tex**: 5× `[h]` → `[ht]`
+2. **abstract.tex**: "new or uncertain" evidence
+3. **introduction.tex**: uncertainty framing + §1→§2 transition
+4. **method.tex**: "epistemic uncertainty proxy"
+5. **related_work.tex**: Hunter 2013 probabilistic argumentation + 5× \citet→\citep
+6. **conclusion.tex**: probabilistic repair future work
+7. **theory.tex**: proof sketch precision + Π₂P note
+8. **experiments.tex**: Bonferroni detail + CRITIC/Self-RAG + limitations + 83% precision
+9. **references.bib**: +1 entry (hunter2013), 4× @article→@misc
+
+### 接受概率演进
+
+```
+R142:        ~65-70% (UAI 基础定位完成)
+R143:        ~67-72% (格式合规 + arXiv 修复)
+R144:        ~69-73% (数据一致性验证通过)
+R145:        ~72-76% (UAI 定位 — 最大提升轮)
+R146:        ~73-77% (理论精确化)
+R147:        ~74-78% (实验规范化)
+R148-R149:   ~75-79% (写作+引用)
+R150:        ~76-80% (回归验证通过)
+R151:        ~77-80% (PC 模拟确认 Weak Accept)
+R152:        ~77-80% (最终编译验证)
+```
+
+### 最终状态
+
+- **编译**: 14 页, body 8 页 (conclusion §7 on page 8), 0 errors, 0 undefined citations
+- **Overfull**: 1 vbox 17pt (cls title block, 不可修改) + 1 hbox 0.54pt (abstract, 可忽略)
+- **最终接受概率**: **77-80%**
+- **天花板**: ~80-82% (受限于 UAI venue fit 薄弱和 human eval 有限, 无法在不增加实验的情况下突破)
